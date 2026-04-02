@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.sample.mapper.SampleMapper">
+	
+	<resultMap id="sampleVO" type="com.educare.edu.sample.vo.SampleVO" >
+		<result property="idx" column="IDX"/>
+		<result property="title" column="TITLE"/>
+		
+	</resultMap>
+	
+	<select id="selectSampleList" resultMap="sampleVO">
+		select 1 idx, 'test' title
+		union all
+		select 2 idx, 'test2' title
+	</select>
+</mapper>

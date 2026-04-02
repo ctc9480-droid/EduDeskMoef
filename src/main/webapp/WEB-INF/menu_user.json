@@ -1,0 +1,274 @@
+[
+	{
+    "url": "/user/mypage/myEduOpenList.do",
+    "nm": "나의 강의실",
+    "st":1,
+    "cd": "myEduOpen",
+    "perm":"s",
+    "imgNo": 5,
+    "sub": [
+      
+      {
+        "url": "/user/mypage/myEduOpenList.do",
+        "nm": "학습공간",
+        "st":1,
+        "cd": "myEduOpen"
+      },
+      {
+        "url": "/user/mypage/myEduRceptList.do",
+        "nm": "신청중 교육",
+        "st":0,
+        "cd": "myEduRcept"
+      },
+      {
+        "url": "/user/mypage/myLcRceptList.do",
+        "nm": "교육신청 내역",
+        "st":1,
+        "cd": "myLcRcept"
+      },
+      {
+        "url": "/user/mypage/myEduStdntList.do",
+        "nm": "교육수강 내역",
+        "st":1,
+        "cd": "myEduStdnt"
+      },
+      {
+        "url": "/user/mypage/myLclikeList.do",
+        "nm": "찜한 교육",
+        "st":0,
+        "cd": "myLclike"
+      },
+      {
+        "url": "/user/mypage/myPayList.do",
+        "nm": "결제 내역",
+        "st":0,
+        "cd": "myPay"
+      },
+      {
+        "url": "/user/mypage/updPayBack.do",
+        "nm": "환불계좌정보",
+        "st":0,
+        "cd": "updPayBack"
+      },
+      {
+        "url": "/user/mypage/updUser.do",
+        "nm": "개인정보 수정",
+        "st":1,
+        "cd": "updUser"
+      },
+      {
+        "url": "/user/mypage/updPw.do",
+        "nm": "비밀번호 변경",
+        "st":0,
+        "cd": "updPw"
+      }
+    ]
+  },
+  {
+    "url": "/user/edu/eduList.do",
+    "nm": "교육신청",
+    "cd": "edu",
+    "st":1,
+    "imgNo": 1,
+    "sub":[
+    	{
+        "url": "/user/edu/eduList.do",
+        "nm": "교육신청",
+        "st":1,
+        "cd": "edu"
+      },
+       {
+        "url": "/user/edu/edCal.do",
+        "nm": "월별교육일정",
+        "st":1,
+        "cd": "edCal"
+      },
+       {
+        "url": "/user/edu/contents/01_03.do",
+        "nm": "연간일정표",
+        "st":0,
+        "cd": "01_03"
+      },
+      	{
+        "url": "/user/bbs/edyearList.do",
+        "nm": "연도별 교육일정",
+        "st":0,
+        "cd": "edyear"
+      }
+    ]
+  },
+  {
+    "url": "/user/bbs/noticeList.do",
+    "nm": "학습지원",
+    "cd": "notice",
+    "st":1,
+    "imgNo": 2,
+    "sub":[
+    	{
+        "url": "/user/bbs/noticeList.do",
+        "nm": "공지사항",
+        "st":1,
+        "cd": "notice"
+      },
+       {
+        "url": "/user/bbs/faqList.do",
+        "nm": "자주찾는질문",
+        "st":1,
+        "cd": "faq"
+      },
+       {
+        "url": "/user/cs/inqryList.do",
+        "nm": "교육상담",
+        "st":1,
+        "cd": "inqry"
+      },
+      	{
+        "url": "/user/edu/contents/01_04.do",
+        "nm": "이용안내",
+        "st":1,
+        "cd": "01_04"
+      },
+      	{
+        "url": "/user/bbs/recsList.do",
+        "nm": "자료실",
+        "st":1,
+        "cd": "recs"
+      }
+    
+    ]
+  },
+  {
+    "url": "/user/introduce/contents/03_02.do",
+    "nm": "연수원소개",
+    "cd": "03_02",
+    "st":1,
+    "imgNo": 3,
+    "sub": [
+      {
+        "url": "/user/introduce/contents/03_01.do",
+        "nm": "인사말",
+        "st":0,
+        "cd": "03_01"
+      },
+       {
+        "url": "/user/introduce/contents/03_02.do",
+        "nm": "연혁",
+        "st":1,
+        "cd": "03_02"
+      },
+      {
+        "url": "/user/introduce/contents/03_04.do",
+        "nm": "찾아오시는길",
+        "st":1,
+        "cd": "03_04"
+      },
+      {
+        "url": "/user/introduce/contents/03_05.do",
+        "nm": "시설안내",
+        "st":1,
+        "cd": "03_05"
+      },
+      {
+        "url": "/user/introduce/contents/03_06.do",
+        "nm": "식단안내",
+        "st":0,
+        "cd": "03_06"
+      },
+      {
+        "url": "/user/bbs/mealList.do",
+        "nm": "식단안내",
+        "st":1,
+        "cd": "meal"
+      },
+      {
+        "url": "/user/introduce/contents/03_07.do",
+        "nm": "주변안내",
+        "st":1,
+        "cd": "03_07"
+      }
+    ]
+  },
+  {
+    "url": "/user/information/contents/04_01.do",
+    "nm": "정보공개",
+    "cd": "edu4",
+    "st":0,
+    "imgNo": 4	,
+    "sub": [
+      {
+        "url": "/user/information/contents/04_01.do",
+        "cd": "04_01",
+        "st":1,
+        "nm": "정보공개청구"
+      },
+      {
+        "url": "/user/information/contents/04_02.do",
+        "cd": "04_02",
+        "st":1,
+        "nm": "정보공개목록"
+      },
+      {
+        "url": "/user/information/contents/04_03.do",
+        "cd": "04_03",
+        "st":1,
+        "nm": "사전정보공표"
+      },
+      {
+        "url": "/user/information/contents/04_04.do",
+        "cd": "04_04",
+        "st":1,
+        "nm": "공공데이터개방"
+      }
+    ]
+  },
+  
+  {
+    "url": "/user/mypage/instrctrEduOpenList.do",
+    "nm": "마이페이지",
+    "cd": "instrctrEduOpen",
+    "st":1,
+    "perm":"p",
+    "imgNo": 4,
+    "sub": [
+      {
+        "url": "/user/mypage/instrctrEduOpenList.do",
+        "nm": "진행중 교육",
+        "st":1,
+        "cd": "instrctrEduOpen"
+      },
+      {
+        "url": "/user/mypage/instrctrEduWaitList.do",
+        "nm": "대기중 교육",
+        "st":1,
+        "cd": "instrctrEduWait"
+      },
+      {
+        "url": "/user/mypage/instrctrEduAllList.do",
+        "nm": "나의교육 내역",
+        "st":1,
+        "cd": "instrctrEduAll"
+      },
+      {
+        "url": "/user/mypage/updUser.do",
+        "nm": "개인정보 수정",
+        "st":0,
+        "cd": "updUser"
+      },
+      {
+        "url": "/user/mypage/updPw.do",
+        "nm": "비밀번호 변경",
+        "st":0,
+        "cd": "updPw"
+      }
+    ]
+  },
+  {
+    "url": "/comm/search/searchResult.do",
+    "nm": "통합검색",
+    "st":1,
+    "cd": "searchResult",
+    "perm":"s",
+    "imgNo": 4,
+    "sub": []
+   }
+] 

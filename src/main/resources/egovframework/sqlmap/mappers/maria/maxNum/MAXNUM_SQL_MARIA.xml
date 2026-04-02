@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.maxNum.service.impl.MaxNumMapper">
+	
+	<select id="getMax" parameterType="String" resultType="Integer">
+		SELECT 
+			SEQ
+		FROM 
+			t_maxnum
+		WHERE
+			FUNC = #{func}
+	</select>
+	
+	<insert id="save" parameterType="MaxNum">
+		INSERT INTO 
+			t_maxnum(
+				FUNC,
+				SEQ
+			)VALUES(
+	   			#{func},
+	            #{seq}
+			)
+	</insert>
+	
+	<update id="update" parameterType="MaxNum">
+		UPDATE  
+			t_maxnum
+		SET
+			SEQ = #{seq} 
+		WHERE
+			FUNC = #{func}
+	</update>
+</mapper>

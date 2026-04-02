@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TotalSearchMapper">
+	
+	<sql id="searchSql">
+	and edu_nm like concat('%',#{totalSrchText},'%')
+	</sql>
+	
+	<select id="selectPageCntTmlct" resultType="int">
+	select count(*) from t_lecture_tm 
+	where open_yn = 'Y'
+	<include refid="searchSql"/>
+	</select>
+	
+	<select id="selectPageCntLctre" resultType="int">
+	select count(*) from t_lecture 
+	where open_yn = 'Y'
+	<include refid="searchSql"/>
+	</select>
+	
+	
+	<select id="selectPageListLctre" resultMap="common.result.map.lectureMap">
+	select a.* 
+	,(SELECT COUNT(T.USER_ID) FROM t_lecture_rcept T WHERE T.STATE != 'C' AND T.EDU_SEQ = A.EDU_SEQ ) AS RCEPT_CNT
+	from t_lecture a 
+	where open_yn = 'Y'
+	<include refid="searchSql"/>
+	order by rcept_period_begin
+	LIMIT #{firstIndex}, #{row} 
+	</select>
+</mapper>

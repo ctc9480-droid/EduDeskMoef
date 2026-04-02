@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureSubjectStdntMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureSubjectStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="subSeq" column="SUB_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="complState" column="COMPL_STATE"/>
+		<result property="passState" column="PASS_STATE"/>
+		<result property="complCertNum" column="COMPL_CERT_NUM"/>
+		<result property="passCertNum" column="PASS_CERT_NUM"/>
+		<result property="complCertDe" column="COMPL_CERT_DE"/>
+		<result property="passCertDe" column="PASS_CERT_DE"/>
+		
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureSubjectStdntMapper.selectByPk */
+		select a.* from t_lecture_subject_stdnt a where a.edu_seq = #{eduSeq} and a.sub_seq=#{subSeq} and a.user_id = #{userId}
+	</select>
+	
+	<insert id="insertByPk" keyProperty="subSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureSubjectStdntMapper.insertByPk */
+		insert into t_lecture_subject_stdnt (
+			edu_seq			,sub_seq		,user_id
+			,compl_state	,pass_state		,compl_cert_num		,pass_cert_num	,compl_cert_de		,pass_cert_de
+			,upd_de
+		) values (
+			#{eduSeq}		,#{subSeq}	 	,#{userId}
+			,#{complState}	,#{passState}	,#{complCertNum}	,#{passCertNum}	,#{complCertDe}		,#{passCertDe}
+			,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		/* com.educare.edu.comn.mapper.LectureSubjectStdntMapper.updateByPk */
+		update t_lecture_subject_stdnt
+		set upd_de = #{updDe}
+		<if test="complState > 0"> 			,compl_state		= #{complState}</if> 
+		<if test="passState > 0"> 			,pass_state			= #{passState}</if> 
+		<if test="complCertNum != null"> 	
+											,compl_cert_num		= #{complCertNum}
+											,compl_cert_de		= #{complCertDe}
+		</if> 
+		<if test="passCertNum != null"> 	
+											,pass_cert_num		= #{passCertNum}
+											,pass_cert_de		= #{passCertDe}
+		</if> 
+		where edu_seq = #{eduSeq} and sub_seq=#{subSeq} and user_id = #{userId}
+	</update>
+	
+</mapper>

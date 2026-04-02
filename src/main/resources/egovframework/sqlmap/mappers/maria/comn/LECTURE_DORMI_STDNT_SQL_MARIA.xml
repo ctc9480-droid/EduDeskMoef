@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureDormiStdntMapper">
+
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureDormiStdnt">
+		<result property="dormiSeq" column="DORMI_SEQ"/>
+		<result property="eduSeq" column="edu_seq"/>
+		<result property="userId" column="user_id"/>
+		<result property="startDt" column="start_dt"/>
+		<result property="endDt" column="end_dt"/>
+	</resultMap>
+
+	<insert id="insertByPk" >
+	/* com.educare.edu.comn.mapper.LectureDormiStdntMapper.insertByPk */
+		insert into t_lecture_dormi_stdnt (
+			dormi_seq	,user_id	,edu_seq		,start_dt		, end_dt
+			,upd_id		,upd_de
+		) values (
+			#{dormiSeq}	,#{userId}	,#{eduSeq}		,#{startDt}		,#{endDt}
+			,#{updId}	,#{updDe}
+		)
+	</insert>
+	
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureDormiStdntMapper.deleteByPk */
+		delete from t_lecture_dormi_stdnt 
+		where DORMI_SEQ = #{dormiSeq} 
+		and user_id = #{userId} and start_dt = #{startDt}
+	</delete>
+	<delete id="deleteByParam">
+	/* com.educare.edu.comn.mapper.LectureDormiStdntMapper.deleteByParam */
+		delete from t_lecture_dormi_stdnt 
+		where edu_seq = #{eduSeq} 
+		<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+	</delete>
+	
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiStdntMapper.selectByParam */
+		/** 학생 숙소 조회 */
+		SELECT * FROM t_lecture_dormi_stdnt
+		WHERE 1=1 
+		and DORMI_SEQ = #{dormiSeq} 
+		and user_id = #{userId}
+	</select>
+	
+</mapper>

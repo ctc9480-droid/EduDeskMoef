@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureEtcIemMapper">
+	<resultMap id="lectureEtcIemVO" type="com.educare.edu.comn.vo.LectureEtcIemVO">
+		 <result property="eduSeq" column="EDU_SEQ"/>
+		 <result property="etcIemSeq" column="ETC_IEM_SEQ"/>
+		 <result property="etcIemNm" column="ETC_IEM_NM"/>
+		 <result property="useYn" column="USE_YN"/>
+		 <result property="essntlInputYn" column="ESSNTL_INPUT_YN"/>
+		 <result property="etcIemEx" column="ETC_IEM_EX"/>
+		 <result property="dataInputTy" column="DATA_INPUT_TY"/>
+		 <result property="regDt" column="REG_DT"/>
+		 <result property="regId" column="REG_ID"/>
+	</resultMap>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.LectureEtcIemMapper.insertByPk */
+		insert into t_lecture_etc_iem
+		(edu_seq,etc_iem_seq,etc_iem_nm,use_yn,essntl_input_yn,etc_iem_ex,data_input_ty,reg_dt,reg_id)
+		values
+		(#{eduSeq},#{etcIemSeq},#{etcIemNm},#{useYn},#{essntlInputYn},#{etcIemEx},#{dataInputTy},#{regDt},#{regId})
+	</insert>
+	<delete id="deleteByEduSeq">
+	/* com.educare.edu.comn.mapper.LectureEtcIemMapper.deleteByEduSeq */
+		delete from t_lecture_etc_iem
+		where edu_seq = #{eduSeq}
+	</delete>
+	<select id="selectByEduSeq" resultMap="lectureEtcIemVO">
+	/* com.educare.edu.comn.mapper.LectureEtcIemMapper.selectByEduSeq */
+		select * from t_lecture_etc_iem
+		where edu_seq = #{eduSeq}
+		order by etc_iem_seq
+	</select>
+	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.FeedbackAnswerMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.FeedbackAnswer">
+		<result property="fbIdx" column="FB_IDX" />
+		<result property="qtIdx" column="QT_IDX" />
+		<result property="userId" column="USER_ID" />
+		<result property="answer" column="ANSWER" />
+		<result property="choice" column="CHOICE" />
+		<result property="regTime" column="REG_TIME" />
+	</resultMap>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.FeedbackAnswerMapper.insertByPk */
+		insert into t_feedback_answer
+		(edu_seq,fe_seq,fb_idx,qt_idx,user_id,answer,choice,reg_time)
+		values
+		(#{eduSeq},#{feSeq},#{fbIdx},#{qtIdx},#{userId},#{answer},#{choice},#{regTime})
+	</insert>
+
+	<delete id="deleteByFbIdxUserId">
+	/* com.educare.edu.comn.mapper.FeedbackAnswerMapper.deleteByFbIdxUserId */
+		delete from t_feedback_answer
+		where edu_seq=#{eduSeq} and fe_seq=#{feSeq} and fb_idx=#{fbIdx} and user_id=#{userId}
+	</delete>
+	<select id="selectBy_FbIdx_QtIdx_UserIdx" resultMap="map">
+		/* com.educare.edu.comn.mapper.FeedbackAnswerMapper.selectBy_FbIdx_QtIdx_UserIdx */
+		select * from t_feedback_answer
+		where edu_seq=#{eduSeq} and fe_seq=#{feSeq} and fb_idx=#{fbIdx} and qt_idx=#{qtIdx} and user_id=#{userId}
+	</select>
+</mapper>

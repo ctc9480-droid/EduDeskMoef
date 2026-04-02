@@ -1,0 +1,31 @@
+1 - gpkiapiJava_v1.5.1.0_Windows_x86_64bit_20250320.tar 의 압축을 알아서 풀고 C:/MOEF 폴더 밑으로 복사 후 gpkiapi 로 리네임 -> 필요1
+
+3 - gpkisecureweb 폴더를 C:/Users/baehy/eclipse-workspace/EduDeskMoef/src/main/webapp 폴더 밑으로 복사 후 WEB-INF 폴더 삭제
+3 - WEB-INF/certs, conf 폴더를 C:/MOEF/gpkiapi 폴더 밑으로 복사
+3 - WEB-INF/lib 폴더를 C:/Users/baehy/eclipse-workspace/EduDeskMoef/src/main/webapp/WEB-INF 폴더 밑으로 복사
+
+java.lang.ClassNotFoundException: com.gpki.gpkiapi.cert.CertPathValidator 오류
+    C:/MOEF/gpki/jar 폴더의 libgpkiapi_jni.jar 를 C:/Users/baehy/eclipse-workspace/EduDeskMoef/src/main/webapp/WEB-INF/lib 폴더로 복사
+----------------------------------------------------------------------------------------------------
+com.dsjdf.jdf.ConfigurationException: com.dsjdf.jdf.Configuration - Can't open dsjdf configuration file: C:/Users/baehy/dsjdf.properties 오류
+    Eclipse - Run > Run Configurations... 메뉴에서 Arguments 탭의 VM arguments 항목에 -Dcom.dsjdf.config.file="C:/MOEF/gpkiapi/conf/dsjdf.properties" 추가 -> 필요2
+-> env.sh
+
+java.lang.IllegalArgumentException: Illegal String Key : GPKISecureWeb.errorPage 오류
+    dsjdf.properties 변경 : 경로 변경 (/ 사용)
+    C:/MOEF/gpkiapi/log 폴더 추가 -> 필요3
+
+java.lang.UnsatisfiedLinkError: no gpkiapi in java.library.path 오류
+    환경 변수에서 baehy에 대한 사용자 변수 항목에 Path 변수에 C:/MOEF/gpkiapi/lib64 추가 -> 필요4
+-> env.sh
+
+com.gpki.secureweb.GPKISecureWEBException: ErrCode=1100,ErrMsg=[GPKI_API_Init] Load license is failed. 오류
+    gpkisecureweb.properties 변경 : 경로 변경 (/ 사용 & /GPKISecureWebHTML 삭제)
+    0 - gpkiapi.lic 를 C:/MOEF/gpkiapi/conf 폴더로 복사 -> 필요5
+
+각종 스크립트 오류
+    header.jsp 변경 : 경로 변경 (/GPKISecureWebHTML 삭제)
+    GPKIWeb_Config.js 변경 : 경로 변경 (/GPKISecureWebHTML 삭제)
+                             GPKIJS_LIC 항목 변경
+    var.js 변경 : 경로 변경 (/GPKISecureWebHTML 삭제)
+    GPKISecureWebNP2.js 변경 : 경로 변경 (/GPKISecureWebHTML 삭제)

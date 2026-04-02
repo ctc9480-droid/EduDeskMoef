@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.ExcelLogMapper">
+	<resultMap id="excelLogVO" type="com.educare.edu.comn.vo.ExcelLogVO">
+		<result property="idx" column="IDX"/>
+		<result property="excelTy" column="EXCEL_TY"/>
+		<result property="content" column="CONTENT"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="excelEduSeq" column="EXCEL_EDU_SEQ"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="modId" column="MOD_ID"/>
+		<result property="modDt" column="MOD_DT"/>
+	</resultMap>
+	
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="idx">
+	/* com.educare.edu.comn.mapper.ExcelLogMapper.insertByPk */
+		INSERT INTO T_EXCEL_LOG
+		(excel_ty,content,user_id,user_nm,excel_edu_seq,reg_id, reg_dt,mod_id,mod_dt)
+		VALUES
+		(#{excelTy},#{content},#{userId},#{userNm},#{excelEduSeq},#{regId},#{regDt},#{modId},#{modDt})
+	</insert>
+	
+</mapper>

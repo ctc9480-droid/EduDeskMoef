@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lccns.mapper.LccnsMapper">
+	
+	<resultMap id="map" type="com.educare.edu.lccns.vo.LccnsVO" >
+		<result column="CNS_SEQ" property="cnsSeq"/>
+		<result column="EDU_SEQ" property="eduSeq"/>
+		<result column="USER_ID" property="userId"/>
+		
+		<result column="UPD_DE" property="updDe"/>
+		<result column="UPD_ID" property="updId"/>
+		<result column="REG_DE" property="regDe"/>
+		<result column="REG_ID" property="regId"/>
+		
+		<result column="REG_NM" property="regNm"/>
+	</resultMap>
+	
+	<sql id="inc_selectLccnsPage">
+		and a.user_id = #{userId}
+		and a.edu_seq = #{eduSeq}
+		<if test="srchWrd != null and srchWrd != ''">
+		and a.content like concat('%',#{srchWrd},'%')
+		</if>
+	</sql>
+	<select id="selectLccnsPageList" resultMap="map">
+		/** 상담내역 게시판 리스트 */
+		SELECT a.*
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		FROM t_lecture_couns a
+		where 1=1
+		<include refid="inc_selectLccnsPage"/>
+		ORDER BY REG_DE DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectLccnsPageCnt" resultType="int">
+		/** 문제은행 게시판 카운트 */
+		SELECT count(a.cns_seq)
+		FROM t_lecture_couns a
+		where 1=1
+		<include refid="inc_selectLccnsPage"/>
+	</select>
+	
+</mapper>

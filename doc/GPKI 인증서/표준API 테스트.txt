@@ -1,0 +1,516 @@
+C:\crepas\gpkiapi\jtest>run
+
+C:\crepas\gpkiapi\jtest>rem mklink /D "Sample" "../Sample"
+
+C:\crepas\gpkiapi\jtest>mklink /D Sample "C:\crepas\gpkiapi\Sample"
+Sample <<===>> C:\crepas\gpkiapi\Sample에 대한 기호화된 링크를 만들었습니다.
+
+C:\crepas\gpkiapi\jtest>javac -classpath ../jar/libgpkiapi_jni.jar;. *.java
+
+C:\crepas\gpkiapi\jtest>java -classpath ../jar/libgpkiapi_jni.jar;. Main
+-----------------------------------------
+         gpkiapi (JAVA) Test
+
+Copyright ⓒ 2005-2006 DreamSecurity Co.,Ltd.
+-----------------------------------------
+
+        # 모듈 버전 확인
+
+        <gpkiapi>
+        --------------------------------------------------------------
+        Version         : V1.5.1.0
+        Last update     : 2010.04.22
+        --------------------------------------------------------------
+        Copyright (C) 2003~2009 Government Computerization Center (GCC). All rights reserved.
+
+>> 로그 출력 여부 (y/n) : y
+======================================
+          [1] Crypto
+======================================
+1. SymmetricKey
+1.1. DES
+ 1.1.1. DES/CBC/PKCS5
+  - GenerateKey
+   Algorithm = DES
+   Key [8]= 8749a98ca3621054
+   IV [8]= de8320eb60c02fc4
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[56] = 14cb92c1bb595ba77f14d75044d7033f2bbb912e8b4ba17a897692226c3b0c4258ace9128c42e45b10f8c0ee2954f51a294b353ea72fa117
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 1.1.2. DES/CBC/NONE
+  - GenerateKey
+   Algorithm = DES
+   Key [8]= 463a6cdc32cd4731
+   IV [8]= 4b95edd8768ad8fb
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[48] = e76de3c07e83eb80bd730d228b50973f3b6b2d168f14d4130ffeff1390eb6cf66418f192aea63168026e398701acf593
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+1.2. 3DES
+ 1.2.1. 3DES/CBC/PKCS5
+  - GenerateKey
+   Algorithm = 3DES
+   Key [24]= 2cb5ec280fcaa8dd88e0ce2d417b086835452444cef19683
+   IV [8]= 07651bf6ba2c1786
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[56] = e026006abb5c5536522bf356cc753c88699f86e60b6023bd0ade5a9f829f494d9e7082db58b7ff62b4cb822e788bb953ac7f0bb937be7282
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 1.2.2. 3DES/CBC/NONE
+  - GenerateKey
+   Algorithm = 3DES
+   Key [24]= 8722584da32fa3d71f25af65f24f4f9519248bd2cbbe0061
+   IV [8]= be9a98837a37ade3
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[48] = 6799ac9de3b4a116a443f7d21f893aa67006506a5b8dd3b612c32d4c37a0dbfdf0232411cf2b1c54d6952855bbc100e3
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+1.3. SEED
+ 1.3.1. SEED/CBC/PKCS5
+  - GenerateKey
+   Algorithm = SEED
+   Key [16]= 877eda5aa95cd3dbd248b25187951439
+   IV [16]= f7f325e6e243039f64a749ea19d23705
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[64] = de18a06cabbe5d301132ee0050cf4a7cbaec2e6762a0f22008cdbf319fdaeb2f466e1a189705de1ec28f9ccaa7cf8510155387d8b49f3cb2de66d4454887e2e9
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 1.3.2. SEED/CBC/NONE
+  - GenerateKey
+   Algorithm = SEED
+   Key [16]= 552e774098e5b279c5f9b8a5fff8052e
+   IV [16]= 67f3c6cf25782a53cea64c4c2e265db2
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[48] = 839ec934426512878c15823a50be7d22d0179d3b4e912f5bb7cf708a11d860c89bc124679fa60309a57fbb6896aafa27
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+1.4. NEAT
+ 1.4.1. NEAT/CBC/PKCS5
+  - GenerateKey
+   Algorithm = NEAT
+   Key [16]= e9b89e6bb093d221a44b03584f44dac2
+   IV [16]= c3148a55aaa164afc95a492e6ba0c8ff
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[64] = 04376e043f057b1fd9241c64822ed30efc2f65eca7a6c3d01440c00cc46711dcc00b29a9d5f21f72d66d5d93c589bd55a31f85966a87fc54f7777546568901e7
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 1.4.2. NEAT/CBC/NONE
+  - GenerateKey
+   Algorithm = NEAT
+   Key [16]= 4f3524be952a015fa7627469efcfbe9f
+   IV [16]= 6f25e6072897f11c47aebde811c05dac
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[48] = 6aa8995d33e01b0f9ba24cc955bcd39b15f0547bb4676c0d9c8e4bd3b2e039837ebe54bb9752e077c3496f0954c87728
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+1.5. ARIA
+ 1.5.1. ARIA/CBC/PKCS5
+  - GenerateKey
+   Algorithm = ARIA
+   Key [16]= c34477fd87e761589ae16d117f7a9750
+   IV [16]= 34038dcfd21238cc106414bce8c13154
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[64] = cf9d2ce2793e1891acbdf24f065548e1a7fb3e5c38bfabba1020d090750b673eae2c8ba4fce2128533bb7c85ba6dec67d7525d4036a771663b021e2f54794115
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 1.5.2. ARIA/CBC/NONE
+  - GenerateKey
+   Algorithm = ARIA
+   Key [16]= 0350ff658c0fe2a199d8b498de254e63
+   IV [16]= 96395c450195c7d9ad1d0d06eb76b2c1
+   - Encrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+   CihperText[48] = e1ab135e30406bd93b03d3b929fa1a6525d6dbe98c37c5bb09681e4096e0d72ec55e75826df19772394132a5833e74d5
+   - Decrypt
+   PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+2. AsymmetricKey
+ 2.1. RSA Encrypt/Decyrpt
+  - Read cert and prikey
+   개인키 : RSA (1024 Bits)
+   공개키 : RSA (1024 Bits)
+  - Encrypt
+  CihperText[128] = 117cd98d3cc7334f7edbacb43da6b6e49dcadee4b798974ed2d18feb24a20419b28e08f48b84db8e0a4eff9cc40579740901c430725e9e909b1796483295b872b0a65a88304134222e73fe4985e8105aa2b3f8eff4578dbda84fd02c36e1bbce28c49ee1d6dc56749a1bbdb857c552c7b14f40533f36d5b0217d09f589e60759
+  - Decrypt
+  PlainText[48]  = 0000111122223333444455556666777788889999!!!!****
+ 2.2. SHA1WithRSA
+  - Sign
+  Signature[128] = 0fa7bce3a8df927b550d45e21c4350f9a5996f56fc86b18491fbc2a393b2fe61e72d4fb02878f3a806b7b4e2808a0259c0745d17f32a4f4b1d1178819604459a178ce3de30a6c3144fec9e520dc9dbfcda5daeeba673c4bf7b6f292634385fc612c806e130e57d4a63148ecd7e804e571871eda410da120674430e1b6d1932c0
+  - Verify ... ok
+ 2.3. SHA256WithRSA
+  - Sign
+  Signature[128] = a32aa7ee1f3340647566e93eeb9ceb9ed85108d2a4a398ad400cecc1f4707044d962744d6546997abe87a0107d4964ef996d76f0d17131486f8885a4cf2830910ecc6bbbed2772cdf5507693485af0018e2b34997445fd1c74c2fe1592795030cd94306f8d04280ec1bed85f298a6ef1076062c0edee9ea3fac743f69da714a5
+  - Verify ... ok
+ 2.4. SHA1WithKCDSA
+  - Read cert and prikey
+   개인키 : KCDSA (1024 Bits)
+   공개키 : KCDSA (1024 Bits)
+  - Sign
+  Signature[47] = 302d0315004a9aa70ffbb11354087cebaed1f3838e2f4951df0214601df9018f9d492f82682f52ad63dab17acf3543
+  - Verify ... ok
+3. Random
+ - Generate Random  Random[20] = fd8d839ce09baa945e6c06bd452c7bd4eea2a5e7
+4. MAC
+ 4.1. sha1Hmac
+  - Generate mac
+  Message[48]  = 0000111122223333444455556666777788889999!!!!****
+  Key[3]       = abc
+  MacValue[20] = d73d6a762ca7843e768069b5a61dddf061065854
+  - Verify mac ... ok
+ 4.2. sha256hmac
+  - Generate mac
+  Message[48]  = 0000111122223333444455556666777788889999!!!!****
+  Key[3]       = abc
+  MacValue[32] = cf881f6c2651bedc3f0742535ba768a6454e921dec97fc43e452f1b300969784
+  - Verify mac ... ok
+5. HASH
+ 5.1. SHA1
+  Message[48]   = 0000111122223333444455556666777788889999!!!!****
+  HashValue[20] = a5b91ff0a29a50a1dd03f6626220642ce4f7d508
+ 5.2. HAS160
+  Message[48]   = 0000111122223333444455556666777788889999!!!!****
+  HashValue[20] = 29c2e55c6c8c77f345f38a1a35b97346646108b1
+ 5.3. SHA256
+  Message[48]   = 0000111122223333444455556666777788889999!!!!****
+  HashValue[32] = 6d6a73d9449ba922dcec37ef1a54bc22bb0e517993254c30df5533d31530243d
+ 5.4. MD5
+  Message[48]   = 0000111122223333444455556666777788889999!!!!****
+  HashValue[16] = ea46bd09352753b8600f242ecccebb47
+======================================
+          [2] Cert
+======================================
+1. View
+ [TBSCertificate]
+  <SerialNum> 80763607710881419099472073618807190798(3cc2814b00e7524d9baa47b7e161f50e)
+  <IssuerDN> cn=Root CA,ou=GPKI,o=Government of Korea,c=KR
+  <Validity> Sun Apr 21 18:07:23 KST 2002 ~ Sat Apr 21 18:07:23 KST 2012
+  <SubjectDN> cn=Root CA,ou=GPKI,o=Government of Korea,c=KR
+  <SubjectPublicKeyInfo> RSA (2048 Bits)
+  30820121300d06092a864886f70d01010105000382010e00308201090282010040d6a142172c5540df9a7ac391f4e3bd912bf5db5c662f895cfd78d4094c3da7c49c2efaf059b6bdb4d28d2808abaf1341ae8042f4eb5c2d5f7e437a35b5af3fdcc43d364592b2b87e0dbcacc7c164d8de6dceb3a48e507e48f4ad8ed9861935038a7728752d825b4aeca5cb7102f44431834a79ecce65ff1ca13366af5b3265fee6ad87274cfd4f180998647e3fce3756f3c2e0c6999b004b3798ef1c632a95aead03cf3a5c220e3dd9f5707176fb44cf2b002126703ae1aaebcd49fb3b62b8745a56a5f22c923eb500bc84bf60e3426e8da3e064b6ada54398f761dfc5e8e0f0d5a6bda0696f726e8e8d0fcbf6f8ebf6cc5b739dd52df1ce17dbde087fdc8d0203010001
+  [Extensions]
+   <BasicConstraints>
+   CA : TRUE
+
+  <CertPolicy>
+  2 5 29 32 0
+
+   <KeyUsage>
+   keyCertSign, crlSign
+
+  ... ok
+2. Verify
+ 2.1. GPKI
+ 2.2. NPKI (YesSign)
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1234,ErrMsg=[GPKI_CERT_Verify] 인증서 경로 검증 시, 유효기간 검증을 실패하였습니다. <dreamlib> 만료된 발급자 인증서가 있습니다.(인증서 만료일자 : 2025-08-24 17:05:46, 현재 시간 : 2025-08-29 10:23:47)<인증서 정보 : 일련번호 = 0cb5f218, DN = cn=www.yescard.com,ou=KEBCS,ou=yessign,ou=server,o=yessign,c=kr>
+        at com.gpki.gpkiapi.cert.CertPathValidator.validate(CertPathValidator.java:344)
+        at Cert.verify(Cert.java:320)
+        at Main.main(Main.java:83)
+ 2.3. NPKI (KTNet)
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1234,ErrMsg=[GPKI_CERT_Verify] 인증서 경로 검증 시, 유효기간 검증을 실패하였습니다. <dreamlib> 만료된 발급자 인증서가 있습니다.(인증서 만료일자 : 2025-08-24 17:05:46, 현재 시간 : 2025-08-29 10:23:47)<인증서 정보 : 일련번호 = 59776e82, DN = cn=소미애_0000319063,ou=AccreditedCA,o=TradeSign,c=KR>
+        at com.gpki.gpkiapi.cert.CertPathValidator.validate(CertPathValidator.java:344)
+        at Cert.verify(Cert.java:332)
+        at Main.main(Main.java:83)
+ 2.4. NPKI (SignKorea)
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1234,ErrMsg=[GPKI_CERT_Verify] 인증서 경로 검증 시, 유효기간 검증을 실패하였습니다. <dreamlib> 만료된 발급자 인증서가 있습니다.(인증서 만료일자 : 2025-08-24 17:05:46, 현재 시간 : 2025-08-29 10:23:47)<인증서 정보 : 일련번호 = 03ea889a, DN = cn=한국오존,ou=신세계아이앤씨,ou=등록기관,o=SignKorea,c=KR>
+        at com.gpki.gpkiapi.cert.CertPathValidator.validate(CertPathValidator.java:344)
+        at Cert.verify(Cert.java:344)
+        at Main.main(Main.java:83)
+ 2.5. NPKI (KICA)
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1234,ErrMsg=[GPKI_CERT_Verify] 인증서 경로 검증 시, 유효기간 검증을 실패하였습니다. <dreamlib> 만료된 발급자 인증서가 있습니다.(인증서 만료일자 : 2025-08-24 17:05:46, 현재 시간 : 2025-08-29 10:23:47)<인증서 정보 : 일련번호 = 01886871, DN = cn=ASP 서버,ou=licensedCA,o=KICA,c=KR>
+        at com.gpki.gpkiapi.cert.CertPathValidator.validate(CertPathValidator.java:344)
+        at Cert.verify(Cert.java:356)
+        at Main.main(Main.java:83)
+ 2.6. NPKI (CrossCert)
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1234,ErrMsg=[GPKI_CERT_Verify] 인증서 경로 검증 시, 유효기간 검증을 실패하였습니다. <dreamlib> 만료된 발급자 인증서가 있습니다.(인증서 만료일자 : 2025-08-24 17:05:46, 현재 시간 : 2025-08-29 10:23:47)<인증서 정보 : 일련번호 = 313c9c, DN = cn=김가영1,ou=개인,ou=전남대학교병원,ou=licensedCA,o=CrossCert,c=KR>
+        at com.gpki.gpkiapi.cert.CertPathValidator.validate(CertPathValidator.java:344)
+        at Cert.verify(Cert.java:368)
+        at Main.main(Main.java:83)
+2. VerifyVID
+  ... ok
+3. CheckStauts
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=1216,ErrMsg=[GPKI_OCSP_SendAndRecv] OCSP 서버(IP : gva.gpki.go.kr, Port : 8080)에 접속하는데 실패하였습니다. (<socketlib> fnc=connect,code=0x274c)
+        at com.gpki.gpkiapi.protocol.OCSP.sendAndRecv(OCSP.java:57)
+        at Cert.checkStatus(Cert.java:446)
+        at Main.main(Main.java:85)
+======================================
+          [3] CMS
+======================================
+1. SignedData
+ 1.1. Make
+  1.1.1. Message base
+subject = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+  ... ok
+  1.1.2. File base
+  ... ok
+ 1.2. Add Signer
+  ... ok
+ 1.3. Verify
+  1.3.1. Message base
+  - SelfTest
+  MSG = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  [SignInfo]
+  Singner[0]  = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+  SignTime[0] = Fri Aug 29 10:24:09 KST 2025
+  Singner[1]  = cn=001권한용001,ou=people,ou=행정자치부,o=Government of Korea,c=KR
+  SignTime[1] = Fri Aug 29 10:24:09 KST 2025
+ ... ok
+  - Compatibility
+  MSG = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  [SignInfo]
+   Singner[0]  = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+   SignTime[0] = Wed May 12 16:36:13 KST 2004
+   Singner[1]  = cn=001권한용001,ou=people,ou=행정자치부,o=Government of Korea,c=KR
+   SignTime[1] = Wed May 12 16:37:21 KST 2004
+  1.3.2. File base
+  [SignInfo]
+  Singner[0]  = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+  SignTime[0] = Fri Aug 29 10:24:09 KST 2025
+  1.3.3. No Content base
+  [SignInfo]
+  Singner[0]  = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+  SignTime[0] = Thu Nov 22 16:36:25 KST 2007
+ 1.4. SHA256 SignedData
+  1.4.1. Message base
+  1.4.2. verify
+2. EnvelopedData
+ 2.1. Make
+  2.1.1. File Base
+Session KeyAlg = ARIA
+Key = 4ae72bf94eae268ece755b6d456296f5
+IV  = 7eb3ba831a65f92f721dbf9c1ec89e7f
+  2.1.2. Message Base
+Session KeyAlg = ARIA
+Key = c0e2c1f6d031209becbb6ee18d1418aa
+IV  = aba11f1c3cd96e5a369f6b01fe4ed3af
+ 2.2. Process
+  2.2.1. Message Base
+   - SelfTest
+   first recipient
+  - 원본메시지 = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  - Session KeyAlg = ARIA
+  - Key = c0e2c1f6d031209becbb6ee18d1418aa
+  - IV  = aba11f1c3cd96e5a369f6b01fe4ed3af
+   second recipient
+  - 원본메시지 = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  - Session KeyAlg = ARIA
+  - Key = c0e2c1f6d031209becbb6ee18d1418aa
+  - IV  = aba11f1c3cd96e5a369f6b01fe4ed3af
+   - Compatibility
+   first recipient
+  - 원본메시지 = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+EnvelopedData 생성 테스트를 위한 원본 메시지....
+
+  - Session KeyAlg = SEED
+  - Key = 8b026df87b2fbfbf615cb3675314e68e
+  - IV  = f10b5778991f6aa8a5d43898cf4c7d0d
+   second recipient
+  - 원본 메시지 = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+EnvelopedData 생성 테스트를 위한 원본 메시지....
+
+  - Session KeyAlg = SEED
+  - Key = 8b026df87b2fbfbf615cb3675314e68e
+  - IV  = f10b5778991f6aa8a5d43898cf4c7d0d
+  2.2.2. File Base
+  - Session KeyAlg = ARIA
+  - Key = 4ae72bf94eae268ece755b6d456296f5
+  - IV  = 7eb3ba831a65f92f721dbf9c1ec89e7f
+3. SignedAndEnvelopedData
+ 3.1. Make
+  ... ok
+ 3.2. Process
+  MSG = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  - Session KeyAlg = SEED
+  - Key = 7e2c42847f44511a8b97242030d440ab
+  - IV  = 9f49a4dc14e6426003257d250d96b518
+4. SignedContent
+ 4.1. Make
+DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  ... ok
+ 4.2. Verify
+  - SelfTest
+  Message = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  Singner = cn=홍길동(MrHong)_0000000001,ou=CaosWirelessSub,o=DreamSecurity,c=KR
+  SignTime = Fri Aug 29 10:24:09 KST 2025
+  - Compatibility
+  Message = DSToolkit_Tester
+
+Copyright ⓒ2003-2004 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedContent 생성 테스트를 위한 원본 메시지....
+
+  Singner = cn=홍길동(MrHong)_0000000001,ou=CaosWirelessSub,o=DreamSecurity,c=KR
+  SignTime = Wed Oct 20 15:30:54 KST 2004
+5. WapEnvelopedData
+ 5.1. Make
+  ... ok
+ 5.2. Process
+  - SelfTest
+  MSG = DSToolkit_Tester
+
+Copyright ⓒ2003 Government Computerization Center Co.,Ltd. All rights reserved
+
+SignedData 생성 테스트를 위한 원본 메시지....
+
+  - Compatibility
+  MSG = DSToolkit_Tester
+
+Copyright ⓒ2003-2004 Government Computerization Center Co.,Ltd. All rights reserved
+
+WapEnvelopedData 생성 테스트를 위한 원본 메시지....
+
+6. LTES
+ 6.1. Generate SignedData
+  ... ok
+ 6.2. TimeStamp for Signer1
+  ... ok
+ 6.3. Set TimeStamptToken
+ signerCnt = 1
+ signer = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+ tbtData = 000000-30 2e 03 15 00 d7 f7 09 05 77 0e aa 77 22 25 6a  | 0........w..w"%j
+000010-70 92 67 cb 38 09 5d 28 98 02 15 00 e2 02 da 8c  | p.g.8.](........
+000020-36 cf 66 3e a0 7a f7 85 47 8a f3 9a 18 29 c5 ec  | 6.f>.z..G....)..
+timeStampToken exist....
+  ... ok
+ 6.4. Add Signer2
+ signerCnt = 2
+ signer = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+ tbtData = 000000-30 2e 03 15 00 d7 f7 09 05 77 0e aa 77 22 25 6a  | 0........w..w"%j
+000010-70 92 67 cb 38 09 5d 28 98 02 15 00 e2 02 da 8c  | p.g.8.](........
+000020-36 cf 66 3e a0 7a f7 85 47 8a f3 9a 18 29 c5 ec  | 6.f>.z..G....)..
+timeStampToken exist....
+ signer = cn=001권한용001,ou=people,ou=행정자치부,o=Government of Korea,c=KR
+ tbtData = 000000-30 2e 03 15 00 60 7d 01 e4 f0 89 f3 c1 45 50 a4  | 0....`}......EP.
+000010-23 4c 57 bb 9a 51 8c 9e b2 02 15 00 a9 c1 2f 39  | #LW..Q......../9
+000020-0b 79 c5 b9 de 5d 26 95 cb 5f 03 6f 18 37 96 2f  | .y...]&.._.o.7./
+  ... ok
+ 6.5. TimeStamp for Signer2
+  ... ok
+ 6.6. Set TimeStamptToken
+ signerCnt = 2
+ signer = cn=SVR1310101010,ou=Group of Server,o=Government of Korea,c=KR
+ tbtData = 000000-30 2e 03 15 00 d7 f7 09 05 77 0e aa 77 22 25 6a  | 0........w..w"%j
+000010-70 92 67 cb 38 09 5d 28 98 02 15 00 e2 02 da 8c  | p.g.8.](........
+000020-36 cf 66 3e a0 7a f7 85 47 8a f3 9a 18 29 c5 ec  | 6.f>.z..G....)..
+timeStampToken exist....
+ signer = cn=001권한용001,ou=people,ou=행정자치부,o=Government of Korea,c=KR
+ tbtData = 000000-30 2e 03 15 00 60 7d 01 e4 f0 89 f3 c1 45 50 a4  | 0....`}......EP.
+000010-23 4c 57 bb 9a 51 8c 9e b2 02 15 00 a9 c1 2f 39  | #LW..Q......../9
+000020-0b 79 c5 b9 de 5d 26 95 cb 5f 03 6f 18 37 96 2f  | .y...]&.._.o.7./
+timeStampToken exist....
+  ... ok
+======================================
+          [4] IVS
+======================================
+1. Verify Cert
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=2109,ErrMsg=[GPKI_CERT_VerifyByIVS] 통합검증서버의 서비스를 사용할 수 있는 권한이 없습니다. <ivs> respcode=50004,respdesc=UNAUTHORIZED
+        at com.gpki.gpkiapi.ivs.VerifyCert.verify(VerifyCert.java:60)
+        at Ivs.verify(Ivs.java:40)
+        at Main.main(Main.java:108)
+2. Identify User
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=2109,ErrMsg=[GPKI_VID_VerifyByIVS] 통합검증서버의 서비스를 사용할  수 있는 권한이 없습니다. <ivs> respcode=50004,respdesc=UNAUTHORIZED
+        at com.gpki.gpkiapi.ivs.IdentifyUser.identify(IdentifyUser.java:72)
+        at Ivs.identify(Ivs.java:64)
+        at Main.main(Main.java:109)
+======================================
+          [5] TSA
+======================================
+1. TimeStampProtocl
+ 1.1. Request TimeStampToken
+  ... ok
+ 1.2. Verify TimeStampToken
+  [TSA 서버 DN] cn=TSA1310000003,ou=Group of Server,o=Government of Korea,c=KR
+  [토큰 일련번호] 100001076484828(5af350a41adc)
+  [토큰 생성시간] Fri Aug 29 10:24:09 KST 2025797155
+  [토큰 발급정책] 1 2 410 100001 2 1 2
+  [해쉬 알고리즘] 1 3 14 3 2 26
+  [메시지 해쉬값] f6c37edbf6dab25e7f52396a9af0bc8cdc9e4de8
+  [Nonce] 085966538dc1b1182f54dae5f01b8bae
+  ... ok
+ 1.3. Process TimeStampResponse
+  Status = 0
+  [TSA 서버 DN] cn=TSA1310000004,ou=Group of Server,o=Government of Korea,c=kr
+  [토큰 일련번호] -81474624311083(b5e635f5b0d5)
+  [토큰 생성시간] Wed Dec 24 14:06:15 KST 2008452028
+  [토큰 발급정책] 1 2 410 100001 2 1 2
+  [해쉬 알고리즘] 1 3 14 3 2 26
+  [메시지 해쉬값] 8693d203f00c0f233875a81cfb69ab792567c8f0
+  [Nonce] 1b9fa1fd870a75f2a38e8b326f1bb1a1
+  ... ok
+======================================
+          [6] Util
+======================================
+1. LDAP
+ 1.1. Get data by type
+ .. ok
+ 1.2. Get data by attribute
+ .. ok
+ 1.3. Get data by search cn
+com.gpki.gpkiapi.exception.GpkiApiException: ErrCode=2008,ErrMsg=[GPKI_LDAP_GetDataByCN] cn=999드림테스트001에 대한 usercertificate 데이터 획득 실패 - 해당 엔트리를 찾을 수 없습니다.
+        at com.gpki.gpkiapi.util.Ldap.searchCN(Ldap.java:199)
+        at Util.ldap(Util.java:65)
+        at Main.main(Main.java:127)
+==============================================================
+                          Error Count
+==============================================================
+CERT    : 6
+CMS     : 0
+CRYPTO  : 0
+IVS     : 2
+TSA     : 0
+UTIL    : 1
+--------------------------------------------------------------
+TOTAL   : 9
+==============================================================
+
+C:\crepas\gpkiapi\jtest>PAUSE
+계속하려면 아무 키나 누르십시오 . . .

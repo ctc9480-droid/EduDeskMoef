@@ -1,0 +1,1652 @@
+@charset "utf-8";
+
+/* ==============================================
+   element
+   ============================================== */ 
+
+/*i.material-icons { vertical-align: middle;}*/
+
+/* color */
+
+span.attend,
+strong.attend { color: #3f51b5;}
+span.absent,
+strong.absent { color: #ff5750;}
+span.late,
+strong.late { color: #2196F3;}
+span.leave,
+strong.leave { color: #438f34;}
+
+
+
+/* ==============================================
+   layout
+   ============================================== */
+
+/* top */
+
+.topWrapper { position: relative; min-height: 100px; background-color: #3f51b5;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+.topWrapper .mainMenu { position: relative; height: 44px; line-height: 32px; padding: 12px 16px 0; margin-bottom: 16px;}
+.topWrapper .mainMenu h1 { font-weight: normal;}
+.topWrapper .mainMenu h1 > a { line-height: 32px; font-size: 20px; color: #fff;}
+.topWrapper .mainMenu h1 > a i { line-height: 32px; margin-left: 8px; vertical-align: middle;}
+
+.topWrapper .memberMenu { position: absolute; right: 6px; top: 12px; height: 32px;}
+.topWrapper .memberMenu .mMenu > li { float: left; height: 32px; line-height: 32px; color: #fff; margin-left: 5px;}
+.topWrapper .memberMenu .mMenu > li.new { position: relative;}
+.topWrapper .memberMenu .mMenu > li.new span.num { position: absolute; top: -1px; right: -4px; width: 16px; height: 16px; line-height: 16px; text-align: center; font-size: 11px; background-color: #ff5750;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+}
+.topWrapper .memberMenu .mMenu > li > a { display: block; width: 32px; height: 32px; color: #fff; text-align: center; line-height: 32px;}
+.topWrapper .memberMenu .mMenu i { line-height: 32px;}
+.topWrapper .memberMenu .mMenu .dropdown-content { width: 100px !important; left: auto !important; right: 0 !important;}
+.topWrapper .memberMenu .mMenu .dropdown-content li{ position: relative;}
+.topWrapper .memberMenu .mMenu .dropdown-content .messageNew, .objectionNew{font-size:20px; position: absolute; top: 2px; color:#ff5750;}
+.topWrapper .memberMenu .mMenu .dropdown-content .messageNew{right:30px; }
+.topWrapper .memberMenu .mMenu .dropdown-content .objectionNew{right:18px; }
+
+.topWrapper > a.btn-floating { position: absolute; right: 20px; bottom: -26px;}
+
+/* top - 학생 */
+
+body.student .topWrapper { background-color: #429033;}
+
+/* top : summary info  */
+
+.summaryInfo {  color: #fff; padding: 0 16px; margin-bottom: 12px;}
+.summaryInfo h2 { height: 46px; line-height: 30px; font-size: 22px; font-weight: 500; padding: 8px 0;}
+.summaryInfo h2 span.viewStatus a { vertical-align: middle; margin-left: 16px;}
+.summaryInfo ul.info li { line-height: 20px;}
+.summaryInfo ul.info li span.title { color: #bdc2dd;}
+.summaryInfo ul.info li strong{color: #ff5750 ;}
+
+/* date range */
+
+.dateRange { height: 60px; line-height: 34px; text-align: center; padding: 13px 0;}
+.dateRange ul li { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; font-size: 18px;}
+.dateRange ul li.date { margin: 0 12px;}
+.dateRange ul li i { vertical-align: middle; font-size: 30px; color: #ff5750;}
+
+/* select term */
+
+.selectTerm { text-align: center; padding: 13px 0;}
+.selectTerm ul li { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; vertical-align: middle;}
+.selectTerm ul li.term { margin: 0 12px;}
+.selectTerm ul li.term p.title { line-height: 30px; font-size: 22px;}
+.selectTerm ul li.term p.classNum { line-height: 20px; color: #787878;}
+.selectTerm ul li.term p.classNum strong { color: #ff5750;}
+.selectTerm ul li i { vertical-align: middle; font-size: 30px; color: #ff5750;}
+
+/* top title */
+
+.topTitle { height: 60px; line-height: 34px; text-align: center; padding: 13px 0;}
+.topTitle h2 { font-size: 22px;}
+
+/* top button */
+
+.topButton { padding: 16px 16px; position:relative; height:62px;}
+
+/* class num */
+
+.topClassNum { height: 60px; line-height: 34px; padding: 13px 0 13px 16px;}
+.topClassNum p { font-size: 15px;display:inline-block;}
+.topClassNum p strong { color: #ff5750;}
+.topClassNum p.view_myGrade{width: 100px; height: 30px; text-align: center;background:#ff5050; color: #fff; line-height: 1.9; border-radius:3px; margin-left: 17px;font-size: 16px;cursor: pointer;}
+/* attend status */
+
+.attendStatus { position: relative; height: auto; line-height: 34px; padding: 33px 0 16px;}
+.attendStatus.boderTop { border-top: 1px solid #d9d9d9; padding-top: 16px;}
+.attendStatus > p { font-size: 16px; padding:0 16px;}
+
+.attendStatus p.createNum { font-size: 16px; text-align: center;}
+.attendStatus p.createNum a { height: 30px; line-height: 30px;}
+.attendStatus span.reCheck { position: absolute; right: 16px; top: 50%; height: 30px; margin-top: -10px;}
+.attendStatus span.reCheck a { height: 30px; line-height: 30px; font-size: 0.93rem; font-weight: normal; vertical-align: middle; padding: 0 10px;}
+
+/* board list top */
+
+.boardListTop { position: relative; height: 52px; line-height: 28px; padding: 12px 16px;}
+.boardListTop ul.viewType {*zoom:1;} /* Hack for browser IE5.5~7 */
+.boardListTop ul.viewType:after { content:" "; display:block; clear:both;} /* float virtual element */
+.boardListTop ul.viewType { height: 28px;}
+.boardListTop ul.viewType li { float: left; margin-right: 4px;}
+.boardListTop ul.viewType li a { display: block; width: 28px; height: 28px; line-height: 28px; color: #8f8f8f; text-align: center; background-color: #d4d4d4;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+.boardListTop ul.viewType li a i { line-height: 28px;}
+.boardListTop ul.viewType li a:hover { background-color: #bebebe;}
+.boardListTop ul.viewType li.active a { color: #fff; background-color: #3f51b5;}
+
+.boardListTop ul.sort { position: absolute; right: 16px; top: 12px; height: 28px;}
+.boardListTop ul.sort li { float: left; height: 28px; line-height: 28px; background: url(../images/common/devider_gray.png) left center no-repeat; padding-left: 10px; margin-left: 9px;}
+.boardListTop ul.sort li:first-child { background: none; padding-left: 0; margin-left: 0;}
+.boardListTop ul.sort li a { color: #2f2f2f;}
+.boardListTop ul.sort li a:hover { color: #000;}
+.boardListTop ul.sort li.active a { color: #4052b8;}
+
+/* modal */
+
+.modal .modal-content > h3 { font-size: 20px; line-height: 26px; margin-bottom: 20px;}
+.modal .modal-content > p.subText { line-height: 20px; margin: -12px 0 20px;}
+.modal .modal-content > p.showNumb{font-size: 25px;text-align: center;}
+.modal .modal-content > p.showNumb span{color: #ff5750;}
+.modal .modal-content > p.subText strong { color: #ff5750; font-weight: normal;}
+.modal .modal-content > ul.exp li { line-height: 18px; margin: 2px 0;}
+
+.modal .modal-content p.certificationNum { line-height: 86px; color: #ff5750; font-size: 60px; text-align: center; margin-bottom: 20px;}
+.modal .modal-content ul.selectRadio { margin-bottom: 20px;}
+
+.modal .modal-content h4 { line-height: 30px; font-size: 15px; margin-bottom: 0;}
+
+
+
+/* ==============================================
+   unit
+   ============================================== */
+
+/* tab */
+
+ul.tab {*zoom:1;} /* Hack for browser IE5.5~7 */
+ul.tab:after { content:" "; display:block; clear:both;} /* float virtual element */
+ul.tab { background-color: #3f51b5;}
+ul.tab li { float: left; line-height: 46px;}
+ul.tab.col1 li { width: 100%;}
+ul.tab.col2 li { width: 50%;}
+ul.tab.col3 li { width: 33.3%;}
+ul.tab.col3 li:first-child { width: 33.4%;}
+ul.tab.col4 li { width: 25%;}
+ul.tab.col5 li { width: 20%;}
+ul.tab li a { position: relative; display: block; height: 46px; line-height: 46px; color: #d2d5eb; font-size: 14px; text-align: center;}
+ul.tab li a:hover { color: #fff;}
+ul.tab li.active a { color: #fff; background-color: #ff5750;}
+ul.tab li.active a:after { border: 6px solid transparent; content:" "; height: 0; width: 0; position: absolute; pointer-events:none; border-top-color: #ff5750; left: 50%; bottom: -12px; margin-left: -6px;}
+
+/*.studentStatus{position: relative;}
+tr.fix{position:fixed;_position:absolute;width:100%;top:50px;z-index:100;}*/
+/* .statusRollBook.fixed{position:fixed;width:100%;top:0px;z-index:999;} */
+
+
+
+
+/* tab - 학생 */
+
+body.student ul.tab { background-color: #429033;}
+body.student ul.tab li a { color: #d3e2d0;}
+body.student ul.tab li a:hover { color: #fff;}
+body.student ul.tab li.active a { color: #fff;}
+
+/* tab : scroll */
+
+.topWrapper.fix { min-height: 0; margin-bottom: 50px;}
+.topWrapper.fix ul.tab { position: fixed; left: 50%; top: 0; width: 100%; z-index: 990; max-width:1000px; margin-left:-500px}
+@media screen and (max-width:1000px) {
+.topWrapper.fix ul.tab {left: 0; margin-left: 0px; }
+}
+
+.fixtr{
+	background: #fff;
+	position: relative;
+	padding-left: 150px;
+	clear: both;
+	display:none;
+}
+.fixtr th{
+	font-size: 12px;
+	color: #747474;
+	font-weight: normal;
+	border: 1px solid #d9d9d9;
+	border-width: 1px 0 1px;
+	padding: 6px 0;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 18px;
+}
+.topWrapper.fixed .studentStatus{
+	padding-bottom: 0;
+}
+
+.topWrapper.fixed{min-height: 0; margin-bottom: 0px;}
+.topWrapper.fixed .fixtr{display:block; position: fixed; left: 50%; top: 46px; width: 100%; z-index: 880; max-width:1000px; margin-left:-500px;}
+@media screen and (max-width:1000px) {
+.topWrapper.fixed .fixtr {left: 0; margin-left: 0px; }
+}
+
+/* btn */
+
+a.btn-small { height: 30px; line-height: 30px; font-size: 0.93rem; font-weight: normal; padding: 0 10px; }
+
+/* btn : list; */
+
+#wrapper > ul.btnList { padding: 0 20px; margin-top: 20px;}
+ul.btnList.aRight { float:right; display:inline-block;}
+ul.btnList.aCenter { text-align: center;}
+ul.btnList li { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline;}
+
+/* select radio */
+
+ul.selectRadio {*zoom:1;} /* Hack for browser IE5.5~7 */
+ul.selectRadio:after { content:" "; display:block; clear:both;} /* float virtual element */
+ul.selectRadio > li { float: left; text-align: center;}
+ul.selectRadio.col2 > li { width: 50%;}
+ul.selectRadio.col3 > li { width: 33.3%;}
+ul.selectRadio.col4 > li { width: 25%;}
+ul.selectRadio.col5 > li { width: 20%;}
+ul.selectRadio > li p.select { line-height: 32px;}
+ul.selectRadio > li p.select label { color: #303030; font-size: 15px; padding-left: 28px;}
+ul.selectRadio > li p.icon { overflow: hidden;}
+ul.selectRadio > li p.icon i { line-height: 64px; color: #b5b5b5; font-size: 46px;} 
+
+
+/* ==============================================
+   login
+   ============================================== */
+
+body.login { background-color: #e8e8e8;}
+
+/* top */
+
+#loginWrap > .top { text-align: center; padding-top: 36px; margin-bottom: 24px;}
+#loginWrap > .top h1 { margin-bottom: 10px;}
+#loginWrap > .top p { line-height: 24px; color: #787878;}
+
+/* login box */
+
+#loginWrap > .loginBox { width: 290px; background-color: #fff; margin: 0 auto;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+}
+
+/* login box : top */
+
+#loginWrap > .loginBox .boxTop { background-color: #4052b6; padding-top: 26px;padding-bottom: 15px;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+#loginWrap > .loginBox .boxTop h2 { line-height: 30px; color: #fff; font-size: 20px; text-align: center; font-weight: normal; margin-bottom: 10px;}
+#loginWrap > .loginBox .boxTop h2 i { vertical-align: middle; margin-right: 6px;}
+
+/* login box : mid */
+
+#loginWrap > .loginBox .boxMid { padding: 16px 16px 30px;}
+#loginWrap > .loginBox .boxMid .info { margin-bottom: 26px;}
+
+#loginWrap > .loginBox .boxMid ul.myUniversity {*zoom:1;} /* Hack for browser IE5.5~7 */
+#loginWrap > .loginBox .boxMid ul.myUniversity:after { content:" "; display:block; clear:both;} /* float virtual element */
+#loginWrap > .loginBox .boxMid ul.myUniversity > li { float: left; width: 36%;}
+#loginWrap > .loginBox .boxMid ul.myUniversity > li.university { width: 60%;}
+#loginWrap > .loginBox .boxMid ul.myUniversity > li.region { margin-right: 4%;}
+
+#loginWrap > .loginBox .boxMid p.autoLogin { line-height: 26px; margin-bottom: 15px;}
+#loginWrap > .loginBox .boxMid p.submit button { width: 100%;}
+
+
+/* login box : bottom */
+
+#loginWrap > .loginBox .boxBottom { border-top: 1px solid #e0e0e0; padding: 10px;}
+
+
+
+/* ==============================================
+   출결관리
+   ============================================== */
+
+/* class list : day */
+
+.classListTitle { position: relative; padding: 20px 12px;}
+.classListTitle p.title { line-height: 28px; font-size: 15px;}
+.classListTitle p.title span.today { color: #ff5750;}
+.classListTitle p.byDay { position: absolute; right: 12px; top: 50%; margin-top: -18px;}
+
+.classListDay { border-top: 1px solid #d9d9d9;}
+
+.classListDay > ul > li { position: relative; border-bottom: 1px solid #d9d9d9; padding: 16px;}
+.classListDay > ul > li.done,
+.classListDay > ul > li.cancel { background-color: #f4f4f4;}
+.classListDay > ul > li > p.top { line-height: 28px;overflow:hidden}
+.classListDay > ul > li > p.top span,
+.classListDay > ul > li > p.top i { line-height: 28px; vertical-align: middle;}
+.classListDay > ul > li > p.top span.status{float: left; margin-top: 5px;}
+.classListDay > ul > li > p.top span.status { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; height: 22px; line-height: 22px; color: #fff; padding: 0 5px; background-color: #696969; margin-right: 8px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+.classListDay > ul > li > p.top span.subject{display: inline-block; /* width: 41%; */ padding-right: 10px; height: 28px; overflow: hidden;  margin-right: 2px; overflow:hidden; text-overflow:ellipsis; -o-text-overflow:ellipsis; -ms-text-overflow:ellipsis; white-space:nowrap; position:relative; float:left;}
+	
+.classListDay > ul > li.cancel > p.top span.status { background-color: #ff5750;}
+.classListDay > ul > li > p.top span.subject { font-size: 16px; font-weight: 500; margin-right: 8px;cursor: pointer;}
+.classListDay > ul > li span.time{position:relative; margin-right:22px; float:right;}
+.classListDay > ul > li div.wid{display:block; clear:both}
+.classListDay > ul > li span.time i { color: #b5b5b5; font-size: 24px; line-height: 28px; vertical-align: middle; margin-right: 4px;}
+.classListDay > ul > li > ul.info li { font-size: 13px; line-height: 22px;}
+
+/* @media(min-width:480px){.classListDay > ul > li span.time{position:absolute; right:150px}} */
+
+.classListDay > ul > li > p.menu { position: absolute; top: 16px; right: 6px; width: 32px; height: 28px;}
+.classListDay > ul > li > p.menu > a { display: block; width: 32px; height: 28px; color: #757575; text-align: center; line-height: 28px;}
+.classListDay > ul > li > p.menu > a i { line-height: 28px; vertical-align: top;}
+.classListDay > ul > li .dropdown-content { width: 100px !important; left: auto !important; right: 0 !important;}
+.classListDay > ul > li > p.check { margin-top: 12px;}
+.classListDay > ul > li .checkAll { margin-top: 12px;}
+.classListDay > ul > li .checkByTime { margin-top: 12px;}
+.classListDay > ul > li .checkByTime ul.checkList li {*zoom:1;} /* Hack for browser IE5.5~7 */
+.classListDay > ul > li .checkByTime ul.checkList li:after { content:" "; display:block; clear:both;} /* float virtual element */
+.classListDay > ul > li .checkByTime ul.checkList li { margin-bottom: 4px;}
+.classListDay > ul > li .checkByTime ul.checkList li a.btn { float: right;}
+.classListDay > ul > li .checkByTime ul.checkList li.toggle { margin-top: 8px; margin-bottom: 0;}
+.classListDay > ul > li ul.btnList a.btn { padding: 0 1rem !important;}
+
+.classListDay > ul > li .checkByTime ul.checkList li span.time i{vertical-align: middle;}
+
+.classListDay > ul > li.now { border: 3px solid #ff5750;}
+.classListDay > ul > li.now p.top span.subject { color: #ff5750;}
+.classListDay > ul > li.today p.top span.subject { color: #3f51b5;}
+.classListDay > ul > li.noClass { color: #868686; line-height: 24px; font-size: 14px; text-align: center; border-bottom: 0; padding: 24px 0;}
+.classListDay > ul > li.noClass i { display: block; color: #c7c7c7; font-size: 56px; margin-bottom: 4px;}
+
+.classListDay ul.inlineB{display: inline-block;}
+.classListDay p.classroom{display: inline-block;margin-left: 10px;}
+.classListDay ul > li ul.btnList li a.Mustard{background: #77933c; padding:0 8px !important}
+.classListDay ul li p a.subject_A{color: #2f2f2f;}
+
+@media (max-width: 395px){
+	.classListDay > ul > li > p.top span.subject{display: inline-block; max-width: 50%; padding-right: 10px; height: 28px; overflow: hidden;  margin-right: 2px; overflow:hidden; text-overflow:ellipsis; -o-text-overflow:ellipsis; -ms-text-overflow:ellipsis; white-space:nowrap; position:relative; float:left;}
+	
+}
+
+
+/* class list : day - 학생 */
+
+body.student .classListDay > ul > li.today p.top span.subject { color: #429033;}
+body.student .classListDay > ul > li > p.top span.attend { background-color: #3f51b5;}
+body.student .classListDay > ul > li > p.top span.absent { background-color: #ff5750;}
+body.student .classListDay > ul > li > p.top span.late { background-color: #02a8cc;}
+body.student .classListDay > ul > li > p.top span.leave { background-color: #429033;}
+body.student .classListDay > ul > li > p.top span.cancel { background-color: #696969;}
+body.student .classListDay > ul > li > p.top span.early { background-color: #2b996a;}
+body.student .classListDay > ul > li > ul.info li span.rate { color: #ff5750;}
+body.student .classListDay > ul > li .dropdown-content li.objection { color: #ff5750;}
+
+/* class list : week */
+.colorInfo{overflow:hidden;margin:-5px 0 2px}
+.colorInfo ul li{float:left;margin:0 0 5px 10px; line-height:15px;}
+.colorInfo ul li span{display:block;float:left; width:20px;height:15px;margin-right:2px;}
+.classListWeek { position: relative; border-top: 1px solid #d9d9d9;}
+.classListWeek > table { width: 100%;}
+.classListWeek > table th,
+.classListWeek > table td { width: 13.8%; border: 1px solid #d9d9d9; border-width: 0 1px 1px 0;}
+.classListWeek > table th.sat
+.classListWeek > table td.sat { border-right: 0;}
+.classListWeek > table th.time,
+.classListWeek > table td.time { width: auto;}
+.classListWeek > table th.active,
+.classListWeek > table td.active { background-color: #e6e8f3;}
+.classListWeek > table th { height: 52px; line-height: 20px; padding-left: 5px; padding-top: 4px;}
+.classListWeek > table th.time { text-align: center; vertical-align: middle; padding: 0;}
+.classListWeek > table th.sat { color: #3f51b5;}
+.classListWeek > table th span.date { display: block; line-height: 14px; color: #747474; font-size: 11px; font-weight: normal;}
+.classListWeek > table td { height: 30px; text-align: center; vertical-align: middle;}
+
+.classListWeek > ul.class li.mon { left: 18.0%;}
+.classListWeek > ul.class li.tue { left: 31.8%;}
+.classListWeek > ul.class li.wed { left: 45.6%;}
+.classListWeek > ul.class li.thur { left: 59.4%;}
+.classListWeek > ul.class li.fri { left: 72.8%;}
+.classListWeek > ul.class li.sat { left: 86.4%;}
+.classListWeek > ul.class li.t1 { top: 52px;}
+.classListWeek > ul.class li.t2 { top: 82px;}
+.classListWeek > ul.class li.t3 { top: 112px;}
+.classListWeek > ul.class li.t4 { top: 142px;}
+.classListWeek > ul.class li.t5 { top: 172px;}
+.classListWeek > ul.class li.t6 { top: 202px;}
+.classListWeek > ul.class li.t7 { top: 232px;}
+.classListWeek > ul.class li.t8 { top: 262px;}
+.classListWeek > ul.class li.t9 { top: 292px;}
+.classListWeek > ul.class li.t10 { top: 322px;}
+.classListWeek > ul.class li.t11 { top: 352px;}
+.classListWeek > ul.class li.t12 { top: 382px;}
+.classListWeek > ul.class li.t13 { top: 412px;}
+.classListWeek > ul.class li.t14 { top: 442px;}
+.classListWeek > ul.class li.h1 { height: 30px;}
+.classListWeek > ul.class li.h2 { height: 60px;}
+.classListWeek > ul.class li.h3 { height: 90px;}
+.classListWeek > ul.class li.h4 { height: 120px;}
+.classListWeek > ul.class li.h5 { height: 150px;}
+.classListWeek > ul.class li.h6 { height: 180px;}
+.classListWeek > ul.class li.h7 { height: 210px;}
+.classListWeek > ul.class li.h8 { height: 240px;}
+
+.classListWeek > ul.class li { position: absolute; left: 18.2%; top: 0; width: 13.8%; height: 30px; color: #fff; text-align: center; line-height: 30px; font-weight: normal; background-color: rgba(63,81,181,.8);}
+.classListWeek > ul.class li.done, .colorInfo ul li span.done{ background-color: rgba(0,0,0,.6);}/*완료*/
+.classListWeek > ul.class li.cancel, .colorInfo ul li span.cancel{ background-color: rgba(208,0,0,.8);}/*휴강*/
+.classListWeek > ul.class li:hover { background-color: rgba(63,81,181,1);}
+.classListWeek > ul.class li.done:hover { background-color: rgba(0,0,0,.8);}
+.classListWeek > ul.class li.cancel:hover { background-color: rgba(255,114,0,1);}
+.classListWeek > ul.class li a { display: block; width: 100%; height: 100%; color: #fff; text-align: center; line-height: 16px; font-weight: normal; padding-top: 7px;}
+
+/*상태 박스 추가*/
+.colorInfo ul li span.none{background-color: rgba(63,81,181,.8);}
+.classListWeek > ul.class li.now, .colorInfo ul li span.now{ background-color: rgba(38,29,175,.6);}/*현재강의*/
+.classListWeek > ul.class li.today, .colorInfo ul li span.today{ background-color: rgba(14,138,41,.6);}/*오늘강의*/
+.classListWeek > ul.class li.next, .colorInfo ul li span.next{ background-color: rgba(14,138,41,.6);}/*다음강의*/
+.classListWeek > ul.class li.add, .colorInfo ul li span.add{ background-color: rgba(140,73,12,.8);}/*보강*/
+.classListWeek > ul.class li.cancel_apply, .colorInfo ul li span.cancel_apply{ background-color: rgba(21,175,181,.8);}/*휴강신청중(대기)*/
+.classListWeek > ul.class li.cancel_reject, .colorInfo ul li span.cancel_reject{ background-color: rgba(255,133,25,.8);}/*휴강반려*/
+.classListWeek > ul.class li.cancel_cancel, .colorInfo ul li span.cancel_cancel{background-color: rgba(255,87,80,.8)}/*휴강취소*/
+.classListWeek > ul.class li.cancel_ok, .colorInfo ul li span.cancel_ok{ background-color: rgba(208,0,0,.8);}/*휴강승인*/
+.classListWeek > ul.class li.add:hover { background-color: rgba(140,73,12,1);}
+.classListWeek > ul.class li.cancel_apply:hover{ background-color: rgba(21,175,181,1);}
+.classListWeek > ul.class li.cancel_reject:hover{ background-color: rgba(255,114,0,1);}
+.classListWeek > ul.class li.cancel_cancel:hover{ background-color: rgba(255,87,80,1);}
+.classListWeek > ul.class li.cancel_ok:hover{ background-color: rgba(66,144,51,1);}
+
+/* class list : week - 학생 */
+
+.classListWeek > ul.class li.attend, .colorInfo ul li span.attend{ background-color: rgba(8,126,226,.8);}/*출석*/
+.classListWeek > ul.class li.leave, .colorInfo ul li span.leave{ background-color: rgba(66,144,51,.8);}/*조퇴*/
+.classListWeek > ul.class li.absent, .colorInfo ul li span.absent{ background-color: rgba(255,87,80,.8);}/*결석*/
+.classListWeek > ul.class li.late, .colorInfo ul li span.late{ background-color: rgba(21,175,181,.8);}/*지각*/
+.classListWeek > ul.class li.subject, .colorInfo ul li span.subject{ background-color: rgba(63,81,181,.8);}
+/* body.student .classListWeek > ul.class li.cancel { background-color: rgba(0,0,0,.6);}
+body.student .classListWeek > ul.class li.check { background-color: rgba(14,164,120,.8);} */
+.classListWeek > ul.class li.attend:hover { background-color: rgba(8,126,226,1);}
+.classListWeek > ul.class li.leave:hover { background-color: rgba(66,144,51,1);}
+.classListWeek > ul.class li.absent:hover { background-color: rgba(255,87,80,1);}
+.classListWeek > ul.class li.late:hover { background-color: rgba(21,175,181,1);}
+.classListWeek > ul.class li.subject:hover { background-color: rgba(63,81,181,1);}
+/* body.student .classListWeek > ul.class li.cancel:hover { background-color: rgba(0,0,0,.8);}
+body.student .classListWeek > ul.class li.check:hover { background-color: rgba(14,164,120,1);} */
+
+/* class list : month */
+
+.classListMonth { border-top: 1px solid #d9d9d9;}
+.classListMonth > table { width: 100%;}
+.classListMonth > table th,
+.classListMonth > table td { width: 14.5%; border: 1px solid #d9d9d9; border-width: 0 1px 1px 0; padding: 0 4px;}
+.classListMonth > table .sat { color: #3f51b5; border-right: 0;}
+.classListMonth > table .sun { width: 13%; color: #ff5750;}
+.classListMonth > table th { height: 24px; line-height: 24px; font-size: 11px; font-weight: normal; color: #747474;}
+.classListMonth > table td { height: 65px; cursor: pointer;}
+.classListMonth > table td:hover { background-color: #f4f4f4;}
+.classListMonth > table td.today { border: 2px solid #ff5750;}
+.classListMonth > table td.active { background-color: #e6e8f3;}
+.classListMonth > table td span.date { line-height: 26px;}
+.classListMonth > table td span.classNum { display: block; line-height: 26px; text-align: center;}
+.classListMonth > table td span.classNum strong { color: #3f51b5;}
+
+/* class list : no class */
+
+.noRegisteredClass { text-align: center; padding-top: 60px;}
+.noRegisteredClass p.icon { line-height: 100px; margin-bottom: 15px;}
+.noRegisteredClass p.icon i { line-height: 100px; color: #fd5850; font-size: 100px; vertical-align: middle;}
+.noRegisteredClass p.exp { line-height: 30px; font-size: 15px; margin-bottom: 15px;}
+
+/* student list */
+
+.studentList { border-top: 1px solid #d9d9d9;}
+.studentList table { width: 100%;}
+.studentList table th,
+.studentList table td { text-align: center; border-bottom: 1px solid #d9d9d9;}
+.studentList table th { height: 30px; line-height: 30px; color: #747474; font-size: 12px; font-weight: normal;}
+.studentList table td { height: 60px; line-height: 24px; padding: 18px 0;}
+.studentList table td.rate strong.danger { color: #ff5750;}
+.studentList table td.status { width: 86px; text-align: left;}
+.studentList table td.status .statusCon { position: relative; width: auto; height: 100%; padding-left: 10px;}
+.studentList table td.status .statusCon.noMenu { text-align: center; padding-left: 0;}
+.studentList table td.status .statusCon > span { font-size: 15px;}
+.studentList table td.status .statusCon p.checkMenu { position: absolute; right: 4px; top: 50%; width: 32px; height: 32px; margin-top: -16px;}
+.studentList table td.status .statusCon p.checkMenu > a { display: block; width: 100%; height: 100%; line-height: 32px; text-align: center; color: #757575;}
+.studentList table td.status .statusCon p.checkMenu > a i { line-height: 32px;}
+.studentList table td.status .statusCon .dropdown-content { width: 100px !important; left: auto !important; right: 10px !important; top: -96px !important; }
+
+ul.notify li { float: left; width: 30px; height: 35px; color: #fff; text-align: center; line-height: 30px; margin-right: 4px;}
+ul.notify li.warning { background: url(../images/common/icon_notify_bg_red.png) 0 0 no-repeat; -webkit-background-size: 30px auto; background-size: 30px auto;}
+ul.notify li.warning img{margin-top: -2px;}
+ul.notify li.outRange { color: #ff5750; background: url(../images/common/icon_notify_bg_blue.png) 0 0 no-repeat; -webkit-background-size: 30px auto; background-size: 30px auto;}
+ul.notify li.outRange i { line-height: 30px; font-size: 18px;}
+.studentList table td.status .statusCon ul.notify { position: absolute; left: 4px; top: -34px;}
+
+/* student list : album */
+
+.studentListAlbum { border-top: 1px solid #d9d9d9; padding: 16px 8px;}
+.studentListAlbum > ul {*zoom:1;} /* Hack for browser IE5.5~7 */
+.studentListAlbum > ul:after { content:" "; display:block; clear:both;} /* float virtual element */
+.studentListAlbum > ul > li { position: relative; float: left; width: 45%; border: 1px solid #e2e2e2; margin: 0 2.5% 20px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+.studentListAlbum > ul > li p.img img { width: 100%;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.studentListAlbum > ul > li p.warning{background: url(../images/common/icon_notify_bg_red.png) 0 0 no-repeat; -webkit-background-size: 30px auto; background-size: 30px auto;position: absolute;top: -15px;left: 10px; width: 30px; height: 35px; color: #fff; text-align: center; line-height: 27px; }
+
+.studentListAlbum > ul > li p.name { font-size: 15px; padding-left: 12px;padding-top:5px;}
+.studentListAlbum > ul > li p.number { color: #555; padding-left: 8px;}
+.studentListAlbum > ul > li p.rate { color: #7f7f7f; padding-left: 8px;padding-bottom:5px; font-size: 15px;}
+.studentListAlbum > ul > li p.rate strong.danger { color: #ff5750;}
+.studentListAlbum > ul > li .check { position: relative; height: 45px; line-height: 44px; border-top: 1px solid #d9d9d9; padding-left: 12px;}
+.studentListAlbum > ul > li .check > span { font-size: 15px;}
+.studentListAlbum > ul > li .check p.checkMenu { position: absolute; right: 0; top: 50%; width: 32px; height: 32px; margin-top: -16px;}
+.studentListAlbum > ul > li .check p.checkMenu > a { display: block; width: 100%; height: 100%; line-height: 32px; text-align: center; color: #757575;}
+.studentListAlbum > ul > li .check p.checkMenu > a i { line-height: 32px;}
+.studentListAlbum > ul > li .dropdown-content { width: 100px !important; left: auto !important; right: 10px !important; top: -100px !important; }
+
+.studentListAlbum > ul > li ul.notify { position: absolute; left: 8px; top: -15px;}
+
+/* student list : album (한줄에 3개씩) */
+
+.studentListAlbum.col3 > ul > li {
+	margin: 0 1% 20px;
+	-webkit-transition: .3s ease-in-out;
+	-moz-transition: .3s ease-in-out;
+	-ms-transition: .3s ease-in-out;
+	-o-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;	
+}
+.studentListAlbum.col3 > ul > li p.name,
+.studentListAlbum.col3 > ul > li p.check { padding-left: 8px;}
+.studentListAlbum.col3 > ul > li .dropdown-content { width: 70px !important;}
+
+/* attend list */
+
+.attendList > ul {*zoom:1;} /* Hack for browser IE5.5~7 */
+.attendList > ul:after { content:" "; display:block; clear:both;} /* float virtual element */
+.attendList > ul > li.attend_li {}
+.attendList > ul > li.attend_li p {display: inline-block;padding-bottom: 16px;}
+.attendList > ul > li.attend_li p.checkMenu ul{}
+.attendList > ul > li.attend_li p.Class_List{color: #0070c0;width: 20px;}
+.attendList > ul > li.attend_li p.classNum{}
+.attendList > ul > li.attend_li p.dateNum{padding-left: 25px; background:url(../images/common/dateNum_bg.png) no-repeat;margin-left: 10px;}
+.attendList > ul > li.attend_li a.Class_status{width: 40px; height: 22px; margin-left: 10px;text-align: center; padding: 0;border-radius:2px; font-size: 13px;display: block;}
+.attendList > ul > li.attend_li a.attend_Y{background: #3f51b5;color: #fff;}
+.attendList > ul > li.attend_li a.attend_N{background: #ff564f;color: #fff}
+.attendList > ul > li.attend_li a.attend_L{background: #02a8cc;color: #fff}
+.attendList > ul > li.attend_li a.attend_B{border:1px solid #ddd; color: #0070c0;}
+.attendList > ul > li.attend_li a.attend_W{background: #e4e4e4;color: #333;}
+.attendList > ul > li.attend_li a.attend_E{background: #429033;color: #fff;}
+/*p.Class_status .caret{display: none;}
+p.Class_status .select-wrapper{}
+p.Class_status input.select-dropdown{text-align: center;border: 1px solid #eee; border-radius:5px; width: 40px;}*/
+
+
+
+
+
+/*.attendList > ul > li { position: relative; float: left; width: 31%; border: 1px solid #e2e2e2; padding-top: 6px; margin: 0 1% 16px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}*/
+.attendList > ul > li p { padding-left: 2px;}
+.attendList > ul > li p.classNo { line-height: 24px; font-size: 20px; color: #3f51b5;}
+.attendList > ul > li p.date { line-height: 22px; padding-bottom: 12px;}
+.attendList > ul > li p.status,
+.attendList > ul > li p.rate { line-height: 45px; font-size: 14px; border-top: 1px solid #d9d9d9;}
+.attendList > ul > li.cancel p.classNo,
+.attendList > ul > li.cancel p.rate { color: #ff5750;}
+.attendList > ul > li.makeup p.classNo,
+.attendList > ul > li.makeup p.rate { color: #429033;}
+.attendList > ul > li.notYet p { color: #808080;}
+
+#wrapper > .attendList > ul { padding: 16px;} /* 사이드가 아닌 곳에 있을 경우 */
+
+
+
+/* ==============================================
+   상세화면
+   ============================================== */
+
+.sideWrap a.closeSide { position: absolute; right: 0; top: 0; display: block; width: 55px; height: 55px; line-height: 55px; color: #fff; text-decoration: none; text-align: center; z-index: 9999;}
+.sideWrap a.closeSide i { line-height: 55px; font-size: 34px;}
+
+/* side top */
+
+.sideWrap .sideTop { padding-top: 38px; padding-bottom: 45px;}
+.sideWrap .sideTop > p.img { top: 46px;}
+.sideWrap .sideTop > a.btn-floating { position: absolute; right: 20px; bottom: -26px;}
+
+/* side contents */
+
+.sideWrap .sideCon { padding: 40px 0;}
+.sideWrap .sideCon > .attendStatusSide { position: relative; height: 55px; padding: 0 16px 0 114px; margin-bottom: 20px;}
+.sideWrap .sideCon > .attendStatusSide p.rate { position: absolute; left: 16px; top: 0; height: 50px; line-height: 50px; font-size: 25px; color: #ff5750;letter-spacing:-1px;}
+.sideWrap .sideCon > .attendStatusSide p.rate strong { font-size:34px; font-weight: normal;}
+.sideWrap .sideCon > .attendStatusSide p.rate strong.small { font-size: 25px; font-weight: normal;}
+.sideWrap .sideCon > .attendStatusSide p.rate strong.medium { font-size: 30px; font-weight: normal;}
+.sideWrap .sideCon > .attendStatusSide p.subject { line-height: 30px; font-size: 17px;}
+.sideWrap .sideCon > .attendStatusSide p { line-height: 22px;}
+.sideWrap .sideCon > .attendList { border-top: 1px solid #d9d9d9; padding: 26px 10px 0;}
+
+/* student */
+
+.studentSide .sideTop { background-color: #429033;}
+
+/* professor */
+
+.professorSide .sideTop { background-color: #3f51b5;}
+
+
+
+/* ==============================================
+   수업관리
+   ============================================== */
+
+/* list */
+
+.manageClassList {}
+.manageClassList > ul.list { border-top: 1px solid #d9d9d9;}
+.manageClassList > ul.list * {
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+.manageClassList > ul.list > li { position: relative; border-bottom: 1px solid #d9d9d9; padding: 16px; overflow: hidden;}
+.manageClassList > ul.list > li.active { background-color: #f4f4f4;}
+.manageClassList > ul.list > li p.subject { font-size: 16px; font-weight: 500; cursor: pointer;}
+.manageClassList > ul.list > li p.date { line-height: 22px;}
+.manageClassList > ul.list > li p.date span { color: #868686;}
+.manageClassList > ul.list > li dl.lectureList { height: 0; overflow: hidden;}
+.manageClassList > ul.list > li dl.lectureList dd { height: 36px; line-height: 26px; padding-top: 10px;}
+.manageClassList > ul.list > li dl.lectureList dd span.date { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; background-color: #3f51b5; width: 26px; height: 26px; line-height: 26px; color: #fff; text-align: center; margin-right: 8px;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+}
+.manageClassList > ul.list > li dl.lectureList dd span.sat { background-color: #039be5;}
+.manageClassList > ul.list > li dl.lectureList dd span.sun { background-color: #ff5750;}
+.manageClassList > ul.list > li ul.menu { position: absolute; top: 16px; right: 6px; height: 32px;}
+.manageClassList > ul.list > li ul.menu li { float: left; height: 32px;}
+.manageClassList > ul.list > li ul.menu li a { display: block; width: 32px; height: 32px; color: #757575; text-align: center; line-height: 32px;}
+.manageClassList > ul.list > li ul.menu li a i { line-height: 32px; vertical-align: middle;}
+.manageClassList > ul.list > li ul.menu li.delete { width: 0;}
+.manageClassList > ul.list > li ul.menu li.check { padding: 6px 0 0 4px;}
+.manageClassList > ul.list > li.active ul.menu li.delete { width: 32px;}
+
+/* list - 학생 */
+
+.manageClassList > ul.list > li > p.top { line-height: 28px; margin-bottom: 5px;}
+.manageClassList > ul.list > li > p.top span,
+.manageClassList > ul.list > li > p.top i { line-height: 28px; vertical-align: middle;}
+.manageClassList > ul.list > li > p.top span.subject { font-size: 18px; font-weight: 500; margin-right: 8px;}
+.manageClassList > ul.list > li > p.top span.time i { color: #b5b5b5; font-size: 24px; margin-right: 4px;}
+body.student .manageClassList > ul.list > li ul.menu li.delete { width: 32px;}
+
+/* class lecture list */
+
+.manageLectureList { border: 1px solid #d9d9d9; border-width: 1px 0; padding: 20px;}
+.manageLectureList h4 { line-height: 22px; font-size: 16px; margin-bottom: 12px;}
+.manageLectureList dl dd ul.modify {*zoom:1;} /* Hack for browser IE5.5~7 */
+.manageLectureList dl dd ul.modify:after { content:" "; display:block; clear:both;} /* float virtual element */
+.manageLectureList dl dd ul.modify > li { float: left; vertical-align: bottom; margin-left: 3%;}
+.manageLectureList dl dd ul.modify > li:first-child { margin-left: 0;}
+.manageLectureList dl dd ul.modify > li.date { width: 22%;}
+.manageLectureList dl dd ul.modify > li.timeStart,
+.manageLectureList dl dd ul.modify > li.timeEnd { width: 30%;}
+.manageLectureList dl dd ul.modify > li.delete { float: right; width: 8%; margin-left: 0;}
+.manageLectureList dl dd ul.modify > li.delete a { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; width: 100%; height: 36px; line-height: 32px; text-align: center; color: #ff5750; vertical-align: bottom; padding-top: 4px;}
+.manageLectureList dl dd ul.modify > li.delete a i { line-height: 36px;}
+.manageLectureList dl dd ul.modify > li.date .dropdown-content { margin-top: -80px !important;}
+.manageLectureList dl dd ul.modify > li.timeStart .dropdown-content,
+.manageLectureList dl dd ul.modify > li.timeEnd .dropdown-content { top: -200px !important;}
+
+.manageLectureList dl dd .input-field { margin-top: 0;}
+.manageLectureList dl dd.addClassLecture ul.modify > li { margin-top: 2rem;}
+.manageLectureList dl dd.addButton { margin-top: 20px;}
+
+/* class lecture list */
+
+.manageLecturePeriod { border-bottom: 1px solid #d9d9d9; padding: 20px;}
+.manageLecturePeriod h4 { line-height: 22px; font-size: 16px; margin-bottom: 12px;}
+.manageLecturePeriod ul {*zoom:1;} /* Hack for browser IE5.5~7 */
+.manageLecturePeriod ul:after { content:" "; display:block; clear:both;} /* float virtual element */
+.manageLecturePeriod ul li { float: left; width: 47%; line-height: 36px; border-bottom: 1px solid #c2c2c2;}
+.manageLecturePeriod ul li.end { margin-left: 6%;}
+.manageLecturePeriod ul li a { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; float: right; width: 36px; height: 36px; text-align: center;}
+.manageLecturePeriod ul li a i { line-height: 36px; vertical-align: middle; color: #757575;}
+
+/* student regist class */
+
+.studentRegistClass { padding-top: 26px;}
+.studentRegistClass > h2 { line-height: 36px; font-size: 18px; font-weight: 500; padding: 0 16px;}
+.studentRegistClass > .search { padding: 0 16px; margin-bottom: 20px;}
+.studentRegistClass > .search > button { margin-top: 20px;}
+.studentRegistClass > .manageClassList ul.btnList { padding: 0 16px; margin-top: 20px;}
+
+
+
+/* ==============================================
+   현황통계
+   ============================================== */
+
+/* top : professor info */
+
+.professorTopInfo { position: relative; min-height: 142px; color: #fff; padding: 0 16px 26px 120px;}
+.professorTopInfo > p.img { position: absolute; left: 20px; top: 8px; width: 80px; height: 80px; overflow: hidden;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+}
+.professorTopInfo > p.img img { position: relative;  width: auto; height: 100%; } /*left: 50%;margin-left: -60%;*/
+.professorTopInfo > .info p.name { line-height: 40px; font-size: 16px; margin-bottom: 8px;display:inline-block}
+.professorTopInfo > .info p.name span { font-size: 22px; margin-right: 12px;}
+.professorTopInfo > .info ul li span.title { color: #bdc2dd;}
+.professorTopInfo > .info ul li strong { color: #ff5750;}
+
+/*classReview_head*/
+.classReview_head{padding: 20px 10px;background: #c6d9f1;margin-top: -16px;}
+.classReview_head > h4{font-size: 18px;display: inline-block;}
+.classReview_head > p.semester_btn{display: inline-block;margin-left: 50px; background:#f2f2f2; text-align: center;width: 115px; height: 30px; border-radius:2px; line-height:2.2; cursor: pointer;}
+.classReview_head > p.classReview_prof{}
+.classReview_head > p.classReview_prof > span{font-weight: bold;}
+.classReview_head > p.classReview_ass{display: inline-block;}
+.classReview_head > p.classReview_ass span{color: #ff7171; font-weight: bold;}
+.classReview_head > p.classReview_sem{display: inline-block;margin-left: 25px;}
+
+/*classReview_grade*/
+.classReview_grade{padding: 10px;}
+.classReview_grade p{display: inline-block;font-size: 18px;}
+.classReview_grade p.class_grade{}
+.classReview_grade p.grade_starwarp{}
+.classReview_grade p.grade_starwarp span{display:inline-block; height:17px; overflow:hidden; background:url(../images/common/grade_star.png)no-repeat;}
+.classReview_grade p.grade_starwarp span.grade_star{width:90px}
+.classReview_grade p.grade_starwarp span.grade_star span{background-position:left bottom; line-height:0; vertical-align:top; }
+
+/*classEvaluation*/
+.classEvaluation{border-top: 2px solid #4a7ebb; border-bottom: 2px solid #4a7ebb;}
+.classEvaluation tr{}
+.classEvaluation th{background:#dce6f2; padding: 10px;text-align: center;font-weight:normal;border-bottom: 1px solid #6f99c9;}
+.classEvaluation td{padding: 10px; border-bottom: 1px dashed #ccc; }
+.classEvaluation td.table_grade{}
+.classEvaluation td.table_grade p{}
+.classEvaluation td p{display:inline-block; color: #e16c0a;}
+.classEvaluation td span{display:inline-block; height:11px; overflow:hidden; background:url(../images/common/table_grade_star.png) no-repeat;}
+.classEvaluation td span.table_grade_star{width:60px; margin-left: 10px;}
+.classEvaluation td span.table_grade_star span{background-position:left bottom; line-height:0; vertical-align:top;}
+
+/*classReview_etc*/
+.classReview_etc{margin-top: 15px;}
+.classReview_etc p{padding: 10px;}
+.classReview_etc ul{border-top: 2px solid #4a7ebb;border-bottom: 2px solid #4a7ebb;}
+.classReview_etc ul li{padding: 10px; border-bottom: 1px dashed #ccc; }
+
+
+
+/* top : student info */
+
+.studentTopInfo { position: relative; min-height: 142px; color: #fff; padding: 8px 0px 45px 120px;}
+.studentTopInfo > p.img { position: absolute; left: 20px; top: 16px; width: 80px; height: 80px; overflow: hidden;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+}
+.studentTopInfo > p.img img { position: relative; width: auto; height: 100%; } /*left: 50%;margin-left: -60%;*/
+.studentTopInfo > .info p.name { line-height: 40px; font-size: 20px; margin-bottom: 12px;display: inline-block;}
+.studentTopInfo > .info p.name span { display:inline-block; display: -moz-inline-stack; zoom:1; *display:inline; width: 24px; height: 24px; line-height: 24px; color: #429033; font-size: 13px; text-align: center; vertical-align: middle; background-color: #fff; margin: 6px 0 10px 15px;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+}
+.attend_li{position: relative !important;}
+.checkMenu .dropdown-content{top:0px !important; ;left:auto 0 !important}
+
+.studentTopInfo a.student_semester_btn{width: 115px; height: 30px; background: #fff; text-align: center; line-height: 2.2;margin-left: 18px;color: #333; border-radius:3px; display: inline-block;cursor: pointer;}
+.studentTopInfo #checkMenuListSeason{left: 235px !important;}
+.studentTopInfo > .info ul li span.title { color: #98cc8e;}
+.studentTopInfo > .info ul li strong.rate { color: #ff5750;}
+
+.professorTopInfo a.student_semester_btn{width: 115px; height: 30px; background: #fff; text-align: center; line-height: 2.2;margin-left: 18px;color: #333; border-radius:3px; display: inline-block;cursor: pointer;position:relative}
+.professorTopInfo #checkMenuListSeason{left: 257px !important;position:absolute}
+
+
+/*lecture_eval_head*/
+.lecture_eval_head{width: 100%; height: 90px; padding: 20px;background: #c6d9f1;margin-top: -16px;}
+.lecture_eval_head img{width: 60px; height: 60px; border-radius:50%;float: left;}
+.lecture_eval_prof_name{margin-left: 25px;float: left;overflow: hidden;}
+.lecture_eval_prof_name h4{font-size: 16px;}
+.lecture_eval_head p{display:block;}
+
+/*lecture_eval_contents*/
+.lecture_eval_body{padding: 10px 0;}
+.lecture_eval_body h5{font-size: 16px;text-align: center;}
+.lecture_eval_body p.eval_explan{border: 1px solid #4f81bd;display: block; margin: 20px auto 5px; width: 330px; line-height: 1.2; padding: 7px;}
+.lecture_eval_body p.eval_explan span{color: #ff5050;}
+.lecture_eval_body table{border-top: 2px solid #4a7ebb; border-bottom: 2px solid #4a7ebb;}
+.lecture_eval_body table tr{}
+.lecture_eval_body table th{background:#dce6f2; padding: 10px;text-align: center;font-weight:normal;border-bottom: 1px solid #6f99c9;}
+.lecture_eval_body table td{padding:0 10px; border-bottom: 1px dashed #ccc; vertical-align: middle;}
+.lecture_eval_body table td.check_grade_star{background: #dce6f2;}
+.lecture_eval_body .select-wrapper input.select-dropdown{border: 1px solid #000 !important; padding-left: 5px !important;}
+.lecture_eval_body input{background: #fff !important;font-size: 13px !important;padding:0 !important; margin: 5px auto !important;width: 97% !important;cursor:default; }
+.lecture_eval_body .caret{z-index: 1 !important; right:5px !important; top: 10px !important;font-size: 12px !important; }
+.lecture_eval_body table td:nth-of-type(1){width: 55%;}
+.lecture_eval_body table td:nth-of-type(2){width: 45%; }
+
+.lecture_eval_foot{margin-top: 25px;}
+.lecture_eval_foot p{font-weight: bold; display: block;margin-bottom: 10px;padding-bottom: 10px; border-bottom: 2px solid #4a7ebb;}
+.lecture_eval_foot textarea{border: 3px solid #bfbfbf;background: #f2f2f2;height: 65px;margin-bottom: 10px;}
+.lecture_eval_foot input{width: 75px; height: 30px; text-align: center; border: 1px solid #e46c0a;background: #fac090;color: #000;font-size: 15px;margin: auto;display: block;}
+
+
+/*class_grade*/
+.class_grade{}
+.class_grade ul{}
+.class_grade ul li{width: 100%; padding: 10px 10px;border-bottom: 1px solid #bdbdbd;overflow: hidden;}
+.class_grade ul li p{display: block; float: left;}
+.class_grade ul li p.classTitle b{display: block;margin-bottom: 12px;font-size: 16px;}
+.class_grade ul li p.classTitle{width: 60%;}
+.class_grade ul li p.classGradenum{width: 20%;text-align: center;margin-top: 12px;}
+.class_grade ul li p.classGradeA{width: 15%;font-size: 20px; color: #ff5750;font-weight: bold;text-align: center;margin-top: 12px;}
+
+/*evaluationSearch*/
+.evaluationSearch{width: 100%;margin-top: -16px; padding-bottom: 30px; border-bottom: 2px solid #4a7ebb;}
+.evaluationSearch h3{width: 100%; padding: 15px 0;text-align: center;background: #009900;color: #ffff00;font-size: 22px;}
+.evaluationSearch input{margin-left: 15px;}
+.evaluationSearch input.SearchSubject, .evaluationSearch input.SearchProf{height: 50px;width: 90%;}
+.evaluationSearch input.SearchBtn{width: 80px; height: 35px;background: #ff5750;color: #fff;text-align: center; line-height: 2.3;margin-top: 20px;border: none; border-radius:2px; box-shadow:0px 5px 10px #ddd}
+
+/*classTitleList*/
+.classTitleList{border-top: 1px solid #bdbdbd;margin-top: 10px;}
+.classTitleList ul{}
+.classTitleList ul li{width: 100%; padding: 10px 10px;border-bottom: 1px solid #bdbdbd;overflow: hidden;}
+.classTitleList ul li p{display: block; }
+.classTitleList ul li p.classTitle{float: left;}
+.classTitleList ul li p.classTitle b{display: block;margin-bottom: 12px;font-size: 16px;}
+.classTitleList ul li p.grade_starwarp{float:right;font-size: 16px;color: #e46c0a; font-weight: bold;}
+.classTitleList ul li p.grade_starwarp span{display:inline-block; height:11px; overflow:hidden; background:url(../images/common/table_grade_star.png) no-repeat;}
+.classTitleList ul li p.grade_starwarp span.grade_star{width:60px; margin-left: 10px;}
+.classTitleList ul li p.grade_starwarp span.grade_star span{background-position:left bottom; line-height:0; vertical-align:top;}
+.classTitleList ul li p.grade_starwarp a{display: block;width: 70px;height: 25px; text-align: center;line-height: 1.8;background: #b7dee8; border: 1px solid #31859c;font-size: 13px; color: #000;font-weight: normal;margin-top: 10px;margin-left: 30px;}
+
+/*lecture_eval_head*/
+.student_lecture_eval_head{width: 100%; height: 90px; padding: 20px;background: #009900;margin-top: -16px;color: #fff;}
+.student_lecture_eval_head img{width: 60px; height: 60px; border-radius:50%;float: left;}
+.student_lecture_eval_prof_name{margin-left: 25px;float: left;overflow: hidden;}
+.student_lecture_eval_prof_name h4{font-size: 16px;font-weight: normal;}
+.student_lecture_eval_head p{display:block;}
+.student_lecture_eval_head p span{color: #ffff00;}
+
+.classReview_grade p.student_semester_btn{width: 115px; height: 30px; background: #f2f2f2; text-align: center; line-height: 2.2;margin-left: 18px;color: #333; border-radius:3px; display: inline-block;cursor: pointer;font-size: 13px;border: 1px solid #ccc;}
+
+
+
+
+.classReview_etc li span{display:inline-block; height:11px; overflow:hidden; background:url(../images/common/table_grade_star.png) no-repeat;}
+.classReview_etc li span.table_grade_star{width:60px; margin-left: 10px;}
+.classReview_etc li span.table_grade_star span{background-position:left bottom; line-height:0; vertical-align:top;}
+
+
+/* status class list */
+
+.statusClassList > ul { border-top: 1px solid #d9d9d9;}
+.statusClassList > ul > li { position: relative; border-bottom: 1px solid #d9d9d9; padding: 16px 16px 20px;}
+.statusClassList > ul > li p.subject { line-height: 28px; font-size: 18px; font-weight: 500; margin-bottom: 5px;display: inline-block;}
+.statusClassList > ul > li p.btn_assessed{width: 100px; height: 30px; text-align: center;background:#77933c; color: #fff; line-height: 1.9; border-radius:3px; margin-left: 60px;font-size: 16px;cursor: pointer;display: inline-block;}
+.statusClassList > ul > li p.btn_assessment{width: 100px; height: 30px; text-align: center;background:#558ed5; color: #fff; line-height: 1.9; border-radius:3px; margin-left: 60px;font-size: 16px;cursor: pointer;display: inline-block;}
+.statusClassList > ul > li p.myClass_review{display: inline-block;margin-left: 35px;width: 105px;height: 22px; background: #558ed5; text-align: center;color: #fff;border-radius:2px; cursor: pointer;}
+.statusClassList > ul > li ul.info { position: relative; margin-bottom: 18px;}
+.statusClassList > ul > li ul.info li { line-height: 20px;}
+.statusClassList > ul > li ul.info li strong.classDone { color: #ff5750;}
+.statusClassList > ul > li ul.info li.attendRate { position: absolute; top: 0; right: 0; height: 40px; line-height: 40px; font-size: 22px; color: #ff5750;}
+.statusClassList > ul > li ul.info li.attendRate strong { font-size: 34px; font-weight: 500;}
+.statusClassList p.warning{background: url(../images/common/icon_notify_bg_red.png) 0 0 no-repeat; -webkit-background-size: 25px auto; background-size: 25px auto;position: absolute;top: 55px;left: 120px; width: 25px; height: 35px; color: #fff; text-align: center; line-height: 20px; }
+/* status class list - 학생 */
+
+body.student .statusClassList > ul > li { cursor: pointer;}
+body.student .statusClassList > ul > li ul.info { padding-left: 150px;}
+body.student .statusClassList > ul > li ul.info { margin-bottom: 0;}
+body.student .statusClassList > ul > li ul.info li.attendRate { left: 0; right: auto;}
+body.student .statusClassList > ul > li ul.info li.perfect { color: #3f51b5;}
+.statusClassList > ul > li a.showBtn { position: absolute; right: 16px; top: 50%; width: 32px; height: 32px; text-align: center; margin-top: -16px;}
+.statusClassList > ul > li a.showBtn i { line-height: 32px; color: #959595; font-size: 30px; vertical-align: middle;}
+
+/* top : summary info  */
+
+.summaryStatus {  color: #fff; padding: 0 16px; padding-bottom: 12px;}
+.summaryStatus h2 { height: 46px; line-height: 30px; font-size: 22px; font-weight: 500; padding: 8px 0;}
+.summaryStatus h2 span.time { font-size: 18px; font-weight: normal;}
+.summaryStatus h2 span.time i { line-height: 30px; color: #7c89d2; vertical-align: middle; margin: 0 4px 0 8px;}
+.summaryStatus ul.info { position: relative; padding-left: 120px;}
+.summaryStatus ul.info li { line-height: 20px;}
+.summaryStatus ul.info li span.title { color: #bdc2dd;}
+.summaryStatus ul.info li strong { color: #ff5750;}
+.summaryStatus ul.info li.attendRate { position: absolute; top: 0; left: 0; height: 40px; line-height: 40px; font-size: 28px; color: #ff5750;}
+.summaryStatus ul.info li.attendRate strong { font-size: 40px; font-weight: 500;}
+
+/* status student list */
+
+.statusStudentList table th,
+.statusStudentList table td { vertical-align: middle; text-align: center; line-height: 18px; padding: 6px 0;}
+.statusStudentList table th { font-size: 12px; color: #747474; font-weight: normal; border: 1px solid #d9d9d9; border-width: 1px 0 1px;}
+.statusStudentList table th.major,
+.statusStudentList table th.late,
+.statusStudentList table th.absent { border-right: 1px solid #d9d9d9;}
+.statusStudentList table th.number { border-bottom: 0;}
+.statusStudentList table th.grade { border-top: 0;}
+.statusStudentList table td { border-bottom: 1px solid #d9d9d9;}
+.statusStudentList table td.number,
+.statusStudentList table td.rate { border-bottom: 0;}
+.statusStudentList table td.major { border-right: 1px solid #d9d9d9;}
+.statusStudentList table td.late,
+.statusStudentList table td.absent,
+.statusStudentList table td.leave { color: #bfbfbf;}
+.statusStudentList table td.rate span.rate { color: #ff5750;}
+
+/* status rollbook */
+
+.statusRollBook { position: relative; padding-left: 150px; clear:both;}
+.statusRollBook .studentInfo { position: absolute; left: 0; top: 0; width: 150px;}
+.statusRollBook .studentStatus { width: auto; padding-bottom: 20px; overflow: hidden; overflow-x: scroll;padding-bottom:110px}
+.statusRollBook table th,
+.statusRollBook table td { vertical-align: middle; text-align: center; line-height: 18px;}
+.statusRollBook table th { font-size: 12px; color: #747474; font-weight: normal; border: 1px solid #d9d9d9; border-width: 1px 0 1px; padding: 6px 0;}
+.statusRollBook table td { border-bottom: 1px solid #d9d9d9; padding: 10px 0;}
+.statusRollBook .studentInfo table { width: 100%;}
+.statusRollBook .studentInfo table .number { border-right: 1px solid #d9d9d9;}
+.statusRollBook .studentStatus table { width: auto; min-width: 100%;}
+.statusRollBook .studentStatus table th,
+.statusRollBook .studentStatus table td { width: 40px !important; border-right: 1px solid #d9d9d9;}
+.statusRollBook .studentStatus table td span.attend { color: #2f2f2f;}
+
+.statusRollBook.byTime .studentInfo table th { line-height: 49px;}
+
+.studentStatus table .mainMenu{position: relative !important; }
+
+/* 151221 RaeA */
+.classListDay > ul > li > p.btn{ display:inline-block; display: -moz-inline-stack; zoom:1; height: 30px; line-height: 30px; color: #fff; padding: 0; position: absolute;text-align: center;
+	-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.classListDay > ul > li > p.btn a{ color: #fff;}
+.classListDay > ul > li.cancelD > p.btn{ top: 46px; left: 160px; width: 75px;}
+.classListDay > ul > li.cancelM > p.btn{ top: 17px; right: 15px; width: 69px;}
+.classListDay > ul > li > p.btn1{ background-color: #ff5750;}
+.classListDay > ul > li > p.btn2{ background-color: #5369e3;}
+.classListDay > ul > li > p.btn3{ background-color: #696969;}
+
+.classListDay > ul > li.done > p.btn{ top: 46px; left: 260px; width: 75px;}
+.classListDay  ul  li  p.warning{width:20px; height: 20px; color: #fff; text-align: center; line-height: 16px;background: #ff5750;border-radius:50%;display: inline-block;margin-left: 10px; vertical-align:top}
+
+
+.reportingDate{ background: #bcd2ee; padding:14px 16px 0 16px;}
+.reportingDate h3{color:#984807; font-size:16px;font-weight:500;margin-bottom:13px}
+.reportingDate p{font-size:14px}
+.reportingDate p.gray{color:#666}
+.reportingDate .material-icons{color:#ff574d; font-size:30px}
+.reportingDate .center{width:100%; text-align:center}
+
+.reinforcement{padding:14px 16px 0 16px;}
+.reinforcement h3{color:#984807; font-size:16px;font-weight:500;margin-bottom:10px}
+.reinforcement h4{font-size:15px;font-weight:500;margin-bottom:5px}
+.reinforcement div{width:100%;overflow:hidden;padding-bottom:25px}
+.reinforcement .left1{float:left;width:45px}
+.reinforcement .left2{float:left}
+.reinforcement .left2 span{display:inline-block; width:102px; margin:7px 0}
+.reinforcement .left2 .btnH{width: 90px;padding:0}
+.reinforcement label{color:#2f2f2f;}
+.reinforcement .boxH{background-color:#f1f1f1; padding: 10px 15px; border-radius:7px; font-size:14px; margin-bottom:25px}
+.reinforcement textarea{width:100%; height:50px; border: 2px solid #d9d9d9; background:#fff}
+.reinforcement .center .btnH{width: 76px;padding:0; height: 30px; line-height: 30px;}
+
+.subjectList{margin-top:20px}
+.subjectList table{width:100%; border-top: 1px solid #d9d9d9; }
+.subjectList table td{border-bottom: 1px solid #d9d9d9; border-right: 1px solid #d9d9d9; text-align:center; height:32px;vertical-align:middle}
+.subjectList table td.last{border-right:none;}
+.subjectList table tr.complete td{background:#f1f1f1}
+.subjectList table .btnH{width: 70px;padding:0}
+
+.btnH{ display:inline-block; display: -moz-inline-stack; zoom:1; height: 30px; line-height: 30px; color: #fff !important;  padding:0 10px; text-align: center;
+	-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.btnH a{ color: #fff;}
+.btnH1{ background-color: #ff5750;}  /* 빨강 */
+.btnH2{ background-color: #5369e3;} /* 파랑 */
+.btnH3{ background-color: #696969;} /* 회색 */
+.btnH4{ background-color: #222222;} /* 검정 */
+.btnH5{ background-color: #429033;} /* 녹색 */
+
+.popTop{ background-color: #eee; padding: 12px 16px; position:relative; height:auto }
+.popTop h2{font-size: 18px; font-weight: normal;}
+.popTop .selectH{height:36px;display:inline-block; margin-top:15px;}
+.popTop .margin-right{margin-right:10px}
+.popTop .selectH p{display:inline-block; vertical-align:top; font-size:14px; line-height:36px;}
+.popTop .selectH .select_wrap{display:inline-block; width:84px; margin:0 10px 0 4px;}
+.popTop .selectH .select_wrap2{margin-right:0 !important;}
+.popTop .selectH .select_wrap3{margin-right:0 !important}
+.popTop .p2{margin-left:15px}
+.popTop .moreH{position:absolute; top:15px; right:20px; }
+.popTop .moreH i{color:#ff5750; font-size:30px;}
+
+#attendCertification .dateH{}
+#attendCertification .dateH p{margin-top:20px}
+#attendCertification .dateH p label{color:#9e9e9e;}
+#attendCertification .dateH p input{border-bottom:1px solid #c2c2c2;}
+#attendCertification .dateH p input:focus + label{color:#4052b6}
+#attendCertification .dateH p input[type=text][readonly='readonly']{color:#2f2f2f}
+#attendCertification .dateH ul{display:inline-block; width:130px; border-bottom:1px solid #c2c2c2; margin-left:5px}
+#attendCertification .dateH a{float:right; display:inline-block; display:-moz-inline-stack; zoom:1; width:36px; height:36px; text-align:center}
+#attendCertification .dateH a i{line-height:36px; color:#757575; vertical-align:middle; }
+#attendCertification .time_wrap{width:100%;}
+#attendCertification .time_wrap label{color:#444; font-size:1rem; }
+#attendCertification .time_wrap input{text-align:right; }
+#attendCertification .ex{color:#9e9e9e; font-size:0.9rem; margin-top:10px;}
+
+.messageList{margin-top:20px}
+.messageList table{width:100%; border-top: 1px solid #d9d9d9; table-layout:fixed}
+.messageList table th{border-bottom: 1px solid #d9d9d9; background:#eee;text-align:center; height:32px;vertical-align:middle}
+.messageList table td{border-bottom: 1px solid #d9d9d9; text-align:center; height:32px;vertical-align:middle}
+.messageList table td a{color:#2f2f2f}
+.messageList table tr.complete td{background:#f1f1f1}
+.messageList table .btnH{width: 40px;padding:0;height:24px;line-height:24px;}
+.messageList .material-icons{color:#777;font-size:20px}
+.messageList .redH{color:#ff5750 !important}
+.messageList > p{margin:5px 0 0 10px; color:#2584bb}
+.redFT{color:red !important}
+.blueFT{color:#2584bb !important}
+.strong{font-weight:600}
+
+.page{width:100%; text-align:center; margin-top:20px; color:#555; line-height:12px}
+.page a{color:#555;}
+.page a.current{color:#039be5; text-decoration:underline}
+.page span{margin:0 6px}
+.page img{margin:0 3px}
+.page img.arrow2{margin-right:8px}
+.page img.arrow3{margin-left:8px}
+
+#messageGetView .con, #messageSendView .con, #objectionGet .con{border:2px solid #d9d9d9;margin:10px 0 0 0; padding:5px 3px}
+#messageGetView span, #messageSendView span, #objectionGet span{color:#888}
+#messageWrite textarea{width:100%;height:120px;border:2px solid #d9d9d9;background:#fff;margin:10px 0 0 0;}
+
+.mypageTop { position: relative; color: #fff; padding: 0px 16px 16px 16px;}
+.mypageTop .title{font-size: 20px;}
+.mypageTop .title i{vertical-align: middle; margin-right:5px}
+.mypageTop .title span.student{color: #98cc8e; font-size: 14px; margin-left:2px}
+.mypageTop .title span.professor{color: #bdc2dd; font-size: 14px; margin-left:2px}
+.mypage ul li, .mypage p{ }
+.mypage .mypageInfo{position: relative; padding: 16px 20px 16px 120px; border-bottom:1px solid #d9d9d9;}
+.mypage .mypageInfo > p.img { position: absolute; left: 20px; top: 20px; width: 80px; height: 80px; overflow: hidden;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;}
+.mypage .mypageInfo > p.img img { position: relative;  width: auto; height: 100%; } /*left: 50%;margin-left: -60%;*/
+.mypage .mypageInfo ul li { line-height:22px}
+.mypage .mypageInfo ul li span.title {color: #888; margin-right:5px}
+.mypage .mypageCredit{ padding: 16px 20px; border-bottom:1px solid #d9d9d9;}
+.mypage .mypageCredit ul li { line-height:22px}
+.mypage .mypageCredit ul li span.title{color: #888; text-align:justify;word-break:break-all}
+.mypage .mypageRefer{ padding: 16px 20px; border-bottom:1px solid #d9d9d9;}
+.mypage .mypageRefer p{color: #2584bb;}
+.mypage .mypageBtn{text-align:center; margin-top:16px;}
+.mypage .modifyList {}
+.mypage .modifyList > ul > li{padding: 16px 20px; border-bottom:1px solid #d9d9d9; min-height:110px}
+.mypage .modifyList  label{ font-size: 14px; display:block; margin-top:5px; line-height:22px}
+.mypage .modifyList > ul > li > p{float:left; width:50px; margin-right:13px}
+
+#objectionGet .close{position:absolute;top:20px; right:25px; color:#555}
+#objectionGet .close i{font-size:30px}
+.objectionModalFooter{padding:0px 20px !important;}
+.objectionModalFooter > ul > li{ height:100px; position:relative; display:block; float:left; text-align:center; }
+.objectionModalFooter > ul > .li1 {width:50%; border-right:1px solid rgba(0, 0, 0, 0.1)}
+.objectionModalFooter > ul > .li2 {width:49%;}
+.objectionModalFooter > ul > li > p{display:inline-block;}
+.objectionModalFooter .selectWrap{width:50px}
+.objectionModalFooter a{padding:0 1rem !important; position:absolute;top:40px; left:50%; margin-left:-40px !important;}
+.objectionModalFooter .text{display:inline-block;color:#2f2f2f !important; line-height:36px; height:36px; margin-left: 10px}
+.objectionModalFooter .dropdown-content{margin-top:-80px !important}
+.objectionModalFooter ul li span{color:#444 !important}
+
+.callH{width:24px; height:24px; line-height:24px; color:#ff5750; font-size:18px; vertical-align: middle; text-align:center;margin-left:5px}
+
+
+
+.dropbtn {
+    background-color: #fff;
+	line-height:10px;
+    color: black;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width:30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: -5px;
+	top:18px;
+    min-width: 40px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    opacity:1;
+}
+
+.dropdown-content a {
+    color: black;
+	padding:3px 0;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+
+}
+
+/*새로운 테이블*/
+
+th {
+  text-align: center;
+}
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  
+  line-height: 1.42857143;
+  
+  border: 1px solid #d9d9d9;
+  text-align: center;
+  width: 45px;
+  border-top: none;
+  border-right: none;;
+}
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border: 1px solid #d9d9d9;
+ 
+}
+
+#parent {height: 600px;width: 100%;}
+#fixTable {width: 100%; font-family: nanum gothic; border-collapse:separate}
+#fixTable a{text-decoration: none; font-size:14px; text-align: center; padding: 10px 0;}
+#fixTable tbody tr:nth-of-type(1) td.totalNum{border-top: 1px solid #d9d9d9;}
+#fixTable .name{padding: 10px 0px;width: 65px; text-align: center;border-right: 0px;border-left: 0px;border-top: 0px; display: block}
+#fixTable th.name, th.student_num{color: #747474;font-weight: normal; display: table-cell; z-index: 999 !important}
+#fixTable td.name, td.student_num{z-index: 99}
+#fixTable td.student_num{}
+#fixTable .student_num{padding: 8px 10px;width: 95px; text-align: center; border: none; border-bottom: 1px solid #d9d9d9;border-right: 1px solid #d9d9d9;}
+#fixTable tr.date, tr.classNum{text-align: center; height: 30px;color: #747474;font-weight: normal; font-size: 12px;}
+#fixTable tr.date .blank{z-index: 999 !important}
+#fixTable tr.classNum th:nth-of-type(1){border-left: 1px solid #d9d9d9}
+#fixTable tr.classNum th{border-right: none;}
+#fixTable tr.classNum th:nth-of-type(2){border-right: 1px solid #d9d9d9;}
+#fixTable th.date, th.classNum{z-index: 99}
+#fixTable tr.date th{border-bottom: none;border-right: none;}
+#fixTable th.blank{border-right: 1px solid #d9d9d9 !important;}
+#fixTable td.totalNum{font-weight: bold;color: #333;}
+#fixTable tr.checkline{font-weight: bold;}
+#fixTable .totalNum{width: 60px; padding:0 2px; font-weight: normal; }
+#fixTable td, #fixTable th{vertical-align: middle;border-radius:0}
+
+#fixTable span.attend,#fixTable strong.attend{padding: 5px 14px;color: #2f2f2f;font-weight: normal;font-size: 16px;}
+#fixTable .dropdown-content{z-index: 9}
+
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+  border-collapse:separate
+}
+
+
+@media (max-width:480px){
+	#parent {height: 300px;width: 100%; border-bottom: 1px solid #d9d9d9;}
+	#fixTable{width: 100%;}
+	#fixTable .name{display: block; width:42px; }
+	#fixTable .student_num{padding: 0;}
+	#fixTable .student_num{width: 60px;}
+	
+}
+
+.modal_free{position: absolute;top:35% !important}
+.modal_free h4{text-align:center}
+.modal_free .progress{width:25%; margin:0.5rem auto 0}
+.modal_free .modal-footer{margin-top:30px; }
+.modal_free .modal-footer a{border:1px solid #eee !important; border-radius:5px; }
+
+
+/*********** 자리출석 ***********/
+.now_cr_wrap{
+	position: relative;
+	height: auto;
+	line-height: 34px;
+	padding: 25px 0 16px;
+	text-align: center;
+}
+.now_cr_wrap .now_cr{
+	font-size: 14px;
+	text-align: right;
+	padding-right: 95px;
+}
+.now_cr_wrap .now_cr a{
+	position: absolute;
+	top: 27px;
+	right: 15px;
+}
+.now_cr_wrap .now_cr a i{
+	font-size: 13px;
+	vertical-align: middle;
+}
+
+
+.seat_set{
+	display: block;
+	padding: 20px;
+	border: 3px solid #ebebeb;
+	box-sizing: border-box;
+	background-color: #fff;
+	border-radius: 10px;
+}
+.seat_set p{
+	line-height: 30px;
+}
+.seat_set input{
+	width: 60px;
+	border-radius: 3px;
+	padding: 3px 10px;
+	border: 2px solid #f3f3f3;
+	text-align: center;
+}
+
+
+
+
+.seat_col{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	-ms-border-radius:3px;
+	border-radius:3px;
+	margin-right: 3px;
+	line-height:30px;
+	vertical-align: middle;
+}
+
+
+
+
+
+
+#seat_wrap{
+	text-align: center;
+}
+.seat_map{
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+	overflow: auto;
+	white-space: nowrap;
+	height: 100%;
+}
+.seat_num_col{
+	display: inline-block;
+	overflow: hidden;
+	margin-right: 10px;
+	text-align: center;
+	vertical-align: top;
+}
+.seat_num_col li{
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	margin: 3px;
+	margin-bottom: 10px;
+	font-size: 12px;
+}
+.seat_num_row{
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+.seat_num_row li{
+	width:25px;
+	height: 25px;
+	line-height: 25px;
+	display: inline-block;
+	margin: 3px;
+	font-size: 12px;
+}
+.seat_row_wrap{
+	display: inline-block;
+	text-align: center;
+	/* padding-right: 50px; */
+}
+.front_indicator{
+	background-color: #f6f6f6;
+	text-align: center;
+	width: 90%;
+	margin: 0 5%;
+	border: 1px solid #ebebeb;
+	padding: 5px 0;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	border-radius:5px;
+}
+.seat_row_wrap{
+	display: inline-block;
+}
+.seat_row{
+	display: block;
+}
+.seat_cell{
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	border-radius: 5px;
+	background-color: #dddddd;
+	margin: 3px;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+}
+.seat_cell:hover{
+	background-color: #429033;
+}
+
+/* 빈자리 클래스 */
+.seat_space {
+	background: url('../images/professor/selectNo.png') no-repeat center;
+	border: 1px solid #ebebeb;
+	cursor: not-allowed;
+}
+.seat_space:hover{
+	background-color: #fff;
+}
+
+/* 자리 선택 클래스 */
+.Sselect{
+	background-color: #429033;
+}
+
+/* 자리 출석 클래스 */
+.Sattend{
+	background-color: #3f51b5;
+}
+
+/* 자리 결석 클래스 */
+.Sabsence{
+	background-color: #ff5750;
+}
+
+/* 자리 지각 클래스 */
+.Slate{
+	background-color: #2196F3;
+}
+
+/* 자리 중복 클래스 */
+.Soverlap {
+	background: url('../images/professor/overlap.png') #d32f2f no-repeat center;
+	border: 1px solid #ebebeb;
+	cursor: not-allowed;
+	background-size: 80%;
+}
+
+/* 학생정보 상세보기 팝업 s */
+.popuptext {
+  width: 150px;
+  height: auto;
+  background-color: #e8e8e8;
+  color: #333;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 5px;
+  position: absolute;
+  z-index: 1;
+  top: 140%;
+  left: 50%;
+  margin-left: -75px;
+  box-shadow: 1px 2px 5px #666;
+  display:none;
+}
+
+.popuptext:after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  margin-left: -10px;
+  border-bottom: 10px solid #e8e8e8;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+
+.popWrap{
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	text-align: left;
+	margin-bottom: 5px;
+}
+.popWrap:last-child{
+	margin-bottom: 0;
+}
+.popWrap:after{
+	content: '';
+	display: block;
+	clear:  both;
+}
+
+.popuptext .popSimg{
+	display: inline-block;
+	border: 3px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+}
+.popuptext .popSimg img{
+	width: 50px;
+}
+
+
+.popuptext .popStext{
+	width: 57%;
+	display: inline-block;
+	vertical-align: top;
+	text-align: left;
+}
+
+.popuptext .popSname{
+	display: block;
+	font-weight: bold;
+	font-size: 12px;
+	letter-spacing: -1px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.popuptext .popSbtn{
+	display: inline-block;
+	padding: 0px 5px;
+	background-color: #ff5750;
+	border-radius: 3px;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	letter-spacing: -0.5px;
+}
+.show {
+  visibility: visible;
+}
+/* 학생정보 상세보기 팝업 e */
+
+
+
+
+/* 학생좌석 좌표 팝업 s */
+.popupcd {
+  width: 100px;
+  background-color: #e8e8e8;
+  color: #333;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  top: -85px;
+  left: 50%;
+  margin-left: -50px;
+  box-shadow: 1px 2px 5px #666;
+  display:none;
+}
+.popupcd::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #e8e8e8 transparent transparent transparent;
+}
+.popupcd .popSname{
+	display: block;
+	font-weight: bold;
+	text-align: center;
+	font-size: 14px;
+}
+.popupcd .popSbtn{
+	display: inline-block;
+	padding: 0px 5px;
+	background-color: #ff5750;
+	border-radius: 3px;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+}
+.show {
+  visibility: visible;
+}
+/* 학생좌석 좌표 팝업 e */
+
+
+
+
+
+/* 출석체크 화면에서 출석정보가 가운데로 모이는 에러  임시 주석
+span.attend {display:block; text-align:center;}
+*/
+
+
+
+/* ##Device = 랩탑, 데스크탑 ##Screen = 1025px에서 1280px 사이 */
+@media (min-width: 1025px){
+
+	.studentListAlbum.col3 > ul > li{
+		width: 18%;
+	}
+
+}
+
+
+/* ##Device = 태블릿, 아이패드(세로), ##Screen = 768px에서 1024px 사이 */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+	.studentListAlbum.col3 > ul > li{
+		width: 23%;
+	}
+
+}
+
+
+/* ##Device = 저해상도 태블릿, 모바일(가로) ##Screen = 481px에서 767px 사이 */
+@media (min-width: 481px) and (max-width: 767px) {
+
+	.studentListAlbum.col3 > ul > li{
+		width: 31%;
+	}
+	
+}
+
+/* ##Device = 대부분의 스마트폰 모바일 기기(세로) ##Screen = 320px에서 479px 사이 */
+@media (min-width: 320px) and (max-width: 480px) {
+
+	.studentListAlbum.col3 > ul > li{
+		width: 31%;
+	}
+	
+	.modal .modal-content ul.selectRadio{
+		margin-bottom: 0;
+	}
+	ul.selectRadio > li p.icon i{
+		line-height: 46px;
+	}
+	.modal .modal-footer{
+		padding: 0 20px;
+	}
+
+	
+}
+
+
+/* ##Device = 대부분의 스마트폰 모바일 기기(세로) ##Screen = 320px에서 479px 사이 */
+@media (max-width: 320px) {
+
+
+	.modal .modal-content{
+		padding: 20px 20px 5px 20px;
+	}
+	.modal .modal-content > h3{
+		font-size: 18px;
+		margin-bottom: 15px;
+	}
+	.modal .modal-content > h3 i{
+		font-size: 40px !important;
+	}
+	.seat_set{
+		padding: 10px;
+	}
+	.modal .modal-content ul.selectRadio{
+		margin-bottom: 0px;
+	}
+	ul.selectRadio > li p.icon i{
+		font-size: 25px;
+		line-height: 25px;
+	}
+	.modal .modal-footer{
+		padding: 0 20px;
+	}
+	.modal .modal-footer a.btn{
+		height: 30px !important;
+		line-height: 30px !important;
+	}
+	
+}
+
+

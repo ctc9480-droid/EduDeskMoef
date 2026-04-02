@@ -1,0 +1,826 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include/includePageTaglib.jsp"%>
+
+<form method="post" id="rgsFrm" name="rgsFrm" autocomplete="off">
+	<input type="hidden" name="userMemLvl" value="9" />
+	<input type="hidden" name="empInsrTp" />
+	<input type="hidden" name="learnCardTp" />
+	<input type="hidden" name="empSuccTp" />
+	<input type="hidden" name="bizRgsTp" />
+	<input type="hidden" name="etc" />
+	<p class="fs_12 tr mgt30 mgb5"><span class="red">*</span> 은 필수입력 사항입니다. 반드시 입력하십시오.</p>
+	<table class="tb03">
+		<caption class="sound_only">회원가입 신청폼</caption>
+		<colgroup>
+			<col width="30%">
+			<col width="70%">
+		</colgroup>
+		<tbody>
+			<tr style="">
+				<th><label for="loginId">아이디</label> <span class="red">*</span></th>
+				<td colspan=""><input type="text" name="loginId" id="loginId" class="nm_size" required title="아이디는 필수 입니다." placeholder="아이디를 입력하세요" />
+					<button type="button" class="btn04 btn_orange" onclick="fn_checkLoginId();">중복확인</button> <span id="area-msg-checkId" class="dp_ib fs_12 fc_red sptxt mgl5">중복확인을 하셔야 합니다.</span>
+			</tr>
+			<tr>
+				<th>비밀번호 <span class="red">*</span></th>
+				<td colspan=""><input type="password" name="userPw" id="userPw1" class="nm_size" required="required" title="비밀번호는 필수 입니다." autocomplete="new-password" /> <span id="area-msg-userPw1" class="dp_ib fs_12 sptxt mgl5"></span> <span class="dp_b mgt5 sptxt">※ 암호는 최소 8글자로 영대문자, 영소문자, 숫자, 특수문자 중 3가지 이상의 조합이 필요합니다.</span></td>
+			</tr>
+			<tr>
+				<th>비밀번호 확인 <span class="red">*</span></th>
+				<td colspan=""><input type="password" id="userPw2" class="nm_size" required="required" title="비밀번호확인은 필수 입니다." /> <span id="area-msg-userPw2" class="dp_ib fs_12 sptxt mgl5"></span></td>
+			</tr>
+			<tr>
+				<th>국문 이름 <span class="red">*</span></th>
+				<td colspan=""><input type="text" id="userNm" name="userNm" class="p_size" required="required" title="이름은 필수 입니다." readonly/></td>
+			</tr>
+			<tr>
+				<th>영문 이름 <span class="red">*</span></th>
+				<td colspan=""><input type="text" id="userEnNm" name="userEnNm" class="p_size" required="required" title="영문이름은 필수 입니다."/>
+				<span class="dp_b mgt5 sptxt">※일부 수료증(합격증)에는 영문이름이 필요합니다.</span>
+				</td>
+			</tr>
+			<tr>
+				<th>생년월일 <span class="red">*</span></th>
+				<td colspan=""><input type="text" id="birth" name="birth" class="p_size" maxlength="8" readonly="readonly" required="required" title="생년월일은 필수 입니다." /> 
+				</td>
+			</tr>
+			<tr>
+				<th>성별 <span class="red">*</span></th>
+				<td colspan="">
+					<select id="mfType" name="mfType" readonly disabled>
+						<option value="0">여</option>
+						<option value="2">여</option>
+						<option value="1">남</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="mobile1">연락처</label> <span class="red">*</span></th>
+				<td colspan="">
+				<input type="text" id="mobile1" class="p_size " maxlength="4" readonly required="required" title="휴대폰번호는 필수 입니다." /> - <input type="text" id="mobile2" class="p_size onlyNumber" maxlength="4" readonly title="휴대폰번호는 필수 입니다." /> - <input type="text" id="mobile3" class="p_size onlyNumber" maxlength="4" readonly title="휴대폰번호는 필수 입니다." /> <input type="hidden" id="mobile" name="mobile" />
+				<button type="button" class="btn04 btn_black" onclick="fnMobileCheckPopup(1)">휴대폰인증</button>
+				</td>
+			</tr>
+			<tr>
+				<th>e-mail <span class="red">*</span></th>
+				<td colspan=""><input type="text" class="nm_size" id="email1" title="Email을 선택하여 입력하거나 직접 입력할 수 있습니다." required /> @ <input type="text" class="nm_size" id="email2" title="Email을 선택하여 입력하거나 직접 입력할 수 있습니다." required /> <label for="email3" class="sound_only">이메일 선택영역</label> <select id="email3" name="">
+						<option value="">직접입력</option>
+						<option value="naver.com">naver.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="nate.com">nate.com</option>
+						<option value="hotmail.com">hotmail.com</option>
+						<option value="yahoo.com">yahoo.com</option>
+						<option value="empas.com">empas.com</option>
+						<option value="korea.com">korea.com</option>
+						<option value="dreamwiz.com">dreamwiz.com</option>
+						<option value="gmail.com">gmail.com</option>
+				</select> <input type="hidden" id="email" name="email" /></td>
+			</tr>
+			<tr>
+						<th>이메일 동의<span class="red">*</span></th>
+						<td colspan="">서비스 신청 및 안내여부를 수신하시겠습니까? 
+						<label for="agreeEmail-1"><input type="radio" name="userEmailYn" value="1" id="agreeEmail-1" ${user.userEmailYn == 1?'checked':'' }/> 예 </label>
+						<label for="agreeEmail-2"><input type="radio" name="userEmailYn" value="0" id="agreeEmail-2" ${user.userEmailYn == 0?'checked':'' }/> 아니오</label>
+						 <br /> (국내외 시험인증, 기술동향, 4차산업 트렌드, 전문가 기고, KTL 주요 소식 및 교육/세미나 안내, 뉴스레터, 웹진 정보를 격월 내외로 송부드립니다.)
+						</td>
+					</tr>
+					<tr>
+						<th>sms 동의<span class="red">*</span></th>
+						<td colspan="">서비스 신청 및 안내여부를 수신하시겠습니까? 
+						<label for="agreeSms-1"><input type="radio" name="userSmsYn" value="1" id="agreeSms-1" ${user.userSmsYn == 1?'checked':'' }/> 예 </label>
+						<label for="agreeSms-2"><input type="radio" name="userSmsYn" value="0" id="agreeSms-2" ${user.userSmsYn == 0?'checked':'' }/> 아니오</label>
+						</td>
+					</tr>
+		</tbody>
+	</table>
+
+	<div class="userTypeWrap tl mgt20 mgb20 vm">
+		<label for="userTp1" class="vm mgr15 fs_16 facAddBtn">
+			<input type="radio" name="userTp" id="userTp1" class="mgr5" value="1" checked>
+			재직자
+		</label>
+		<label for="userTp2" class="vm fs_16 stdAddBtn">
+			<input type="radio" name="userTp" id="userTp2" class="mgr5" value="2">
+			미취업자
+		</label>
+	</div>
+</form>
+<div class="facAddForm" id="vm-join-fac">
+	<table class="tb03 ">
+		<caption class="sound_only">재직자 회원가입 신청폼</caption>
+		<colgroup>
+			<col width="30%">
+			<col width="70%">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th><label for="facId">기관명</label> <span class="red">*</span></th>
+				<td>
+							<input type="text" id="facId" name="facId" v-model="comp.compNm" class="nm_size" required="required" maxlength="50" :readonly="faccompgb != 1"> 
+								<label for="faccompgb1" >
+								<input type="radio" v-model="faccompgb" name="faccompgb" id="faccompgb1" value="1" class="mgr5" @click="checkfaccompgb(1)">
+								기관소속
+								</label>
+								<label for="faccompgb2" >
+								<input type="radio" v-model="faccompgb" name="faccompgb" id="faccompgb2" value="2" class="mgr5" @click="checkfaccompgb(2)">
+								무소속
+								</label>
+						<label for="faccompgb3" >
+								<input type="radio" v-model="faccompgb" name="faccompgb" id="faccompgb3" value="3" class="mgr5" @click="checkfaccompgb(3)">
+								한국산업기술시험원소속
+							</label> 
+							<input v-if="faccompgb == 3" type="text" id="facnm" name="facnm" v-model="comp.employNum" class="nm_size" placeholder="사번입력" maxlength="10"  style="width:100px;">
+							</td>
+			</tr>
+			
+			<tr>
+						<th><label for="facTeam">근무부서</label></th>
+						<td><input type="text" v-model="comp.deptNm" class="nm_size" maxlength="50" :readonly="faccompgb == 2"></td>
+					</tr>
+					<tr>
+						<th><label for="facLv">직위</label></th>
+						<td><input type="text" v-model="comp.posiNm" class="p_size" maxlength="50" :readonly="faccompgb == 2"></td>
+					</tr>
+					<tr>
+						<th><label for="facName">대표자명</label> <span class="red">*</span></th>
+						<td><input type="text" id="facName" v-model="comp.ceoNm" value="" class="p_size" maxlength="50" :readonly="faccompgb != 1"></td>
+					</tr>
+					<tr>
+						<th><label for="mobile1">주소</label> <span class="red">*</span></th>
+						<td class="add"><input type="text" v-model="comp.postNo" class="p_size" readonly="readonly" maxlength="6"> <a href="javascript: fn_postSearch();"><span class="btn_add">우편번호찾기</span></a> <br> 
+						<input type="text" v-model="comp.addr" class="w50" maxlength="50" readonly="readonly"> 
+						상세 <input type="text" v-model="comp.addrDtl" class="w30" maxlength="50" :readonly="faccompgb == 3"></td>
+					</tr>
+					<tr>
+						<th><label for="facTel">대표전화</label> <span class="red">*</span></th>
+						<td><input type="text" id="facTel" name="facTel" v-model="comp.tel" class="nm_size" maxlength="13" :readonly="faccompgb != 1"> <span class="dp_ib mgt5 sptxt">Ex) 031-000-0000</span></td>
+					</tr>
+					<tr>
+						<th><label for="facNum">사업자등록번호</label> <span class="red">*</span></th>
+						<td><input type="text" id="facNum" name="facNum" v-model="comp.bsnLcnsNo" class="nm_size" maxlength="12" :readonly="faccompgb != 1"> <span class="dp_ib mgt5 sptxt">Ex) 123-45-67890</span></td>
+					</tr>
+					<tr v-if="faccompgb == 1">
+						<th><label for="facFile">사업자등록증</label> <span class="red">*</span></th>
+						<td>
+					 	<a v-if="comp.bsnLcnsOrg" href="/member/stdnt/download.do?fileGubun=bsnLcns" >{{comp.bsnLcnsOrg}}</a>
+						<input type="file" id="bsnLcnsFile" name="bsnLcnsFile" class="nm_size"> <span class="dp_ib mgt5 sptxt">(10MB 이하 첨부파일 가능)</span>
+						</td>
+					</tr>
+					<tr v-if="faccompgb == 1">
+						<th><label for="facFile">회사통장사본</label> </th>
+						<td>
+					 	<a v-if="comp.bsnBankOrg" href="/member/stdnt/download.do?fileGubun=bsnBank" >{{comp.bsnBankOrg}}</a>
+						<input type="file" id="bsnBankFile" name="bsnBankFile" class="nm_size"> <span class="dp_ib mgt5 sptxt">(10MB 이하 첨부파일 가능)</span>
+						</td>
+					</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+			var vm_join_fac = new Vue({
+				el : '#vm-join-fac',
+				data : {
+					comp : {compNm: '',},
+					faccompgb: 1,//소속여부, 1:기관소속, 2:무소속, 3:ktl
+				},
+				mounted: function(){
+					
+				},
+				methods: {
+					checkfaccompgb: function(val){
+						this.comp.compNm = '';
+						this.comp.ceoNm = '';
+						this.comp.postNo = '';
+						this.comp.addr = '';
+						this.comp.addrDtl = '';
+						this.comp.tel = '';
+						this.comp.bsnLcnsNo = '';
+						if(val == 3){
+							this.comp.compNm = '한국산업기술시험원';
+							this.comp.ceoNm = '김세종';
+							this.comp.postNo = '52852';
+							this.comp.addr = '경상남도진주시 충의로 10(충무공동)';
+							this.comp.addrDtl = '한국산업기술시험원';
+							this.comp.tel = '080-808-0114';
+							this.comp.bsnLcnsNo = '113-82-06228';
+						}else if(val == 2){
+							this.comp.compNm = '개인';
+							this.comp.ceoNm = '-';
+							this.comp.deptNm = '-';
+							this.comp.posiNm = '-';
+							this.comp.tel = '000-0000-0000';
+							this.comp.bsnLcnsNo = '000-00-00000';
+							
+						}
+					},
+					
+				},
+			});
+		</script>
+<div class="stdAddForm" id="vm-join-std">
+	<div class="sub_txt2" id="area-school" tabindex="-1">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">학력정보</span>
+	</div>
+	<table class="tb02 tc">
+		<caption class="sound_only">미취업자 회원가입 신청폼 - 학력정보</caption>
+		<thead>
+			<tr>
+				<th>기간</th>
+				<th>학교명</th>
+				<th>학과</th>
+				<th>복수 or 부전공</th>
+				<th>소재지</th>
+				<th>졸업구분(졸업 or 수료)</th>
+				<th>성적(평점/만점)</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(o,i) in schoolList">
+				<td><comp-user-datepicker v-model="o.beginDtStr" class="w40"></comp-user-datepicker> - <comp-user-datepicker v-model="o.endDtStr" class="w40"></comp-user-datepicker></td>
+				<td><input type="text" v-model="o.schoolNm" class="w100"></td>
+				<td><input type="text" v-model="o.majorNm" class="w100"></td>
+				<td><input type="text" v-model="o.submjrNm" class="w100"></td>
+				<td><input type="text" v-model="o.location" class="w100"></td>
+				<td><select v-model="o.grdtTp" title="졸업구분 선택" class="w50">
+						<option value="2">졸업</option>
+						<option value="1">수료</option>
+				</select></td>
+				<td><input type="text" v-model="o.mark" class="w40"> / <select v-model="o.fullMark" title="학점 선택" class="w40">
+						<option value="3">3</option>
+						<option value="3.5">3.5</option>
+						<option value="4">4</option>
+						<option value="4.3">4.3</option>
+						<option value="4.5">4.5</option>
+				</select></td>
+				<td>
+					<button @click="delSchoolObj(i)" type="button" class="btn04 btn_gray">삭제</button>
+					<button @click="addSchoolObj" type="button" class="btn04 btn_orange" v-if="schoolList.length==(i+1)">추가</button>
+				</td>
+			</tr>
+			<tr v-if="schoolList.length == 0">
+				<td colspan="7">데이터가 없습니다.</td>
+				<td>
+					<button @click="addSchoolObj" type="button" class="btn04 btn_orange">추가</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="sub_txt2" id="area-certif" tabindex="-1">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">자격정보</span>
+	</div>
+	<table class="tb02 tc">
+		<caption class="sound_only">미취업자 회원가입 신청폼 - 자격정보</caption>
+		<thead>
+			<tr>
+				<th>자격명</th>
+				<th>취득일</th>
+				<th>발급처</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(o,i) in certifList">
+				<td><input type="text" v-model="o.crtfNm" class="w100"></td>
+				<td><comp-user-datepicker v-model="o.crtfDtStr" class="w40"></comp-user-datepicker></td>
+				<td><input type="text" v-model="o.issueNm" class="w100"></td>
+				<td>
+					<button @click="delCertifObj(i)" type="button" class="btn04 btn_gray">삭제</button>
+					<button @click="addCertifObj" type="button" class="btn04 btn_orange" v-if="certifList.length==(i+1)">추가</button>
+				</td>
+			</tr>
+			<tr v-if="certifList.length == 0">
+				<td colspan="3">데이터가 없습니다.</td>
+				<td>
+					<button @click="addCertifObj" type="button" class="btn04 btn_orange">추가</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="sub_txt2" id="area-langua" tabindex="-1">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">어학능력</span>
+	</div>
+	<table class="tb02 tc">
+		<caption class="sound_only">미취업자 회원가입 신청폼 - 어학능력</caption>
+		<thead>
+			<tr>
+				<th>외국어명</th>
+				<th>공인테스트명</th>
+				<th>성적</th>
+				<th>시험일자</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(o,i) in languaList">
+				<td><input type="text" v-model="o.langNm" class="w100"></td>
+				<td><input type="text" v-model="o.testNm" class="w100"></td>
+				<td><input type="text" v-model="o.mark" class="w100"></td>
+				<td><comp-user-datepicker v-model="o.testDtStr" class="w40"></comp-user-datepicker></td>
+				<td>
+					<button @click="delLanguaObj(i)" type="button" class="btn04 btn_gray">삭제</button>
+					<button @click="addLanguaObj" type="button" class="btn04 btn_orange" v-if="languaList.length==(i+1)">추가</button>
+				</td>
+			</tr>
+			<tr v-if="languaList.length == 0">
+				<td colspan="4">데이터가 없습니다.</td>
+				<td>
+					<button @click="addLanguaObj" type="button" class="btn04 btn_orange">추가</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="sub_txt2" id="area-career" tabindex="-1">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">경력사항</span>
+	</div>
+	<table class="tb02 tc">
+		<caption class="sound_only">미취업자 회원가입 신청폼 - 경력사항</caption>
+		<thead>
+			<tr>
+				<th>기간</th>
+				<th>회사명</th>
+				<th>담당업무</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(o,i) in careerList">
+				<td><comp-user-datepicker v-model="o.beginDtStr" class="w40"></comp-user-datepicker> - <comp-user-datepicker v-model="o.endDtStr" class="w40"></comp-user-datepicker></td>
+				<td><input type="text" v-model="o.compNm" class="w80"></td>
+				<td><input type="text" v-model="o.taskNm" class="w100"></td>
+				<td>
+					<button @click="delCareerObj(i)" type="button" class="btn04 btn_gray">삭제</button>
+					<button @click="addCareerObj" type="button" class="btn04 btn_orange" v-if="careerList.length==(i+1)">추가</button>
+				</td>
+			</tr>
+			<tr v-if="careerList.length == 0">
+				<td colspan="3">데이터가 없습니다.</td>
+				<td>
+					<button @click="addCareerObj" type="button" class="btn04 btn_orange">추가</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="sub_txt2">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">신청정보</span>
+	</div>
+	<table class="tb03 tc">
+		<caption class="sound_only">미취업자 회원가입 신청폼 - 신청정보</caption>
+		<colgroup>
+			<col width="40%">
+			<col width="60%">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th>고용보험 가입여부</th>
+				<td><label for="stdAgr1_1" class="vm mgr15">
+						<input type="radio" name="empInsrTp2" value="1" id="stdAgr1_1" class="vb mgr5" ${user.empInsrTp == 1?'checked':'' }>
+						가입
+					</label> <label for="stdAgr1_2" class="vm mgr15">
+						<input type="radio" name="empInsrTp2" value="2" id="stdAgr1_2" class="vb mgr5" ${user.empInsrTp != 1?'checked':'' }>
+						미가입
+					</label></td>
+			</tr>
+			<tr>
+				<th>내일배움카드 발급여부</th>
+				<td><label for="stdAgr2_1" class="vm mgr15">
+						<input type="radio" name="learnCardTp2" value="1" id="stdAgr2_1" class="vb mgr5" ${user.learnCardTp == 1?'checked':'' }>
+						가입
+					</label> <label for="stdAgr2_2" class="vm mgr15">
+						<input type="radio" name="learnCardTp2" value="2" id="stdAgr2_2" class="vb mgr5" ${user.learnCardTp != 1?'checked':'' }>
+						미가입
+					</label></td>
+			</tr>
+			<tr>
+				<th>국민취업지원제도 가입여부</th>
+				<td><label for="stdAgr3_1" class="vm mgr15">
+						<input type="radio" name="empSuccTp2" value="1" id="stdAgr3_1" class="vb mgr5" ${user.empSuccTp == 1?'checked':'' }>
+						가입
+					</label> <label for="stdAgr3_2" class="vm mgr15">
+						<input type="radio" name="empSuccTp2" value="2" id="stdAgr3_2" class="vb mgr5" ${user.empSuccTp != 1?'checked':'' }>
+						미가입
+					</label></td>
+			</tr>
+			<tr>
+				<th>사업자등록 여부</th>
+				<td><label for="stdAgr4_1" class="vm mgr15">
+						<input type="radio" name="bizRgsTp2" value="1" id="stdAgr4_1" class="vb mgr5" ${user.bizRgsTp == 1?'checked':'' }>
+						가입
+					</label> <label for="stdAgr4_2" class="vm mgr15">
+						<input type="radio" name="bizRgsTp2" value="2" id="stdAgr4_2" class="vb mgr5" ${user.bizRgsTp != 1?'checked':'' }>
+						미가입
+					</label></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="sub_txt2">
+		<span class=""><img src="${utcp.ctxPath }/resources/user/image/icon/icon_subtitle.png" alt="">지원동기</span>
+	</div>
+	<textarea placeholder="50자 이상 기재해주세요" name="etc2" class="w100 h200">${user.etc }</textarea>
+</div>
+<script>
+			var schoolObj = {
+				location : '',
+				fullMark : 4.5
+			};
+			var certifObj = {};
+			var languaObj = {};
+			var careerObj = {compNm: ''};
+			var vm_join_std = new Vue({
+				el : '#vm-join-std',
+				data : {
+					schoolList : [],
+					certifList : [],
+					languaList : [],
+					careerList : [],
+				},
+				mounted: function(){
+					
+				},
+				methods : {
+					delSchoolObj : function(i) {
+						if (this.schoolList.length == 1) {
+							//Vue.set(this.schoolList, i, $.extend(true, {},schoolObj));
+							//return;
+						}
+						this.schoolList.splice(i, 1);
+					},
+					addSchoolObj : function() {
+						this.schoolList.push($.extend(true, {}, schoolObj));
+					},
+					delCertifObj : function(i) {
+						if (this.certifList.length == 1) {
+							//Vue.set(this.certifList, i, $.extend(true, {},certifObj));
+							//return;
+						}
+						this.certifList.splice(i, 1);
+					},
+					addCertifObj : function() {
+						this.certifList.push($.extend(true, {}, certifObj));
+					},
+					delLanguaObj : function(i) {
+						if (this.languaList.length == 1) {
+							//Vue.set(this.languaList, i, $.extend(true, {},languaObj));
+							//return;
+						}
+						this.languaList.splice(i, 1);
+					},
+					addLanguaObj : function() {
+						this.languaList.push($.extend(true, {}, languaObj));
+					},
+					delCareerObj : function(i) {
+						if (this.careerList.length == 1) {
+							//Vue.set(this.careerList, i, $.extend(true, {},careerObj));
+							//return;
+						}
+						this.careerList.splice(i, 1);
+					},
+					addCareerObj : function() {
+						this.careerList.push($.extend(true, {}, careerObj));
+					},
+				},
+				updated : function() {
+					console.log('updated');
+				}
+			});
+		</script>
+
+
+<div class="btn_step2">
+	<a href="javascript:;" onclick="fn_joinProc(); return false;" class="btn_step01">회원가입</a> <a href="${utcp.ctxPath}/user/index.do" class="btn_step02">취소</a>
+</div>
+
+
+<script type="text/javascript">
+	var checkLoginId = false;//로그인아이디 유효성 체크
+	var checkUserPw1 = false;//패스워드 유효성 체크
+	var checkUserPw2 = false;//패스워드 확인 체크
+	var authEmail = false;
+	$(document).ready(function() {
+		$(".onlyNumber").keyup(function(event) {
+			var str;
+			if (event.keyCode != 8) {
+				if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+					var inputVal = $(this).val();
+					str = inputVal.replace(/[^0-9]/gi, '');
+					$(this).val(str);
+				}
+			}
+		});
+
+		$('#loginId').focusout(function() {
+			//fn_checkLoginId();
+		});
+
+		$("#userPw1").focusout(function() {
+			checkUserPw1 = false;
+			var userPw = $('#userPw1').val();
+			$.ajax({
+				type : 'post',
+				data : {
+					userPw : userPw
+				},
+				url : '${utcp.ctxPath}/user/ajax/checkUserPw.json',
+				success : function(r) {
+					if (r.result) {
+						$('#area-msg-userPw1').removeClass('fc_red');
+						$('#area-msg-userPw1').addClass('fc_blue');
+						checkUserPw1 = true;
+					} else {
+						$('#area-msg-userPw1').removeClass('fc_blue');
+						$('#area-msg-userPw1').addClass('fc_red');
+					}
+					$('#area-msg-userPw1').text(r.message);
+				}
+			});
+		});
+
+		$("#userPw2").change(function() {
+			checkUserPw2 = false;
+			if ($("#userPw1").val() != $("#userPw2").val()) {
+				$('#area-msg-userPw2').removeClass('fc_blue');
+				$('#area-msg-userPw2').addClass('fc_red');
+				$('#area-msg-userPw2').text('비밀번호가 일치하지 않습니다.');
+			} else {
+				checkUserPw2 = true;
+				$('#area-msg-userPw2').removeClass('fc_red');
+				$('#area-msg-userPw2').addClass('fc_blue');
+				$('#area-msg-userPw2').text('비밀번호가 일치 합니다.');
+			}
+		});
+
+		$("#email3").change(function() {
+			$('#email2').val(this.value);
+		});
+
+		$('.facAddForm').show();
+		$('.stdAddForm').hide();
+		$('input[name=userTp]').click(function() {
+			if (this.value == 1) {
+				$('.facAddForm').show();
+				$('.stdAddForm').hide();
+			} else {
+				$('.facAddForm').hide();
+				$('.stdAddForm').show();
+			}
+		});
+		
+		//본인인증 데이터 세팅하기
+		$('#userNm').val($('#authUserNm').val());
+		$('#birth').val($('#authBirth').val());
+		$('#mfType').val($('#authMfType').val());
+		var mobileArr = $('#authMobile').val().split('-');
+		$('#mobile1').val(mobileArr[0]);
+		$('#mobile2').val(mobileArr[1]);
+		$('#mobile3').val(mobileArr[2]);
+	});
+
+	function fn_postSearch() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var roadAddr = data.roadAddress; // 도로명 주소 변수
+				var extraRoadAddr = ''; // 참고 항목 변수
+
+				// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+				// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+				if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+					extraRoadAddr += data.bname;
+				}
+				// 건물명이 있고, 공동주택일 경우 추가한다.
+				if (data.buildingName !== '' && data.apartment === 'Y') {
+					extraRoadAddr += (extraRoadAddr !== '' ? ', '
+							+ data.buildingName : data.buildingName);
+				}
+				// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+				if (extraRoadAddr !== '') {
+					extraRoadAddr = ' (' + extraRoadAddr + ')';
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				Vue.set(vm_join_fac.comp,'postNo',data.zonecode);
+				Vue.set(vm_join_fac.comp,'addr',roadAddr);
+				//vm_join_fac.comp.postNo = data.zoncode;
+				//vm_join_fac.comp.addr = data.roadAddr;
+
+				// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+				if (roadAddr != '') {
+					//$('#addrEtc').val(extraRoadAddr);
+				} else {
+					//$('#addrEtc').val("");
+				}
+				$('#addrDetail').focus();
+			}
+		}).open();
+	}
+
+	function fn_joinProc() {
+		
+		
+		
+		console.log(vm_join_fac.comp);
+		/* 
+		 */
+		var isJoin=true;
+		$('#rgsFrm').find('input,select').each(function(){
+			if(this.required && (this.value==''||this.value==0)){
+				alert(this.title);
+				$('#'+this.id).focus();
+				isJoin=false;
+				return false;
+			}
+			if(this.name == 'loginId'){
+				if(!checkLoginId){
+					$('#loginId').focus();
+					isJoin=false;
+					return false;
+				}
+			}
+			if(this.id == 'userPw1'){
+				if(!checkUserPw1){
+					$('#userPw1').focus();
+					isJoin=false;
+					return false;
+				}
+			}
+			if(this.id == 'userPw2'){
+				if(!checkUserPw1){
+					$('#userPw2').focus();
+					isJoin=false;
+					return false;
+				}
+			}
+		});
+		if(!isJoin){
+			return;
+		}
+		
+		$('#mobile').val(
+				$('#mobile1').val() + '-' + $('#mobile2').val() + '-'
+						+ $('#mobile3').val());
+		$('#tel').val(
+				$('#tel1').val() + '-' + $('#tel2').val() + '-'
+						+ $('#tel3').val());
+		$('#email').val($('#email1').val() + '@' + $('#email2').val());
+
+		//이메일 동의여부
+		if($('input:radio[name=userEmailYn]:checked').length == 0){
+			alert('이메일 동의 여부를 체크하셔야 합니다.');
+			$('#agreeEmail-1').focus();
+			return;
+		}
+
+		//sms 동의여부
+		if($('input:radio[name=userSmsYn]:checked').length == 0){
+			alert('SMS 동의 여부를 체크하셔야 합니다.');
+			$('#agreeSms-1').focus();
+			return;
+		}
+		
+		//check
+		if ($('input[name=userTp]:checked').val() == 2) {
+			var nullCheck = vm_join_std.schoolList.some(o => UTIL.isEmpty2([o.beginDtStr,o.endDtStr,o.schoolNm,o.majorNm,o.location,o.grdtTp]) );
+			if(nullCheck){
+				$('#area-school').focus();
+				alert('학력정보에 빈칸이 있습니다.');
+				return;
+			}
+			nullCheck = vm_join_std.certifList.some(o => UTIL.isEmpty2([o.crtfNm,o.crtfDtStr,o.issueNm]) );
+			if(nullCheck){
+				$('#area-certif').focus();
+				alert('자격정보에 빈칸이 있습니다.');
+				return;
+			}
+			nullCheck = vm_join_std.languaList.some(o => UTIL.isEmpty2([o.langNm,o.testNm,o.mark,o.testDtStr]) );
+			if(nullCheck){
+				$('#area-langua').focus();
+				alert('어학정보에 빈칸이 있습니다.');
+				return;
+			}
+			nullCheck = vm_join_std.careerList.some(o => UTIL.isEmpty2([o.beginDtStr,o.endDtStr,o.compNm,o.taskNm]) );
+			if(nullCheck){
+				$('#area-career').focus();
+				alert('경력정보에 빈칸이 있습니다.');
+				return;
+			}
+		}else{
+			if(UTIL.isEmpty(vm_join_fac.comp.compNm)){
+				alert('기관명을 입력하세요');
+				$('#facId').focus();
+				return;
+			}else if(vm_join_fac.faccompgb == 3){
+				console.log('사번체크',vm_join_fac.comp.employNum);
+				if(UTIL.isEmpty(vm_join_fac.comp.employNum)){
+					alert('사번을 입력하세요');
+					return;
+				}
+			}else if(UTIL.isEmpty(vm_join_fac.comp.ceoNm)){
+				alert('대표자명을 입력하세요');
+				$('#facName').focus();
+				return;
+			}else if(UTIL.isEmpty(vm_join_fac.comp.postNo)){
+				alert('우편번호를 입력하세요');
+				return;
+			}else if(UTIL.isEmpty(vm_join_fac.comp.addr)){
+				alert('주소를 입력하세요');
+				return;
+			}else if(UTIL.isEmpty(vm_join_fac.comp.addrDtl)){
+				alert('상세주소를 입력하세요');
+				return;
+			}else if(UTIL.isEmpty(vm_join_fac.comp.tel)){
+				alert('사무실전화번호를 입력하세요');
+				return;
+			}else if(UTIL.isEmpty(vm_join_fac.comp.bsnLcnsNo)){
+				if(!vm_join_fac.comp.employYn){
+					alert('사업자등록번호를 입력하세요');
+					return;
+				}
+			}else if(vm_join_fac.comp.bsnLcnsRnm == ''){
+				if(vm_join_fac.faccompgb == 1){
+					if(!$('#bsnLcnsFile')[0].files[0] ){
+						if(!vm_join_fac.comp.employYn){
+							alert('사업자등록증을 첨부하세요');
+							return;
+						}
+					}
+				}
+			}
+		}
+		
+		if(vm_join_fac.faccompgb == 3){
+			vm_join_fac.comp.employYn = 'Y';
+		}else{
+			vm_join_fac.comp.employYn = 'N';
+		}
+		
+		$('input[name=empInsrTp]').val($('input[name=empInsrTp2]:checked').val());
+		$('input[name=learnCardTp]').val($('input[name=learnCardTp2]:checked').val());
+		$('input[name=empSuccTp]').val($('input[name=empSuccTp2]:checked').val());
+		$('input[name=bizRgsTp]').val($('input[name=bizRgsTp2]:checked').val());
+		$('input[name=etc]').val($('textarea[name=etc2]').val());
+			
+		var formData = new FormData($("#rgsFrm")[0]);
+		formData.append('compJson',JSON.stringify(vm_join_fac.comp));
+		formData.append('schoolListJson',JSON.stringify(vm_join_std.schoolList));
+		formData.append('certifListJson',JSON.stringify(vm_join_std.certifList));
+		formData.append('languaListJson',JSON.stringify(vm_join_std.languaList));
+		formData.append('careerListJson',JSON.stringify(vm_join_std.careerList));
+		
+		if(vm_join_fac.faccompgb == 1){
+			formData.append('bsnLcnsFile',$('#bsnLcnsFile')[0].files[0]);
+			formData.append('bsnBankFile',$('#bsnBankFile')[0].files[0]);
+		}
+		
+		//인증정보 세팅하기
+		formData.append('authTypeNm',$('#authTypeNm').val());
+		formData.append('authEncData',$('#authEncData').val());
+		
+		$.ajax({
+			url : "${utcp.ctxPath}/member/joinProc.ajax",
+			type : "post",
+			contentType: false,
+            processData: false,
+			data : formData,
+			success : function(r) {
+				if (r.result == 1) {
+					fn_nextStep(4);
+				} else {
+					alert(r.msg);
+				}
+			}
+		});
+	}
+	function fn_checkLoginId() {
+		checkLoginId = false;
+		var loginId = $('#loginId').val();
+		$.ajax({
+			type: 'post',
+			data : {
+				loginId : loginId
+			},
+			url : '${utcp.ctxPath}/user/ajax/checkLoginId.ajax',
+			success : function(r) {
+				if (r.result == 1) {
+					$('#area-msg-checkId').removeClass('fc_red');
+					$('#area-msg-checkId').addClass('fc_blue');
+					checkLoginId = true;
+				} else {
+					$('#area-msg-checkId').removeClass('fc_blue');
+					$('#area-msg-checkId').addClass('fc_red');
+					if (r.result == 2) {
+						authEmail = true;
+					}
+				}
+				$('#area-msg-checkId').text(r.msg);
+			}
+		});
+	}
+</script>

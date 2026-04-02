@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.log.service.impl.LogMapper">
+	
+	<resultMap id="connLogAdmMap" type="ConnLogAdm">
+		<result property="userId" column="USER_ID"/>
+		<result property="connDe" column="CONN_DE"/>
+		<result property="ip" column="IP"/>
+		<result property="menuId" column="MENU_ID"/>
+		<result property="menuNm" column="MENU_NM"/>
+		<result property="logAct" column="LOG_ACT"/>
+		<result property="accUserId" column="ACC_USER_ID"/>
+		<result property="accUserInfo" column="ACC_USER_INFO"/>
+	</resultMap>
+
+	
+	<insert id="insertConnLog" parameterType="ConnLog" keyProperty="logSeq" useGeneratedKeys="true">
+		INSERT INTO 
+			t_conn_log(
+				"YEAR",
+				"MONTH",
+				"DAY",
+				"HOUR",
+				CONN_DE,
+				PAGE_URL,
+				MENU_ID,
+				MENU_NM,
+				MENU_DIV,
+				USER_ID,
+				BROWSER,
+				DEVICE,
+				IP,
+				LOG_ACT,
+				ACC_USER_ID,
+				ACC_USER_INFO
+			)VALUES(
+	   			#{year},
+	   			#{month},
+	   			#{day},
+	   			#{hour},
+	   			#{connDe},
+	   			#{pageUrl},
+	   			#{menuId},
+	   			#{menuNm},
+	   			#{menuDiv},
+	   			#{userId},
+	   			#{browser},
+	   			#{device},
+	   			#{ip},
+	   			#{logAct},
+	   			#{accUserId},
+	   			#{accUserInfo}
+			)
+	</insert>
+	
+	<insert id="insertLoginLog" parameterType="LoginLog" >
+		<selectKey keyProperty="logSeq" resultType="int" order="BEFORE">
+			SELECT COALESCE(MAX(LOG_SEQ), 0)+1 FROM t_login_log 
+		</selectKey>
+		INSERT INTO 
+			t_login_log(
+				LOG_SEQ,
+				USER_ID,
+				LOGIN_ID,
+				"YEAR",
+				"MONTH",
+				"DAY",
+				"HOUR",
+				LOGIN_DE,
+				IP,
+				DEVICE,
+				BROWSER,
+				"ROLE"
+			)VALUES(
+	   			#{logSeq},
+	   			#{userId},
+	   			#{loginId},
+	   			#{year},
+	   			#{month},
+	   			#{day},
+	   			#{hour},
+	   			#{loginDe},
+	   			#{ip},
+	   			#{device},
+	   			#{browser},
+	   			#{role}
+			)
+	</insert>
+	
+	<select id="selectAdminConnList" parameterType="String" resultMap="connLogAdmMap">
+		SELECT 
+			*
+		FROM 
+			t_conn_log
+		WHERE
+			MENU_DIV = 'A' AND USER_ID = #{userId}
+		ORDER BY CONN_DE DESC 
+		LIMIT 20 	
+	</select>
+	
+	
+	
+	<select id="selectLoginLogPageList" resultMap="common.result.map.loginLogMap">
+		SELECT a.*
+			 , b.user_nm
+		  FROM t_login_log a
+		  LEFT JOIN t_user_info b
+		    ON a.user_id = b.user_id
+		 WHERE 1 = 1
+		<if test="srchBeginDt != null and srchBeginDt != '' and srchEndDt != null and srchEndDt != ''">
+		   AND DATE_FORMAT(login_de, '%Y%m%d') BETWEEN #{srchBeginDt} AND #{srchEndDt}
+		</if>
+		<if test="loginId != null and loginId != ''">
+		   AND a.login_id LIKE CONCAT('%', #{loginId}, '%')
+		</if>
+		<if test="userNm != null and userNm != ''">
+		   AND b.user_nm LIKE CONCAT('%', #{userNm}, '%')
+		</if>
+		<if test="row != 0">
+		 ORDER BY log_seq DESC 
+		 LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	<select id="selectLoginLogPageListExcel" resultMap="common.result.map.loginLogMap">
+		SELECT a.*
+			 , b.user_nm
+		  FROM t_login_log a
+		  LEFT JOIN t_user_info b
+		    ON a.user_id = b.user_id
+		 WHERE 1 = 1
+		<if test="srchBeginDt != null and srchBeginDt != '' and srchEndDt != null and srchEndDt != ''">
+		   AND DATE_FORMAT(login_de, '%Y%m%d') BETWEEN #{srchBeginDt} AND #{srchEndDt}
+		</if>
+		<if test="loginId != null and loginId != ''">
+		   AND a.login_id LIKE CONCAT('%', #{loginId}, '%')
+		</if>
+		<if test="userNm != null and userNm != ''">
+		   AND b.user_nm LIKE CONCAT('%', #{userNm}, '%')
+		</if>
+		<if test="row != 0">
+		 ORDER BY log_seq DESC 
+		 LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+	<select id="selectLoginLogPageCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM t_login_log a
+		  LEFT JOIN t_user_info b
+		    ON a.user_id = b.user_id
+		 WHERE 1 = 1 
+		<if test="srchBeginDt != null and srchBeginDt != '' and srchEndDt != null and srchEndDt != ''">
+		   AND DATE_FORMAT(login_de, '%Y%m%d') BETWEEN #{srchBeginDt} AND #{srchEndDt}
+		</if> 
+		<if test="loginId != null and loginId != ''">
+		   AND a.login_id LIKE CONCAT('%', #{loginId}, '%')
+		</if>
+		<if test="userNm != null and userNm != ''">
+		   AND b.user_nm LIKE CONCAT('%', #{userNm}, '%')
+		</if>
+	</select>
+	
+</mapper>

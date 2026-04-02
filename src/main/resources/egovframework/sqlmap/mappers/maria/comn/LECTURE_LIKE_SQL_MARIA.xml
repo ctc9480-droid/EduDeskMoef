@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureLikeMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureLike">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="updDe" column="UPD_DE"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureLikeMapper.selectByPk */
+		select a.* from t_lecture_like a where a.edu_seq=#{eduSeq} and a.user_id = #{userId}
+	</select>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureLikeMapper.deleteByPk */
+		delete from t_lecture_like where edu_seq=#{eduSeq} and user_id = #{userId}
+	</delete>
+	<insert id="insertByPk" keyProperty="subSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureLikeMapper.insertByPk */
+		insert into t_lecture_like (
+			edu_seq			,user_id		,state
+			,reg_id			,reg_de			,upd_id			,upd_de
+		) values (
+			#{eduSeq}		,#{userId}	 	,#{state}
+			,#{regId}		,#{regDe}		,#{updId}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureLikeMapper.updateByPk */
+		update t_lecture_like
+		set upd_id = #{updId} , upd_de=#{updDe}
+		<if test="state > 0"> 		,state			= #{state}</if> 
+		where edu_seq = #{eduSeq} and user_id = #{userId}
+	</update>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureTimeStdntMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureTimeStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="movTime" column="MOV_TIME"/>
+		<result property="movAllTime" column="MOV_ALL_TIME"/>
+		<result property="movRe" column="MOV_RE"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map"> 
+	/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.selectByPk */
+		select * from t_lecture_time_stdnt where edu_seq=#{eduSeq} and time_seq=#{timeSeq} and user_id=#{userId}
+	</select>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.insertByPk */
+		insert into t_lecture_time_stdnt 
+		(edu_seq,time_seq,user_id,mov_time,mov_all_time)
+		values
+		(#{eduSeq},#{timeSeq},#{userId},#{movTime},#{movAllTime})
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.updateByPk */
+		update t_lecture_time_stdnt
+		<set>
+			<if test="movTime != null"> mov_time = #{movTime}, </if>
+			<if test="movAllTime != null"> mov_all_time = #{movAllTime}, </if>
+			<if test="movRe gt -1"> mov_re = #{movRe}, </if>
+		</set>
+		where edu_seq=#{eduSeq} and time_seq=#{timeSeq} and user_id=#{userId}
+	</update>
+	<update id="updateByEduSeqTimeSeq">
+	/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.updateByEduSeqTimeSeq */
+		update t_lecture_time_stdnt
+		<set>
+			<if test="movTime != null"> mov_time = #{movTime}, </if>
+			<if test="movAllTime != null"> mov_all_time = #{movAllTime}, </if>
+			<if test="movRe gt -1"> mov_re = #{movRe}, </if>
+		</set>
+		where edu_seq=#{eduSeq} and time_seq=#{timeSeq}
+	</update>
+	<select id="selectByEduSeqTimeSeq" resultMap="map">
+		/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.selectByEduSeqTimeSeq */
+		select * from t_lecture_time_stdnt
+		where edu_seq=#{eduSeq} and time_seq=#{timeSeq}
+	</select>
+	<select id="selectByEduSeqUserId" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureTimeStdntMapper.selectByEduSeqUserId */
+	<!-- select * from t_lecture_time_stdnt where edu_seq=#{eduSeq} and user_id=#{userId} -->
+	select a.edu_seq,a.time_seq ,b.user_id,b.mov_time,b.mov_all_time
+ from t_lecture_time a 
+ left join (select * from t_lecture_time_stdnt where user_id=#{userId}) b
+ on a.edu_seq =b.edu_seq and a.time_seq =b.time_seq 
+ where a.edu_seq=#{eduSeq}
+	
+	</select>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.MovMapper">
+	<resultMap id="map" type="com.educare.edu.comn.vo.MovVO">
+		<result property="idx" column="IDX"/>
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="instrctrNm" column="INSTRCTR_NM"/>
+		<result property="fileOrg" column="FILE_ORG"/>
+		<result property="fileRename" column="FILE_RENAME"/>
+		<result property="regTime" column="REG_TIME"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="duration" column="DURATION"/>
+		
+		<result property="email" column="EMAIL"/>
+		<result property="stdntNm" column="STDNT_NM"/>
+		<result property="movTime" column="MOV_TIME"/>
+		<result property="movAllTime" column="MOV_ALL_TIME"/>
+		<result property="minRegDate" column="MIN_REG_Date"/>
+		<result property="maxRegDate" column="MAX_REG_Date"/>
+	</resultMap>
+	<select id="getMovList" resultMap="map">
+	/* com.educare.edu.comn.mapper.MovMapper.getMovList */
+		SELECT a.* FROM (
+			SELECT a.*,@rnum:=@rnum+1 AS R_NUM
+	 		FROM t_lecture_mov a ,(SELECT @rnum:=0) b 
+	 		WHERE 1=1
+	 		<if test="orgCd!=null and orgCd!='' and orgCd!='0000'">
+				AND ORG_CD=#{orgCd}
+			</if>
+			<if test="regId!=null and regId!='' and regId!='1'">
+				AND reg_id=#{regId}
+			</if>
+	 		<if test="srchWrd!=null and srchWrd!=''">
+	 			AND (
+					TITLE LIKE CONCAT('%',#{srchWrd},'%')
+					OR CONTENT LIKE CONCAT('%',#{srchWrd},'%')
+					OR FILE_ORG LIKE CONCAT('%',#{srchWrd},'%')
+				)
+	 		</if>
+			ORDER BY REG_TIME DESC
+		) a
+		<if test="recordCountPerPage!=0">
+		LIMIT #{firstRecordIndex},#{recordCountPerPage}
+		</if>
+	</select>
+	<select id="getCntByfileRenameOrgCd" resultType="int">
+	/* com.educare.edu.comn.mapper.MovMapper.getCntByfileRenameOrgCd */
+		select count(*) from t_lecture_mov where org_cd=#{orgCd} and file_rename=#{fileRename}
+	</select>
+	<select id="getMovInfo" resultMap="map">
+	/* com.educare.edu.comn.mapper.MovMapper.getMovInfo */
+		select * from t_lecture_mov where org_cd=#{orgCd} and idx=#{idx}
+	</select>
+	<select id="getMovTotalCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.MovMapper.getMovTotalCnt */
+		select count(*) from t_lecture_mov where 1=1
+		<if test="orgCd!=null and orgCd!='' and orgCd!='0000'">
+			AND ORG_CD=#{orgCd}
+		</if>
+		<if test="regId!=null and regId!='' and regId!='1'">
+			AND reg_id=#{regId}
+		</if>
+		<if test="srchWrd!=null and srchWrd!=''">
+ 			AND (
+				TITLE LIKE CONCAT('%',#{srchWrd},'%')
+				OR CONTENT LIKE CONCAT('%',#{srchWrd},'%')
+				OR FILE_ORG LIKE CONCAT('%',#{srchWrd},'%')
+			)
+ 		</if>
+	</select>
+	<select id="getStdntProgressList" resultMap="map">
+	/* com.educare.edu.comn.mapper.MovMapper.getStdntProgressList */
+		/** 진도율 가져오기 */
+		SELECT 
+		(SELECT EMAIL FROM t_user_info WHERE USER_ID=a.USER_ID) EMAIL
+		,(SELECT USER_NM FROM t_user_info WHERE USER_ID=a.USER_ID) STDNT_NM
+		,a.MOV_TIME,a.MOV_ALL_TIME
+		,b.MAX_REG_DATE,B.MIN_REG_DATE
+		FROM t_lecture_time_stdnt a
+		LEFT JOIN 
+		(
+			SELECT EDU_SEQ,TIME_SEQ,USER_ID ,MAX(REG_TIME) MAX_REG_DATE,MIN(REG_TIME) MIN_REG_DATE 
+			FROM t_online_history TOH 
+			WHERE EDU_SEQ = #{eduSeq} AND TIME_SEQ = #{timeSeq}
+			GROUP BY EDU_SEQ,TIME_SEQ,USER_ID
+		) B
+		ON a.EDU_SEQ =B.EDU_SEQ AND a.TIME_SEQ =B.TIME_SEQ AND a.USER_ID =B.USER_ID
+		WHERE a.EDU_SEQ = #{eduSeq} AND a.TIME_SEQ = #{timeSeq}
+	</select>
+</mapper>

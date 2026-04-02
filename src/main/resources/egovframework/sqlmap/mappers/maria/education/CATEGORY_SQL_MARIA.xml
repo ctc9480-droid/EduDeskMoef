@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.education.service.impl.CategoryMapper">
+	
+	<resultMap id="categoryMap" type="com.educare.edu.comn.vo.CategoryVO">
+		<result property="ctgrySeq" column="CTGRY_SEQ"/>
+		<result property="ctgryDepth" column="CTGRY_DEPTH"/>
+		<result property="ctgryNm" column="CTGRY_NM"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="parentSeq" column="PARENT_SEQ"/>
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="fbIdx" column="FB_IDX"/>
+		<result property="openClass" column="OPEN_CLASS"/>
+		<result property="fbTitle" column="FB_TITLE"/>
+		<result property="passCd" column="pass_cd"/>
+		
+		<result property="ctg1Nm" column="ctg1_nm"/>
+		<result property="ctg2Nm" column="ctg2_nm"/>
+		<result property="ctg3Nm" column="ctg3_nm"/>
+	</resultMap>
+	
+	<select id="selectCategoryList" parameterType="Integer" resultMap="categoryMap">
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			CTGRY_DEPTH = #{ctgryDepth}
+			AND USE_YN = 'Y'
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryListAdmin" parameterType="Integer" resultMap="categoryMap">
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			CTGRY_DEPTH = #{ctgryDepth}
+		ORDER BY ORDER_NO ASC
+	</select>
+	
+	<select id="selectCategoryUseList" parameterType="Integer" resultMap="categoryMap">
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			USE_YN = 'Y'
+			AND CTGRY_DEPTH = #{ctgryDepth}
+		ORDER BY ORDER_NO ASC
+	</select>
+	
+	<select id="selectCategoryByPk" parameterType="Integer" resultMap="categoryMap">
+		SELECT 
+			*
+			,(select title from t_feedback tf where tf.idx=a.fb_idx) fb_title
+		FROM 
+			t_category a
+		WHERE
+			CTGRY_SEQ = #{ctgrySeq}
+	</select>
+	<select id="selectParentCategoryByPk" parameterType="Integer" resultMap="categoryMap">
+		SELECT 
+			a.parent_seq , a.ctgry_depth
+		FROM 
+			t_category a
+		WHERE
+			CTGRY_SEQ = #{ctgrySeq}
+	</select>	
+	<insert id="insertCategory" parameterType="Category" keyProperty="ctgrySeq" useGeneratedKeys="true">
+		INSERT INTO 
+			t_category(
+				CTGRY_DEPTH, 
+				CTGRY_NM, 
+				USE_YN, 
+				ORDER_NO,
+				PARENT_SEQ,
+				FB_IDX,
+				PASS_IDX,
+				OPEN_CLASS,
+				PASS_CD
+			)VALUES(
+				#{ctgryDepth}, 
+				#{ctgryNm}, 
+				#{useYn}, 
+				(SELECT COALESCE(MAX(ORDER_NO), 0)+1 FROM t_category AS T),
+				#{parentSeq},
+				#{fbIdx},
+				#{passIdx},
+				#{openClass},
+				#{passCd}
+			)
+	</insert>
+	
+	<update id="updateCategory" parameterType="Category">
+		UPDATE
+			t_category
+		SET
+			CTGRY_NM = #{ctgryNm}, 
+			USE_YN = #{useYn},
+			FB_IDX=#{fbIdx},
+			PASS_IDX=#{passIdx},
+			PASS_CD=#{passCd},
+			OPEN_CLASS=#{openClass}
+		WHERE
+			CTGRY_SEQ = #{ctgrySeq}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Integer">
+		DELETE FROM t_category WHERE CTGRY_SEQ = #{ctgrySeq}
+	</delete>
+	<delete id="disabledCategory" parameterType="Integer">
+		UPDATE t_category 
+		SET USE_YN = 'N'
+		WHERE CTGRY_SEQ = #{ctgrySeq}
+	</delete>
+	
+	<update id="updateCategoryOrder" parameterType="Category">
+		UPDATE
+			t_category
+		SET
+			ORDER_NO = #{orderNo}
+		WHERE
+			CTGRY_SEQ = #{ctgrySeq}
+	</update>
+	
+	<select id="selectCategoryChildUseList" resultMap="categoryMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			USE_YN = 'Y'
+			AND PARENT_SEQ = #{parentSeq}
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryChildAllList" resultMap="categoryMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			PARENT_SEQ = #{parentSeq}
+			AND USE_YN = 'Y'
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryChildAllListAdmin" resultMap="categoryMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_category
+		WHERE
+			PARENT_SEQ = #{parentSeq}
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryAllList" resultMap="categoryMap">
+		SELECT 
+			*
+		FROM 
+			t_category
+		where 
+			USE_YN = 'Y'
+	</select>
+	<select id="selectParentCategoryByChild" resultMap="categoryMap">
+		SELECT 
+			a.*
+		FROM 
+			t_category a
+		where a.ctgry_seq = (select parent_seq from t_category where ctgry_seq = #{ctgrySeq})
+	</select>
+	<select id="selectCategoryLastList" resultMap="categoryMap">
+	/**카테고리 1차 ~3차까지 이름 정렬*/
+		select a.ctgry_nm ctg3_nm ,b.ctgry_nm ctg2_nm ,c.ctgry_nm ctg1_nm
+		,a.*
+		from t_category a 
+		left join t_category b on a.parent_seq = b.ctgry_seq
+		left join t_category c on b.parent_seq = c.ctgry_seq
+		where a.ctgry_depth = 3 and a.use_yn = 'Y'
+		and b.ctgry_seq is not null
+		and c.ctgry_seq is not null
+		<if test="srchCtg1Seq > 0"> and c.ctgry_seq = #{srchCtg1Seq} </if>
+		<if test="srchCtg2Seq > 0"> and b.ctgry_seq = #{srchCtg2Seq} </if>
+		<if test="srchCtg3Seq > 0"> and a.ctgry_seq = #{srchCtg3Seq} </if>
+	</select>
+</mapper>

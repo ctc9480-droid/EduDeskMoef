@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.statistics.service.impl.StatsMapper">
+
+	<resultMap id="map" type="com.educare.edu.statistics.service.StatsVO">
+		<result property="year" column="YEAR"/>
+		<result property="month" column="MONTH"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="totalCnt" column="TOTAL_CNT"/>
+		<result property="passCnt" column="PASS_CNT"/>
+		<result property="complCnt" column="COMPL_CNT"/>
+		<result property="empyTotCnt" column="EMPY_TOT_CNT"/>
+		<result property="empyPassCnt" column="EMPY_PASS_CNT"/>
+		<result property="empyComplCnt" column="EMPY_COMPL_CNT"/>
+		<result property="noempyTotCnt" column="NOEMPY_TOT_CNT"/>
+		<result property="noempyPassCnt" column="NOEMPY_PASS_CNT"/>
+		<result property="noempyComplCnt" column="NOEMPY_COMPL_CNT"/>
+		
+		<result property="ctg1Nm" column="CTG1_NM"/>
+		<result property="ctg2Nm" column="CTG2_NM"/>
+		<result property="ctg3Nm" column="CTG3_NM"/>
+		<result property="checkNm" column="CHECK_NM"/>
+		
+		<result property="passDupCnt" column="PASS_DUP_CNT"/>
+		
+		
+		<result property="asCnt" column="AS_CNT"/>
+		<result property="answer" column="ANSWER"/>
+		<result property="regTime" column="REG_TIME"/>
+		
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="eduNm" column="EDU_NM"/>
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="roomNm" column="ROOM_NM"/>
+		<result property="eduPeriodBegin" column="EDU_PERIOD_BEGIN"/>
+		<result property="eduPeriodEnd" column="EDU_PERIOD_END"/>
+		<result property="detailCtgryNm" column="DETAIL_CTGRY_NM"/>
+		<result property="eduYear" column="EDU_YEAR"/>
+		<result property="eduTerm" column="EDU_TERM"/>
+		<result property="stdntCnt" column="STDNT_CNT"/>
+		<result property="waitCnt" column="WAIT_CNT"/>
+		<result property="totalAmount" column="TOTAL_AMOUNT"/>
+		<result property="fbTitle" column="FB_TITLE"/>
+		<result property="surveyCnt" column="SURVEY_CNT"/>
+		<result property="sumMinute" column="SUM_MINUTE"/>
+		
+		<result property="monthKr" column="MONTH_KR"/>
+		<result property="weekKr" column="WEEK_KR"/>
+		<result property="periodKr" column="PERIOD_KR"/>
+		<result property="eduAttendCnt" column="EDU_ATTEND_CNT"/>
+		<result property="eduAttendCnt1" column="EDU_ATTEND_CNT1"/>
+		<result property="eduAttendCnt2" column="EDU_ATTEND_CNT2"/>
+		<result property="eduAttendCnt3" column="EDU_ATTEND_CNT3"/>
+		<result property="eduAttendCnt4" column="EDU_ATTEND_CNT4"/>
+		
+		<result property="fbCnt" column="FB_CNT"/>
+		<result property="fbRate" column="FB_RATE"/>
+		<result property="choice1" column="CHOICE1"/>
+		<result property="choice2" column="CHOICE2"/>
+		<result property="choice3" column="CHOICE3"/>
+		<result property="choice4" column="CHOICE4"/>
+		<result property="choice5" column="CHOICE5"/>
+		<result property="choice6" column="CHOICE6"/>
+		
+	</resultMap>
+	 
+	<select id="selectStatFeedbackAnswerCnt" resultMap="map">
+		SELECT a.FB_IDX,a.QT_IDX,a.CHOICE 
+		,COUNT(*) AS_CNT 
+		FROM (select * from T_FEEDBACK_ANSWER
+		where 1=1
+		<if test="eduSeq != null and eduSeq != 0">
+		and edu_seq = #{eduSeq}
+		</if>
+		) a
+		inner join (select edu_seq,user_id  from t_lecture_rcept tlr   where 1=1 
+			<if test="srchStartDay != null and srchStartDay != ''">
+			and date_format(tlr.recpt_de,'%Y-%m-%d') between #{srchStartDay} and #{srchEndDay}
+			</if>
+		) tlr on a.edu_seq =tlr.edu_seq and a.user_id=tlr.user_id 
+		inner join (select edu_seq,user_id  from t_lecture_stdnt tls  where tls.pass_yn ='Y' and survey_yn ='Y') tls on tlr.edu_seq =tls.edu_seq and tlr.user_id =tls.user_id 
+		WHERE a.FB_IDX=#{fbIdx} AND QT_IDX=#{qtIdx} AND CHOICE=#{chIdx}
+		GROUP by a.FB_IDX,a.QT_IDX,a.CHOICE
+	</select>
+	<select id="selectStatFeedbackAnswerList" resultMap="map">
+		select * from t_feedback_answer 
+		where fb_idx=#{fbIdx} and qt_idx=#{qtIdx}
+		<if test="eduSeq != null and eduSeq != 0">
+		and edu_seq = #{eduSeq}
+		</if>
+		and ((choice=0 and answer is not null and replace(answer,' ','') != ''))
+		and (edu_seq,user_id) in (
+			select edu_seq,user_id  from t_lecture_stdnt tls 
+			where tls.pass_yn ='Y' and survey_yn ='Y'
+		)
+		and (edu_seq,user_id) in (
+			select edu_seq,user_id  from t_lecture_rcept tlr  
+			where 1=1 
+			<if test="srchStartDay != null and srchStartDay != ''">
+			and date_format(tlr.recpt_de,'%Y-%m-%d') between #{srchStartDay} and #{srchEndDay}
+			</if>
+		)
+		order by reg_time desc
+	</select>
+	<select id="selectStatFeedbackUserCnt" resultType="int">
+		select count(*)  from t_lecture_rcept tlr  
+		where 1=1 
+		<if test="eduSeq != null and eduSeq != 0">
+		and edu_seq = #{eduSeq}
+		</if>
+		<if test="srchStartDay != null and srchStartDay != ''">
+		and date_format(tlr.recpt_de,'%Y-%m-%d') between #{srchStartDay} and #{srchEndDay}
+		</if>
+		and (edu_seq,user_id) in (
+		select edu_seq,user_id  from t_lecture_stdnt tls 
+		where tls.pass_yn ='Y' and survey_yn ='Y'
+		)
+		and (edu_seq,user_id) in (
+		select edu_seq,user_id  from t_lecture tl
+		where tl.fb_idx = #{fbIdx}
+		)
+	</select>
+	
+	<select id="selectStatLctrePageCnt" resultType="int">
+		SELECT COUNT(*) FROM t_lecture a
+		left join t_feedback b on a.fb_idx = b.idx
+		WHERE 1=1
+		
+		<if test="eduYear != '' and eduYear != null">
+		and a.edu_period_begin like concat(#{eduYear}, '%')
+		</if>
+		<if test="eduTerm > 0">
+		AND a.EDU_TERM = #{eduTerm}
+		</if>
+		<if test="srchStartDay != null and srchStartDay != ''">
+		AND a.EDU_PERIOD_BEGIN >= #{srchStartDay}
+		</if>
+		<if test="srchEndDay != null and srchEndDay != ''">
+		AND a.EDU_PERIOD_END <![CDATA[<=]]> #{srchEndDay}
+		</if>
+		<if test="srchCtgry > 0">
+		AND a.EDU_CTGRY_SEQ = #{srchCtgry}
+			<if test="srchCtgry2 > 0">
+				<if test="srchCtgry3 > 0">
+					AND a.DETAIL_CTGRY_SEQ = #{srchCtgry3}
+				</if>
+				<if test="srchCtgry3 lt 1">
+					AND (
+						a.DETAIL_CTGRY_SEQ = #{srchCtgry2}
+						or (a.DETAIL_CTGRY_SEQ in (select ctgry_seq from t_category where parent_seq = #{srchCtgry2}))
+					)
+				</if>
+			</if>
+		</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		and (b.title like concat('%',#{srchWrd},'%') or a.edu_nm like concat('%',#{srchWrd},'%'))
+		</if>
+	</select>
+	<select id="selectStatLctrePageList" resultMap="map">
+		/** 통계 > 개인교육 통계 */
+		SELECT a.*
+		,b.title fb_title
+		,(SELECT COUNT(T.USER_ID) FROM t_lecture_rcept T WHERE T.STATE = 'W' AND T.EDU_SEQ = a.EDU_SEQ ) AS WAIT_CNT
+		,(SELECT COUNT(T.USER_ID) FROM t_lecture_rcept T WHERE T.STATE = 'A' AND T.EDU_SEQ = a.EDU_SEQ ) AS STDNT_CNT
+		,(SELECT SUM(AMOUNT) FROM t_pay WHERE EDU_SEQ = a.EDU_SEQ AND STATE = 1) TOTAL_AMOUNT
+		,(SELECT count(T.user_id) from t_lecture_stdnt T WHERE T.EDU_SEQ = a.EDU_SEQ and T.survey_yn = 'Y' ) survey_cnt
+		FROM t_lecture a
+		left join t_feedback b on a.fb_idx = b.idx
+		WHERE 1=1
+		
+		<if test="eduYear != '' and eduYear != null">
+		and a.edu_period_begin like concat(#{eduYear}, '%')
+		</if>
+		<if test="eduTerm > 0">
+		AND a.EDU_TERM = #{eduTerm}
+		</if>
+		<if test="srchStartDay != null and srchStartDay != ''">
+		AND a.EDU_PERIOD_BEGIN >= #{srchStartDay}
+		</if>
+		<if test="srchEndDay != null and srchEndDay != ''">
+		AND a.EDU_PERIOD_END <![CDATA[<=]]> #{srchEndDay}
+		</if>
+		<if test="srchCtgry > 0">
+		AND a.EDU_CTGRY_SEQ = #{srchCtgry}
+			<if test="srchCtgry2 > 0">
+				<if test="srchCtgry3 > 0">
+					AND a.DETAIL_CTGRY_SEQ = #{srchCtgry3}
+				</if>
+				<if test="srchCtgry3 lt 1">
+					AND (
+						a.DETAIL_CTGRY_SEQ = #{srchCtgry2}
+						or (a.DETAIL_CTGRY_SEQ in (select ctgry_seq from t_category where parent_seq = #{srchCtgry2}))
+					)
+				</if>
+			</if>
+		</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		and (b.title like concat('%',#{srchWrd},'%') or a.edu_nm like concat('%',#{srchWrd},'%'))
+		</if>
+		ORDER BY a.EDU_NM
+		<if test="row != 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+	<select id="selectStatCtgryList" resultMap="map">
+	/** 통계/현황관리 > 교육과정별 현황 */
+    SELECT A.EDU_SEQ
+         , (SELECT CTGRY_NM FROM T_CATEGORY WHERE CTGRY_SEQ = A.CTG1_SEQ) CTG1_NM
+         , TO_NUMBER(TO_CHAR(TO_DATE(A.EDU_PERIOD_BEGIN, 'YYYY-MM-DD'), 'MM')) MONTH_KR
+         , TO_CHAR(CEIL(TO_NUMBER(TO_CHAR(TO_DATE(A.EDU_PERIOD_BEGIN, 'YYYY-MM-DD'), 'DD')) / 7.)) WEEK_KR
+         , TO_CHAR(TO_DATE(A.EDU_PERIOD_BEGIN, 'YYYY-MM-DD'), 'YYMMDD') EDU_PERIOD_BEGIN
+         , TO_CHAR(TO_DATE(A.EDU_PERIOD_END, 'YYYY-MM-DD'), 'YYMMDD') EDU_PERIOD_END
+         , DATEDIFF(TO_DATE(A.EDU_PERIOD_END, 'YYYY-MM-DD'), TO_DATE(A.EDU_PERIOD_BEGIN, 'YYYY-MM-DD')) PERIOD_KR
+         , A.EDU_TERM
+         , A.EDU_NM
+         , A.PERSONNEL
+         , NVL(B.EDU_ATTEND_CNT, 0) EDU_ATTEND_CNT
+         , NVL(B.EDU_ATTEND_CNT1, 0) EDU_ATTEND_CNT1
+         , NVL(B.EDU_ATTEND_CNT2, 0) EDU_ATTEND_CNT2
+         , NVL(B.EDU_ATTEND_CNT3, 0) EDU_ATTEND_CNT3
+         , NVL(B.EDU_ATTEND_CNT4, 0) EDU_ATTEND_CNT4
+         , NVL(C.FB_CNT, 0) FB_CNT
+         , CASE WHEN NVL(B.EDU_ATTEND_CNT, 0) > 0 THEN ROUND(100. * C.FB_CNT / B.EDU_ATTEND_CNT, 1) ELSE 0 END FB_RATE
+         , ROUND(C.CHOICE1, 1) AS CHOICE1
+		 , ROUND(C.CHOICE2, 1) AS CHOICE2
+		 , ROUND(C.CHOICE3, 1) AS CHOICE3
+		 , ROUND(C.CHOICE4, 1) AS CHOICE4
+		 , ROUND(C.CHOICE5, 1) AS CHOICE5
+		 , ROUND(C.CHOICE6, 1) AS CHOICE6
+	  FROM T_LECTURE A
+      LEFT JOIN (
+            SELECT LS.EDU_SEQ
+                 , SUM(1) EDU_ATTEND_CNT
+                 , SUM(CASE WHEN UI.USER_TP = 1 THEN 1 ELSE 0 END) EDU_ATTEND_CNT1
+                 , SUM(CASE WHEN UI.USER_TP = 2 THEN 1 ELSE 0 END) EDU_ATTEND_CNT2
+                 , SUM(CASE WHEN UI.USER_TP = 3 THEN 1 ELSE 0 END) EDU_ATTEND_CNT3
+                 , SUM(CASE WHEN UI.USER_TP = 4 THEN 1 ELSE 0 END) EDU_ATTEND_CNT4
+              FROM T_LECTURE_STDNT LS
+              LEFT JOIN T_USER_INFO UI
+                ON LS.USER_ID = UI.USER_ID 
+             WHERE LS.STATE = 2
+               AND LS.PASS_YN = 'Y'
+             GROUP BY LS.EDU_SEQ
+      ) B ON A.EDU_SEQ = B.EDU_SEQ
+      LEFT JOIN (
+		    SELECT FA.EDU_SEQ
+		    	 , (SELECT COUNT(*) FROM T_FEEDBACK_EDU_RESULT WHERE EDU_SEQ = FA.EDU_SEQ AND USER_ID IN (SELECT USER_ID FROM T_LECTURE_STDNT WHERE EDU_SEQ = FA.EDU_SEQ AND STATE = 2 AND PASS_YN = 'Y')) FB_CNT
+		    	 , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '전반적 만족도' THEN FC.POINT END) CHOICE1
+			     , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '교육내용' THEN FC.POINT END) CHOICE2
+		      	 , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '강사' THEN FC.POINT END) CHOICE3
+		      	 , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '교육장' THEN FC.POINT END) CHOICE4
+		      	 , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '식사' THEN FC.POINT END) CHOICE5
+		      	 , AVG(CASE WHEN (SELECT QT_DIV FROM T_FEEDBACK_QUESTION WHERE FB_IDX = FA.FB_IDX AND QT_IDX = FA.QT_IDX) = '숙소' THEN FC.POINT END) CHOICE6
+		     FROM T_FEEDBACK_ANSWER FA
+		    INNER JOIN T_FEEDBACK_CHOICE FC
+	      	   ON FA.FB_IDX = FC.FB_IDX AND FA.QT_IDX = FC.QT_IDX AND FA.CHOICE = FC.CH_IDX
+		    GROUP BY  EDU_SEQ
+      ) C ON A.EDU_SEQ = C.EDU_SEQ
+     WHERE 1 = 1
+        <if test="srchCtgry > 0">
+       AND A.CTG1_SEQ = #{srchCtgry}
+        </if>
+        <if test="srchCtgry2 > 0">
+       AND A.CTG2_SEQ = #{srchCtgry2}
+        </if>
+        <if test="srchCtgry3 > 0">
+       AND A.CTG3_SEQ = #{srchCtgry3}
+        </if>
+        <if test="srchWrd != null and srchWrd != ''">
+	   AND A.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%')
+		</if>
+        <if test="srchStartDay != null and srchStartDay != ''">
+       AND A.EDU_PERIOD_BEGIN >= #{srchStartDay} 
+       AND A.EDU_PERIOD_END <![CDATA[<=]]> #{srchEndDay}
+        </if>
+     ORDER BY A.EDU_PERIOD_BEGIN, A.EDU_PERIOD_END, A.EDU_NM
+	</select>
+
+	<select id="selectStatInstrctr1List" resultMap="map">
+	/** 통계 > 강사별 통계 */
+	select 
+		a.edu_seq,a.edu_period_begin,a.edu_period_end ,a.edu_nm
+		,a.check_id ,a.check_nm
+		,sum(a.diff_minutes) sum_minute
+		,(select ctgry_nm from t_category where ctgry_seq = a.ctg1_seq) ctg1_nm
+		,(select ctgry_nm from t_category where ctgry_seq = a.ctg2_seq) ctg2_nm
+		,(select ctgry_nm from t_category where ctgry_seq = a.ctg3_seq) ctg3_nm
+	from (
+		select a.edu_seq,a.edu_period_begin,a.edu_period_end ,a.edu_nm,a.ctg1_seq,a.ctg2_seq,a.ctg3_seq
+		,b.check_id ,b.edu_dt ,b.start_tm ,b.end_tm ,b.check_nm
+		,10 AS diff_minutes
+		from t_lecture a
+		inner join t_lecture_time b on a.edu_seq = b.edu_seq 
+		where b.check_id is not null 
+		and a.edu_period_begin >= #{srchStartDay}
+		and a.edu_period_end <![CDATA[<=]]> #{srchEndDay}
+		<if test="srchCtgry > 0"> and a.ctg1_seq = #{srchCtgry} </if>
+		<if test="srchCtgry2 > 0"> and a.ctg2_seq = #{srchCtgry2} </if>
+		<if test="srchCtgry3 > 0"> and a.ctg3_seq = #{srchCtgry3} </if>
+	) a
+	group by a.edu_seq,a.check_id 
+	</select>
+	<select id="selectStatInstrctr2List" resultMap="map">
+	/** 통계 > 강사별 통계 */
+	select a.check_id ,a.check_nm
+		,sum(a.sum_minute) sum_minute
+		,count(a.edu_seq) total_cnt
+	from (
+		select 
+			a.edu_seq,a.edu_period_begin,a.edu_period_end ,a.edu_nm
+			,a.check_id ,a.check_nm
+			,sum(a.diff_minutes) sum_minute
+		from (
+			select a.edu_seq,a.edu_period_begin,a.edu_period_end ,a.edu_nm
+			,b.check_id ,b.edu_dt ,b.start_tm ,b.end_tm ,b.check_nm
+			,10 AS diff_minutes
+			from t_lecture a
+			inner join t_lecture_time b on a.edu_seq = b.edu_seq 
+			where b.check_id is not null 
+			and a.edu_period_begin >= #{srchStartDay}
+			and a.edu_period_end <![CDATA[<=]]> #{srchEndDay}
+			<if test="srchCtgry > 0"> and a.ctg1_seq = #{srchCtgry} </if>
+			<if test="srchCtgry2 > 0"> and a.ctg2_seq = #{srchCtgry2} </if>
+			<if test="srchCtgry3 > 0"> and a.ctg3_seq = #{srchCtgry3} </if>
+		) a
+		group by a.edu_seq,a.check_id 
+	) a
+	group by a.check_id 
+	</select>
+	<select id="selectStatRoomList" resultMap="map">
+		/** 강의실 통계 */
+		select b.room_seq
+		,min(b.edu_dt) edu_period_begin
+		,max(b.edu_dt) edu_period_end
+		from t_lecture a 
+		inner join t_lecture_time b on a.edu_seq = b.edu_seq 
+		where b.room_seq > 0 
+		and IFNULL(b.edu_dt ,'') != ''
+		and b.edu_dt between replace(#{srchStartDay},'-','') and replace(#{srchEndDay},'-','')
+		group by b.room_seq 
+	</select>
+	
+</mapper>

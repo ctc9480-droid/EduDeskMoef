@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TestResultMapper">
+	<resultMap type="com.educare.edu.comn.model.TestResult" id="map">
+		<result column="TEST_SEQ" 		property="testSeq"/>
+		<result column="user_id" 		property="userId"/>
+		<result column="start_de" 		property="startDe"/>
+		<result column="end_de" 		property="endDe"/>
+		<result column="tot_MARKS" 		property="totMarks"/>
+		<result column="pass_yn" 		property="passYn"/>
+		<result column="achv_lvl" 		property="achvLvl"/>
+		
+		<result column="reg_ID" 		property="regId"/>
+		<result column="reg_DE" 		property="regDe"/>
+		<result column="UPD_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	select * from t_test_result where test_seq = #{testSeq} and user_id = #{userId}
+	</select>
+	
+	<insert id="insertByPk">
+		insert t_test_result (
+			test_seq		,user_id	,start_de	,end_de		
+			,tot_marks		,marks		,pass_yn	,achv_lvl	,state
+			,reg_id			,reg_de		,upd_id		,upd_de
+		)
+		values (
+			#{testSeq}		,#{userId}	,#{startDe}	,#{endDe}		
+			,#{totMarks}	,#{marks}	,#{passYn}	,#{achvLvl}	,#{state}	
+			,#{regId}		,#{regDe}	,#{updId}	,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_test_result
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+			<if test="startDe != null">	,start_de 	= #{startDe} </if>
+			<if test="endDe != null">	,end_de		= #{endDe} </if>
+			<if test="totMarks > -1">	,tot_marks 	= #{totMarks} </if>
+			<if test="marks > -1">		,marks		= #{marks} </if>
+			<if test="passYn != null">	,pass_yn	= #{passYn} </if>
+			<if test="achvLvl != null">	,achv_lvl	= #{achvLvl} </if>
+			<if test="state > 0">		,state		= #{state} </if>
+			<if test="checkId != null">	,check_id		= #{checkId} </if>
+			<if test="checkDe != null">	,check_de 	= #{checkDe} </if>
+		where test_seq = #{testSeq} and user_id = #{userId}
+	</update>
+	<select id="selectByTestSeq" resultMap="map">
+		select * from t_test_result where test_seq = #{testSeq}
+	</select>
+</mapper>

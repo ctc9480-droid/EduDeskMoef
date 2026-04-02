@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TestTmplMapper">
+	<resultMap type="com.educare.edu.comn.model.TestTmpl" id="map">
+		<result column="TEST_TMPL_SEQ"    		property="testTmplSeq"/>
+		<result column="TEST_TMPL_NM"    		property="testTmplNm"/>
+		<result column="TEST_TP"          		property="testTp"/>
+		<result column="CTG1_SEQ"         		property="ctg1Seq"/>
+		<result column="CTG2_SEQ"         		property="ctg2Seq"/>
+		<result column="CTG3_SEQ"         		property="ctg3Seq"/>
+		<result column="TIME_LIMIT"       		property="timeLimit"/>
+		<result column="MARK_TP"          		property="markTp"/>
+		<result column="LOOK_TP"          		property="lookTp"/>
+		<result column="ORD_TP"           		property="ordTp"/>
+		<result column="SELECT_TP"           	property="selectTp"/>
+		<result column="CHOICE_TP"           	property="choiceTp"/>
+		<result column="LOOK_CNT"         		property="lookCnt"/>
+		<result column="TOT_QSTN"         		property="totQstn"/>
+		<result column="SELECT_QSTN"       		property="selectQstn"/>
+		<result column="DESCR"            		property="descr"/>
+		<result column="TOT_MARKS"        		property="totMarks"/>
+		<result column="STATUS"           		property="status"/>
+		
+		<result column="REG_ID" 		property="regId"/>
+		<result column="UPD_ID" 		property="updId"/>
+		<result column="REG_DE" 		property="regDe"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	SELECT * FROM t_test_tmpl WHERE TEST_TMPL_SEQ = #{testTmplSeq}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="testTmplSeq">
+		insert t_test_tmpl (
+			test_tmpl_nm	,test_tp
+			,ctg1_seq		,ctg2_seq		,ctg3_seq
+			,time_limit		,mark_tp		,look_tp		,ord_tp		,select_tp		,choice_tp		,look_cnt
+			,tot_qstn		,select_qstn	,descr			,tot_marks		,status
+			,reg_id			,upd_id			,reg_de			,upd_de
+		)
+		values (
+			#{testTmplNm}	,#{testTp}
+			,#{ctg1Seq}		,#{ctg2Seq}		,#{ctg3Seq}
+			,#{timeLimit}	,#{markTp}		,#{lookTp}		,#{ordTp}	,#{selectTp}	,#{choiceTp}	,#{lookCnt}
+			,#{totQstn}		,#{selectQstn}	,#{descr}		,#{totMarks}	,#{status}
+			,#{regId}		,#{updId}		,#{regDe}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_test_tmpl
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+			<if test="testTmplNm != null and testTmplNm != ''">,test_tmpl_nm = #{testTmplNm} </if>
+			<if test="testTp > 0">			,test_tp = #{testTp} </if>
+			<if test="ctg1Seq > 0">			,ctg1_seq = #{ctg1Seq}</if>
+			<if test="ctg2Seq > 0">			,ctg2_seq = #{ctg2Seq}</if>
+			<if test="ctg3Seq > 0">			,ctg3_seq = #{ctg3Seq}</if>
+			<if test="timeLimit > 0">		,time_limit = #{timeLimit}</if>
+			<if test="markTp > 0">			,mark_tp = #{markTp}</if>
+			<if test="lookTp > 0">			,look_tp = #{lookTp}</if>
+			<if test="ordTp > 0">			,ord_tp = #{ordTp}</if>
+			<if test="selectTp > 0">		,select_tp = #{selectTp}</if>
+			<if test="choiceTp > 0">		,choice_tp = #{choiceTp}</if>
+			<if test="lookCnt > 0">			,look_cnt = #{lookCnt}</if>
+			<if test="totQstn != null ">	,tot_qstn = #{totQstn} </if>
+			<if test="selectQstn != null ">	,select_qstn = #{selectQstn} </if>
+			<if test="descr != null ">		,descr = #{descr} </if>
+			<if test="totQstn > 0">			,tot_qstn = #{totQstn}</if>
+			<if test="totMarks > 0">		,tot_marks = #{totMarks}</if>
+			<if test="status > 0">			,status = #{status}</if>
+		where test_tmpl_seq = #{testTmplSeq}
+	</update>
+</mapper>

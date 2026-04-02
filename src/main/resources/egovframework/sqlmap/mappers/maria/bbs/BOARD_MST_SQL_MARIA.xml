@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.bbs.service.impl.BoardMstMapper">
+
+	<resultMap id="map" type="BoardMst">
+		<result property="boardType" column="BOARD_TYPE" />
+		<result property="cate" column="CATE" />
+		<result property="skinNm" column="SKIN_NM" />
+		<result property="useThumb" column="USE_THUMB" />
+		<result property="useFileTypeGb" column="USE_FILE_TYPE_GB" />
+		<result property="permTp" column="perm_tp" />
+		<result property="edtrYn" column="edtr_yn" />
+		<result property="fileYn" column="file_yn" />
+	</resultMap>
+
+	<select id="selectBoardMstMap" resultMap="map">
+	select * from t_board_mst where board_type=#{boardType}
+	</select>
+</mapper>

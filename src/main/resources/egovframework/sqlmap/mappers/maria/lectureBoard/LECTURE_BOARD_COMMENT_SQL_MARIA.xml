@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lectureBoard.mapper.LectureBoardCommentMapper">
+	<resultMap id="map" type="com.educare.edu.lectureBoard.vo.LectureBoardCommentVO" >
+		<result property="idx" column="IDX" />
+		<result property="bIdx" column="B_IDX" />
+		<result property="eduSeq" column="EDU_SEQ" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="hit" column="HIT" />
+		<result property="regId" column="REG_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regDt" column="REG_DT" />
+		<result property="modId" column="MOD_ID" />
+		<result property="modNm" column="MOD_NM" />
+		<result property="modDt" column="MOD_DT" />
+		<result property="rNum" column="R_NUM" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+	</resultMap>
+	
+	<select id="selectLectureBoardCommentList" resultMap="map">
+		/**통합 게시판코멘트 리스트*/
+		SELECT a.* FROM (
+			SELECT a.*
+			,(SELECT USER_MEM_LVL FROM t_user_info WHERE USER_ID=a.REG_ID) USER_MEM_LVL
+			FROM t_lecture_board_comment a
+			WHERE B_IDX=#{bIdx}
+			and status = #{status}
+			ORDER BY G_IDX
+			,SUBSTRING_INDEX(SUBSTRING_INDEX(G_ORD,':',1),':',-1)+0
+			,SUBSTRING_INDEX(SUBSTRING_INDEX(G_ORD,':',2),':',-1)+0 
+			,SUBSTRING_INDEX(SUBSTRING_INDEX(G_ORD,':',3),':',-1)+0  
+			,SUBSTRING_INDEX(SUBSTRING_INDEX(G_ORD,':',4),':',-1)+0  
+		) a
+	</select>
+	
+	<select id="selectLectureBoardCommentMap" resultMap="map">
+		/** 통합게시판코멘트 상세 조회 */
+		SELECT * FROM t_lecture_board_comment WHERE IDX=#{idx} 
+	</select>
+	<update id="updateLectureBoardCommentMap">
+		/** 통합게시판코멘트 수정 */
+		UPDATE t_lecture_board_comment 
+		SET
+			CONTENT=#{content}
+			,MOD_DT=#{modDt}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<insert id="insertLectureBoardCommentMap" keyProperty="idx" useGeneratedKeys="true">
+		/** 통합게시판코멘트 등록 */
+		INSERT INTO t_lecture_board_comment
+		(P_IDX,B_IDX,CONTENT,REG_ID,REG_NM,REG_NK,REG_DT,MOD_ID,MOD_DT,G_IDX,G_ORD,G_LVL,STATUS,EDU_SEQ)
+		VALUES
+		(#{pIdx},#{bIdx},#{content},#{regId},#{regNm},#{regNk},#{regDt},#{modId},#{modDt},#{idx},#{gOrd},#{gLvl},#{status},#{eduSeq})
+	</insert>
+	<update id="updateLectureBoardCommentMapForGroup">
+		/** 통합게시판 답글관련 정보 수정 */
+		UPDATE t_lecture_board_comment 
+		SET	
+			G_IDX=#{gIdx},
+			G_ORD=#{gOrd},
+			G_LVL=#{gLvl}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<update id="updateLectureBoardCommentMapByStatus">
+		/** 통합게시판 답글관련 정보 수정 */
+		UPDATE t_lecture_board_comment 
+		SET	
+			status=#{status}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<delete id="deleteLectureBoardCommentMap">
+		DELETE FROM t_lecture_board_comment WHERE B_IDX=#{bIdx}
+	</delete>
+
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.AjaxMapper">
+	<resultMap type="com.educare.edu.member.service.model.UserInfo" id="userMap">
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="compUserId" column="COMP_USER_ID"/>
+		<result property="birth" column="BIRTH"/>
+		<result property="membershipType" column="MEMBERSHIP_TYPE"/>
+		<result property="membershipEndDate" column="MEMBERSHIP_END_DATE"/>
+	</resultMap>
+	
+	
+	<resultMap id="feedbackMap" type="com.educare.edu.comn.vo.FeedbackVO" >
+		<result property="idx" column="IDX"/>
+		<result property="regNm" column="REG_NM"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="regTime" column="REG_TIME"/>
+		<result property="fbIdx" column="FB_IDX"/>
+		<result property="qtIdx" column="QT_IDX"/>
+		<result property="qtType" column="QT_TYPE"/>
+		<result property="qtDiv" column="QT_DIV"/>
+		<result property="question" column="QUESTION"/>
+		<result property="chIdx" column="CH_IDX"/>
+		<result property="choice" column="CHOICE"/>
+		<result property="point" column="POINT"/>
+		
+		<result property="qtType0Cnt" column="QT_TYPE0_CNT"/>
+		<result property="qtType1Cnt" column="QT_TYPE1_CNT"/>
+		<result property="asCnt" column="AS_CNT"/>
+	</resultMap>
+	
+	<resultMap id="passCertMap" type="com.educare.edu.comn.vo.PassCertVO" >
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="orgNm" column="ORG_NM"/>
+		<result property="jspNm" column="JSP_NM"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="modDt" column="MOD_DT"/>
+		<result property="modId" column="MOD_ID"/>
+	</resultMap>
+	
+	
+	<select id="selectLctreList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+	 /* com.educare.edu.comn.mapper.AjaxMapper.selectLctreList  */
+		SELECT L.* 
+		FROM 
+			t_lecture L 
+		WHERE 
+			1 = 1  
+			<if test="srchWrd != null and srchWrd != ''"> 
+				AND (L.EDU_NM LIKE CONCAT('%',#{srchWrd},'%')  
+				OR L.INSTRCTR_NM LIKE CONCAT('%',#{srchWrd},'%')  
+				OR L.EDU_CTGRY_NM LIKE CONCAT('%',#{srchWrd},'%') 
+				OR L.DETAIL_CTGRY_NM LIKE CONCAT('%',#{srchWrd},'%') )
+			</if>
+			<if test="userNm != null and userNm != ''"> 
+				AND L.INSTRCTR_NM = #{userNm}  
+			</if>
+		ORDER BY L.EDU_PERIOD_BEGIN DESC 
+		<if test="srchWrd == null or srchWrd ==''">
+		 	LIMIT 0,0 
+		</if>
+	</select>
+	
+	<select id="selectLctreListCnt" resultType="Integer" parameterType="EduVO">
+	/* com.educare.edu.comn.mapper.AjaxMapper.selectLctreListCnt  */
+		SELECT  
+			COUNT(L.EDU_SEQ) 
+		FROM  
+			t_lecture L 
+		WHERE 
+			1=1 
+			<if test="srchWrd != null and srchWrd != '' "> 
+				AND (L.EDU_NM LIKE CONCAT('%',#{srchWrd},'%')  
+				OR L.INSTRCTR_NM LIKE CONCAT('%',#{srchWrd},'%')  
+				OR L.EDU_CTGRY_NM LIKE CONCAT('%',#{srchWrd},'%') 
+				OR L.DETAIL_CTGRY_NM LIKE CONCAT('%',#{srchWrd},'%') )
+			</if>
+			<if test="userNm != null and userNm != ''"> 
+				AND L.INSTRCTR_NM = #{userNm}  
+			</if>
+			<if test="srchWrd == null or srchWrd =='' "> 
+			 	LIMIT 0,0
+			</if>
+	</select>
+	
+	<select id="selectFeedbackList" resultMap="feedbackMap">
+		/* com.educare.edu.comn.mapper.AjaxMapper.selectFeedbackList  */
+		SELECT 
+			A.* 
+			, (SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=A.IDX AND QT_TYPE=0 ) AS QT_TYPE0_CNT 
+			, (SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=A.IDX AND QT_TYPE in (1,2,3) ) AS QT_TYPE1_CNT 
+		FROM t_feedback A 
+		WHERE 1=1 
+			<if test=" eduVo.srchWrd != null and eduVo.srchWrd !='' ">
+				AND A.TITLE LIKE CONCAT('%',#{eduVo.srchWrd},'%') 
+				OR A.REG_NM LIKE CONCAT('%',#{eduVo.srchWrd},'%') 
+			</if>
+		AND A.ORG_CD = #{vo.orgCd}  
+		ORDER BY A.REG_TIME DESC  
+	</select>
+	
+	<select id="selectPassCertList" resultMap="passCertMap"  parameterType="EduVO">
+	/* com.educare.edu.comn.mapper.AjaxMapper.selectPassCertList  */
+		SELECT a.* 
+		FROM t_pass_cert_tpl AS a
+		WHERE 1=1 
+			<if test="srchWrd != '' and srchWrd != null "> 
+				AND a.TITLE LIKE CONCAT('%',#{srchWrd},'%') 
+				OR a.ORG_NM LIKe CONCAT('%',#{srchWrd},'%') 
+			</if>
+			<if test="passTp > 0">
+				and a.pass_tp = #{passTp}
+			</if>
+		ORDER BY a.PASS_IDX DESC;
+	</select>
+	
+	<select id="selectOneByPassIdx" resultMap="passCertMap">
+	/* com.educare.edu.comn.mapper.AjaxMapper.selectOneByPassIdx  */
+		SELECT TITLE 
+		FROM t_pass_cert_tpl 
+		WHERE PASS_IDX = #{i}
+	</select>
+	
+	<update id="updateLectureStdntMeal">
+		/* com.educare.edu.comn.mapper.AjaxMapper.updateLectureStdntMeal  */
+		update t_lecture_stdnt
+		set meal_fee = #{mealFee}
+		where edu_seq = #{eduSeq}
+		<if test="userId != null and userId != ''">
+		and user_id = #{userId}
+		</if>
+	</update>
+
+	<update id="updateLectureStdntDormi">
+		/* com.educare.edu.comn.mapper.AjaxMapper.updateLectureStdntDormi  */
+		update t_lecture_stdnt
+		set dormi_fee = #{dormiFee}
+		where edu_seq = #{eduSeq}
+		<if test="userId != null and userId != ''">
+		and user_id = #{userId}
+		</if>
+	</update>
+	
+	<update id="updateLectureStdntDeposit">
+		/* com.educare.edu.comn.mapper.AjaxMapper.updateLectureStdntDeposit  */
+		update t_lecture_stdnt
+		set deposit_yn = #{depositYn}
+		where edu_seq = #{eduSeq}
+		<if test="userId != null and userId != ''">
+		and user_id = #{userId}
+		</if>
+	</update>
+</mapper>

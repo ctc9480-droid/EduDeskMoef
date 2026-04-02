@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.bbs.service.impl.BoardMapper">
+
+	<resultMap id="boardMap" type="Board">
+		<result property="idx" column="IDX" />
+		<result property="boardType" column="BOARD_TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="hit" column="HIT" />
+		<result property="regId" column="REG_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regDtime" column="REG_DTIME" />
+		<result property="modId" column="MOD_ID" />
+		<result property="modNm" column="MOD_NM" />
+		<result property="modDtime" column="MOD_DTIME" />
+		<result property="gLvl" column="G_LVL" />
+		<result property="gIdx" column="G_IDX" />
+		<result property="gOrd" column="G_ORD" />
+		<result property="thumbFile" column="THUMB_FILE" />
+		<result property="fileTypeGb" column="FILE_TYPE_GB" />
+		<result property="noticeYn" column="NOTICE_YN" />
+		
+
+		<result property="regNm2" column="REG_NM2" />
+		<result property="rNum" column="R_NUM" />
+		<result property="commentCnt" column="COMMENT_CNT" />
+	</resultMap>
+
+	<sql id="boardWhere">
+		<if test="boardType != null">
+			and BOARD_TYPE=#{boardType}
+		</if>
+		<if test="boardTypeArr != null">
+			and board_type in
+			<foreach collection="boardTypeArr" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>	
+		</if>
+		<choose>
+			<when test="admin"> AND STATUS in (1,2) </when>
+			<otherwise> AND STATUS in (1) </otherwise>
+		</choose>
+		<if test="searchStatus != null and searchStatus != ''"> AND STATUS
+			= #{searchStatus} </if>
+		<choose>
+			<when test="searchSelect!=null and searchSelect !=''">
+				<if test="searchSelect eq 'title'"> AND TITLE LIKE CONCAT('%',#{searchWord},'%') </if>
+				<if test="searchSelect eq 'content'"> AND CONTENT LIKE CONCAT('%',#{searchWord},'%') </if>
+			</when>
+			<otherwise>
+				AND (
+				TITLE LIKE CONCAT('%',#{searchWord},'%')
+				OR CONTENT LIKE CONCAT('%',#{searchWord},'%')
+				)
+			</otherwise>
+		</choose>
+		<if test="cate != null and cate != ''">
+		and cate = #{cate}
+		</if>
+		<if test="fileTypeGb != null and fileTypeGb != ''">
+		and FILE_TYPE_GB = #{fileTypeGb}
+		</if>
+
+	</sql>
+	<select id="selectBoardList" resultMap="boardMap">
+		/**통합 게시판 리스트*/
+		SELECT A.* FROM (
+
+		SELECT A.*
+		,(SELECT COUNT(*) FROM t_board_comment WHERE B_IDX=A.IDX) COMMENT_CNT
+		,(SELECT user_nm from t_user_info where user_id = A.reg_id) REG_NM2
+		FROM
+		t_board A
+		WHERE 1=1 and notice_yn = 'N'
+		<include refid="boardWhere" />
+		ORDER BY REG_DTIME DESC
+
+		) A
+		LIMIT #{firstRecordIndex} ,#{recordCountPerPage}
+	</select>
+	<select id="selectBoardTotalCnt" resultType="int">
+		/** 통합게시판 토탈카운트 */
+		SELECT COUNT(*) FROM t_board 
+		WHERE 1=1 and notice_yn = 'N'
+		<include refid="boardWhere" />
+	</select>
+	<select id="selectBoardMap" resultMap="boardMap">
+		/** 통합게시판 상세 조회 */
+		SELECT a.*
+		,(SELECT user_nm from t_user_info where user_id = a.reg_id) REG_NM2
+		FROM t_board a
+		WHERE IDX=#{idx}
+	</select>
+	<update id="updateBoardMap">
+		/** 통합게시판 수정 */
+		UPDATE t_board
+		SET
+		TITLE=#{title}
+		,CONTENT=#{content}
+		,STATUS=#{status}
+		,CATE=#{cate}
+		,MOD_DTIME=#{modDtime}
+		,FILE_TYPE_GB=#{fileTypeGb}
+		,NOTICE_YN=#{noticeYn}
+		WHERE
+		IDX=#{idx}
+	</update>
+	<insert id="insertBoardMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT COALESCE(MAX(IDX),0)+1 IDX FROM t_board
+		</selectKey>
+		/** 통합게시판 등록 */
+		INSERT INTO t_board
+		(IDX,P_IDX,BOARD_TYPE,TITLE,CONTENT,HIT,REG_ID,REG_NM,REG_DTIME,MOD_ID,MOD_NM,MOD_DTIME,G_IDX,G_ORD,G_LVL,STATUS,CATE,FILE_TYPE_GB,NOTICE_YN,TMP01)
+		VALUES
+		(#{idx},#{pIdx},#{boardType},#{title},#{content},#{hit},#{regId},#{regNm},#{regDtime},#{modId},#{modNm},#{modDtime},#{idx},#{gOrd},#{gLvl},#{status},#{cate},#{fileTypeGb},#{noticeYn},#{tmp01})
+	</insert>
+	<update id="updateBoardMapForGroup">
+		/** 통합게시판 답글관련 정보 수정 */
+		UPDATE t_board
+		SET
+		G_IDX=#{gIdx},
+		G_ORD=#{gOrd},
+		G_LVL=#{gLvl}
+		WHERE
+		IDX=#{idx}
+	</update>
+	<delete id="deleteBoardMap">
+		/** 통합게시판 게시물 삭제 */
+		DELETE FROM t_board WHERE
+		IDX=#{idx}
+	</delete>
+	<update id="updateBoardHit">
+		/** 통합게시판 조회수 수정 */
+		UPDATE t_board
+		SET
+		HIT=(HIT+1)
+		WHERE
+		IDX=#{idx}
+	</update>
+	<update id="updateBoardStatus">
+		/** 통합게시판 상태값 수정 */
+		UPDATE t_board
+		SET
+		STATUS=#{status}
+		WHERE
+		IDX=#{idx}
+	</update>
+	<update id="updateThumbFile">
+		/** 통합게시판 썸네일 수정 */
+		UPDATE t_board
+		SET
+		THUMB_FILE=#{thumbFile}
+		WHERE
+		IDX=#{idx}
+	</update>
+	<select id="selectBoardMapNear" resultMap="boardMap">
+		/** 이전,이후글 조회 */
+		SELECT *
+		FROM t_board
+		WHERE 1=1
+		AND BOARD_TYPE = #{boardType}
+		AND STATUS = 1
+		AND G_LVL = 0
+		<if test="nearGb == -1">
+		AND IDX <![CDATA[<]]> #{idx}
+		ORDER BY IDX DESC
+		</if>
+		<if test="nearGb == 1">
+		AND IDX <![CDATA[>]]> #{idx}
+		ORDER BY IDX ASC
+		</if>
+		LIMIT 1
+	</select>
+	<select id="selectNoticeList" resultMap="boardMap">
+		select a.* 
+		,(SELECT user_nm from t_user_info where user_id = a.reg_id) REG_NM2
+		from t_board a where a.notice_yn = 'Y'
+		<include refid="boardWhere" />
+		order by a.reg_dtime desc
+	</select>
+</mapper>

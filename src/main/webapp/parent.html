@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Page</title>
+</head>
+<body>
+  <button id="openPopup">Open Popup</button>
+  <button id="sendToPopup">Send Message to Popup</button>
+
+  <script>
+    let popup;
+
+    // �˾� ����
+    document.getElementById("openPopup").addEventListener("click", () => {
+      popup = window.open("popup.html", "popupWin", "width=400,height=300");
+    });
+
+    // �θ� �� �˾� �޽��� ����
+    document.getElementById("sendToPopup").addEventListener("click", () => {
+      if (popup && !popup.closed) {
+        popup.postMessage("Hello from parent!", "http://localhost:8580");
+      }
+    });
+
+    // �˾� �� �θ� �޽��� ����
+    window.addEventListener("message", (event) => {
+      if (event.origin !== "http://localhost:8580") return; // ���� üũ
+      console.log("Message from popup:", event.data);
+      alert("Popup says: " + event.data);
+    });
+  </script>
+</body>
+</html>

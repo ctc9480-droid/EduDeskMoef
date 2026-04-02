@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lectureTask.mapper.LectureTaskMapper">
+	<!-- 게시글 수정 -->
+	<update id="updateTaskAttach" parameterType="com.educare.edu.education.service.model.LectureStdnt">
+	  UPDATE t_lecture_stdnt
+	  SET task_file_rename = #{taskFileRename}, task_file_org = #{taskFileOrg} 
+	  WHERE edu_seq = #{eduSeq} and user_id = #{userId}
+	</update>
+	<select id="selectLectureTaskFileMap" resultType="hashmap">
+		select task_file_org,task_file_rename,user_nm from t_lecture_stdnt 
+		where edu_seq = #{eduSeq} and user_id=#{userId}
+	</select>
+	<delete id="updateLectureTaskFile">
+		update t_lecture_stdnt
+		set task_file_org = ''
+		,task_file_rename = ''
+		where edu_seq = #{eduSeq} and user_id=#{userId}
+	</delete>
+</mapper>

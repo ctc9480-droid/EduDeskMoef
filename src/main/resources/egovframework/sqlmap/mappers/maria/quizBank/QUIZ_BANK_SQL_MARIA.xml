@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.quizBank.mapper.QuizBankMapper">
+	
+	<resultMap id="map" type="com.educare.edu.quizBank.vo.QuizBankVO" >
+		<result column="QSTN_SEQ" property="qstnSeq"/>
+		<result column="QSTN_NM" property="qstnNm"/>
+		<result column="QSTN_TP" property="qstnTp"/>
+		<result column="DIFF_TYPE" property="diffType"/>
+		<result column="REG_DE" property="regDe"/>
+		<result column="USE_YN" property="useYn"/>
+		
+		<result column="REG_NM" property="regNm"/>
+		<result column="ctg1_nm" property="ctg1Nm"/>
+		<result column="ctg2_nm" property="ctg2Nm"/>
+		<result column="ctg3_nm" property="ctg3Nm"/>
+	</resultMap>
+	
+	<sql id="inc_selectQuizBankPage">
+		<if test="srchWrd != null and srchWrd != ''">
+		and a.qstn_nm like concat('%',#{srchWrd},'%')
+		</if>
+		<if test="srchCtg1Seq > 0"> and a.ctg1_seq = #{srchCtg1Seq} </if>
+		<if test="srchCtg2Seq > 0"> and a.ctg2_seq = #{srchCtg2Seq} </if>
+		<if test="srchCtg3Seq > 0"> and a.ctg3_seq = #{srchCtg3Seq} </if>
+		<if test="srchQstnTp > 0"> and a.qstn_tp = #{srchQstnTp} </if>
+	</sql>
+	<select id="selectQuizBankPageList" resultMap="map">
+		/** 문제은행 게시판 리스트 */
+		SELECT a.*
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg1_seq) ctg1_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg2_seq) ctg2_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg3_seq) ctg3_nm
+		FROM t_question a
+		where 1=1
+		<include refid="inc_selectQuizBankPage"/>
+		ORDER BY REG_DE DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectQuizBankPageCnt" resultType="int">
+		/** 문제은행 게시판 카운트 */
+		SELECT count(a.QSTN_SEQ)
+		FROM t_question a
+		where 1=1
+		<include refid="inc_selectQuizBankPage"/>
+	</select>
+	
+	<select id="selectQuizBankList" resultMap="map">
+		/** 문제은행 리스트,문제검색용도 */
+		SELECT a.*
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg1_seq) ctg1_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg2_seq) ctg2_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg3_seq) ctg3_nm
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		FROM t_question a
+		left join (select * from t_test_question where test_tmpl_seq = #{testTmplSeq}) b on a.qstn_seq = b.qstn_seq
+		where 1=1
+		and b.qstn_seq is null
+		<if test="srchWrd != null and srchWrd != ''">
+			and a.qstn_nm like concat('%',#{srchWrd},'%')
+		</if>
+		<if test="srchCtg1Seq > 0">
+		</if>
+		and a.ctg1_seq = #{srchCtg1Seq}
+		<if test="srchCtg2Seq > 0">
+			and a.ctg2_seq = #{srchCtg2Seq}
+		</if>
+		<if test="srchCtg3Seq > 0">
+			and a.ctg3_seq = #{srchCtg3Seq}
+		</if>
+		ORDER BY REG_DE DESC
+	</select>
+</mapper>

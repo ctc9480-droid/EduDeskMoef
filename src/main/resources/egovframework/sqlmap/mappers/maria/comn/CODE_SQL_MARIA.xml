@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.CodeMapper">
+	
+	<resultMap type="com.educare.edu.comn.model.Code" id="map">
+		<result column="CODE_NM" property="codeNm"/>
+		<result column="CODE_CD" property="codeCd"/>
+		<result column="PRNT_CD" property="prntCd"/>
+		<result column="SORT" property="sort"/>
+	</resultMap>
+	
+	<select id="getCodeByParent" resultMap="map">
+	/* com.educare.edu.comn.mapper.CodeMapper.getCodeByParent */
+	select * from t_code where prnt_cd=#{prntCd}
+	</select>
+	<select id="getCodeNmByCd" resultType="string">
+	/* com.educare.edu.comn.mapper.CodeMapper.getCodeNmByCd */
+		select code_nm from t_code where code_cd=#{codeCd}
+	</select>
+	
+</mapper>

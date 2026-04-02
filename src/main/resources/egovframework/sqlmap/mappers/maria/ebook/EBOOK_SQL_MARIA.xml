@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.ebook.service.impl.EbookMapper">
+	
+	<resultMap id="map" type="Ebook">
+		<result property="idx" column="IDX"/>
+		<result property="title" column="TITLE"/>
+		<result property="status" column="STATUS"/>
+		<result property="startDtime" column="START_DTIME"/>
+		<result property="endDtime" column="END_DTIME"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="regNm" column="REG_NM"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileRenm" column="FILE_RENM"/>
+		<result property="thumNm" column="THUM_NM"/>
+		<result property="thumRenm" column="THUM_RENM"/>
+		<result property="url" column="URL"/>
+	</resultMap>
+	
+	<sql id="inc_where">
+		<if test="searchStatus != null and searchStatus != ''" > AND STATUS = #{searchStatus} </if>
+		<if test="searchWord != null and searchWord != ''"> and title like concat('%',#{searchWord},'%') </if>
+		<if test="searchNowDtime != null and searchNowDtime != ''"> <![CDATA[and start_dtime < #{searchNowDtime} and end_dtime > #{searchNowDtime}]]> </if>
+	</sql>
+	
+	<select id="selectEbookList" resultMap="map">
+		/**이북 리스트*/
+		SELECT A.* FROM (
+		
+			SELECT A.*
+			FROM T_EBOOK A
+			WHERE 1
+			<include refid="inc_where"/>
+		
+		) A
+		ORDER BY IDX desc
+		limit #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="selectEbookTotalCnt" resultType="int">
+		/** 이북  토탈카운트 */
+		SELECT COUNT(*) FROM T_EBOOK WHERE 1
+		<include refid="inc_where"/>
+	</select>
+	<select id="selectEbookMap" resultMap="map">
+		/** 이북 상세 조회 */
+		SELECT * FROM T_EBOOK WHERE IDX=#{idx}
+	</select>
+	<update id="updateEbookMap">
+		/** 이북 수정 */
+		UPDATE T_EBOOK 
+		SET
+			TITLE=#{title}
+			,START_DTIME=#{startDtime}
+			,END_DTIME=#{endDtime}
+			,STATUS=#{status}
+			,URL=#{url}
+			,SORT=#{sort}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<update id="updateEbookFile">
+		UPDATE T_EBOOK 
+		<set>
+		<if test="fileNm != null">FILE_NM=#{fileNm},</if>
+		<if test="fileRenm != null">FILE_RENM=#{fileRenm},</if>
+		<if test="thumNm != null">THUM_NM=#{thumNm},</if>
+		<if test="thumRenm != null">THUM_RENM=#{thumRenm},</if>
+		</set>
+		WHERE
+			IDX=#{idx}
+	</update>
+	<insert id="insertEbookMap" useGeneratedKeys="true" keyProperty="idx">
+		/** 이북 등록 */
+		INSERT INTO T_EBOOK
+		(TITLE,STATUS,START_DTIME,END_DTIME,REG_ID,REG_NM,REG_DT,URL,SORT)
+		VALUES
+		(#{title},#{status},#{startDtime},#{endDtime},#{regId},#{regNm},#{addNowDt},#{url},#{sort})
+	</insert>
+	
+</mapper>

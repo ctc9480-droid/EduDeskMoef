@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.PayMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.Pay">
+		<result property="payNo" column="PAY_NO"/>
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="state" column="STATE"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="vtCloseDtime" column="VT_CLOSE_DTIME"/>
+		<result property="transactionId" column="TRANSACTION_ID"/>
+		<result property="pgPayNo" column="PG_PAY_NO"/>
+		<result property="amount" column="AMOUNT"/>
+		<result property="goodNm" column="GOOD_NM"/>
+		<result property="pgResultData" column="PG_RESULT_DATA"/>
+	</resultMap>
+	
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.PayMapper.insertByPk */
+		insert into t_pay (
+			pay_no,rcept_seq,user_id,user_nm,email,state,amount,pay_type,tel,mobile,pg_pay_no,pg_nm,good_nm,reg_dt
+			,vt_bank,vt_nm,vt_no,vt_close_dtime,transaction_id,upd_dt
+			,pg_result_data
+		)values(
+			#{payNo},#{rceptSeq},#{userId},#{userNm},#{email},#{state},#{amount},#{payType},#{tel},#{mobile},#{pgPayNo},#{pgNm},#{goodNm},#{regDt}
+			,#{vtBank},#{vtNm},#{vtNo},#{vtCloseDtime},#{transactionId},#{updDt}
+			,#{pgResultData}
+		)
+	</insert>
+	
+	<update id="updateAnyByPk">
+	/* com.educare.edu.comn.mapper.PayMapper.updateAnyByPk */
+		update t_pay
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="state > 0"> state=#{state}, </if>
+			<if test="updDt != null"> upd_dt=#{updDt}, </if>
+			<if test="regDt != null"> reg_dt=#{regDt}, </if>
+			<if test="ktlBillNo != null"> ktl_bill_no=#{ktlBillNo}, </if>
+		</trim>
+		WHERE
+		pay_no=#{payNo}
+	</update>
+	
+	<select id="selectByVtWait" resultMap="map">
+	/* com.educare.edu.comn.mapper.PayMapper.selectByVtWait */
+		select * from t_pay 
+		where state=2 and pay_type=3
+	</select>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.PayMapper.selectByPk */
+		select * from t_pay 
+		where pay_no = #{payNo}
+	</select>
+</mapper>

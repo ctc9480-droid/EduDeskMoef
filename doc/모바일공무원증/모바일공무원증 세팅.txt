@@ -1,0 +1,120 @@
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\webapp\WEB-INF\lib -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\webapp\WEB-INF\lib
+    OmniEnt-SDK-Core-v1.0.1.13-nl.jar
+    OmniEnt-SDK-ServerCore-v1.0.1.11-nl.jar
+    OmniEnt-SDK-Verifier-v1.0.1.11-nl.jar
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\resources\config -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\resources\config
+    moef_lms.wallet
+    moef_server_api.did
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\webapp\WEB-INF\config -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\resources\config
+    omnione.properties
+
+context-common.xml 변경
+    아래 항목 추가
+        <!-- 모바일 공무원증 SDK 적용을 위한 properties 참조 -->	
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location" value="classpath:config/omnione.properties"/>
+            <property name="fileEncoding" value="UTF-8" />
+        </bean>
+
+pom.xml 변경
+    repositories 항목 안에 아래 항목 추가
+        <repository> 
+			<id>in-project</id> 
+			<name>custom jars</name> 
+			<url>file://${project.basedir}/lib</url> 
+		</repository>
+        
+    dependencies 항목 안에 아래 항목들 추가
+        <!-- OmniOne dependency lib -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>26.0-jre</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>pkix</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+		
+		<!-- QR dependency lib -->	
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+        
+DB Table 생성 -> 필요1
+    CREATE TABLE qr_table
+    (
+        qr_key BIGINT AUTO_INCREMENT PRIMARY KEY,
+        expire_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        nonce VARCHAR(255),
+        step INT NOT NULL,
+        vc_json STRING
+    );
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\mapper -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\mapper
+    QrTableMapper.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\model -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\model
+    QrTable.java
+    ResultQr.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\resources\mapper\kr.go.demo -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\resources\egovframework\sqlmap\mappers\maria\mobileid
+    qrTableMapper.xml
+
+sql-mapper-config.xml 변경
+    아래 항목 추가
+        <typeAlias alias="QrTable" type="com.educare.edu.mobileid.model.QrTable" />
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\config -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\config
+    ConfigBean.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\controller -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\controller
+    SpNoneProfileRest.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\service -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\service
+    SpService.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\java\kr\go\demo\util -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\java\com\educare\edu\mobileid\util
+    NonceUtil.java
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\webapp\resources -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\webapp\resources
+    css 폴더
+    font 폴더
+    js 폴더
+
+C:\Users\baehy\eclipse-workspace\sp.demo\src\main\webapp\WEB-INF\views -> C:\Users\baehy\eclipse-workspace\EduDeskMoef\src\main\webapp\WEB-INF\jsp
+    signIn.jsp
+----------------------------------------------------------------------------------------------------
+package 오류 수정
+    *.java 변경
+        kr.go.demo -> com.educare.edu.mobileid
+    qrTableMapper.xml 변경
+        kr.go.demo -> com.educare.edu.mobileid
+
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'sqlSessionTemplate' available 오류 수정
+    context-mapper.xml 변경
+        <!-- SqlSessionTemplate -->
+        <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+            <constructor-arg index="0" ref="sqlSession" />
+        </bean>
+
+java.lang.IllegalArgumentException: Can not set java.util.ArrayList field com.raonsecure.omnione.core.key.data.IWKeyStoreData.keys to java.util.LinkedList 오류 수정
+    gson-1.4.jar -> gson-2.8.5.jar

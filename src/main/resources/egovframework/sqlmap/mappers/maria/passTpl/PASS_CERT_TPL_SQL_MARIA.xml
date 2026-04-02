@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.passTpl.mapper.PassCertTplMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.vo.PassCertTplVO" >
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="orgNm" column="ORG_NM"/>
+		<result property="jspNm" column="JSP_NM"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="modDt" column="MOD_DT"/>
+		<result property="modId" column="MOD_ID"/>
+		
+		<result property="regNm" column="REG_NM"/>
+	</resultMap>
+	
+	<select id="selectPassCertTplList" resultMap="map">
+		SELECT A.*
+		FROM t_pass_cert_tpl A
+		WHERE 1=1
+		<if test="passTp > 0"> and pass_tp = #{passTp} </if>
+		ORDER BY pass_idx DESC	
+	</select>
+	<select id="selectPassCertTplMap" resultMap="map">
+		SELECT A.*
+		FROM t_pass_cert_tpl A
+		WHERE PASS_IDX=#{passIdx}
+		
+	</select>
+	
+	<update id="updatePassCertTpl">
+		UPDATE t_pass_cert_tpl
+		SET 
+		TITLE=#{title} 
+		,CONTENT=#{content}
+		,ORG_NM = #{orgNm}
+		,MOD_TIME=#{modTime},MOD_ID=#{modId}
+		WHERE IDX=#{idx}
+	</update>
+	
+	<sql id="inc_selectPassTplPage">
+		<if test="srchWrd != null and srchWrd != ''"> and a.title like concat('%',#{srchWrd},'%') </if>
+		<if test="regId!=null and regId!='' and regId!=1">
+		AND a.reg_id=#{regId}  
+		</if>
+	</sql>
+	<select id="selectPassTplPageList" resultMap="map">
+		/** 수료증 게시판 리스트 */
+		SELECT a.*
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		FROM t_pass_cert_tpl a
+		where 1=1
+		<include refid="inc_selectPassTplPage"/>
+		ORDER BY pass_idx DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectPassTplPageCnt" resultType="int">
+		/** 수료증 게시판 카운트 */
+		SELECT COUNT(a.pass_idx)
+		FROM t_pass_cert_tpl a
+		where 1=1
+		<include refid="inc_selectPassTplPage"/>
+	</select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.OnlineHistoryMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.OnlineHistory">
+		<result property="idx" column="IDX"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="regTime" column="REG_TIME"/>
+	</resultMap>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="idx">
+	/* com.educare.edu.comn.mapper.OnlineHistoryMapper.insertByPk */
+		insert into t_online_history
+		(edu_seq,time_seq,user_id,user_nm,reg_time,email)
+		values
+		(#{eduSeq},#{timeSeq},#{userId},#{userNm},#{regTime},#{email})
+	</insert>
+	<select id="selectByEduSeqTimeSeq" resultMap="map">
+	/* com.educare.edu.comn.mapper.OnlineHistoryMapper.selectByEduSeqTimeSeq */
+		select * from t_online_history where edu_seq=#{eduSeq} and time_seq=#{timeSeq}
+		order by idx,reg_time
+	</select>
+</mapper>

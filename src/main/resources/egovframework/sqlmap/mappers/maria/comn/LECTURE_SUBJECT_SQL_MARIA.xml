@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureSubjectMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureSubject">
+		<result property="subSeq" column="SUB_SEQ"/>
+		<result property="subNm" column="SUB_NM"/>
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="complIdx" column="COMPL_IDX"/>
+		<result property="passCertNm" column="PASS_CERT_NM"/>
+		<result property="complCertNm" column="COMPL_CERT_NM"/>
+		
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="updDe" column="UPD_DE"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureSubjectMapper.selectByPk */
+		select a.* from t_lecture_subject a where a.sub_seq=#{subSeq}
+	</select>
+	<select id="selectByList" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureSubjectMapper.selectByList */
+		select a.* from t_lecture_subject a 
+		where 1=1
+		<if test="state > 0"> and state = #{state} </if>
+	</select>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureSubjectMapper.deleteByPk */
+		delete from t_lecture_subject where sub_seq=#{subSeq}
+	</delete>
+	<insert id="insertByPk" keyProperty="subSeq" useGeneratedKeys="true">
+		/* com.educare.edu.comn.mapper.LectureSubjectMapper.insertByPk */
+		insert into t_lecture_subject (
+			sub_nm			,pass_idx		,compl_idx		,state
+			,pass_cert_nm	,compl_cert_nm
+			,REG_ID			,REG_DE			,UPD_ID			,UPD_DE
+		) values (
+			#{subNm}		,#{passIdx}	 	,#{complIdx}	,#{state}
+			,#{passCertNm}	,#{complCertNm}
+			,#{regId}		,#{regDe}		,#{updId}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureSubjectMapper.updateByPk */
+		update t_lecture_subject
+		set upd_id = #{updId} , upd_de=#{updDe}
+		<if test="subNm != null"> 		,sub_nm 		= #{subNm}</if> 
+		<if test="passCertNm != null"> 	,pass_cert_nm 		= #{passCertNm}</if> 
+		<if test="complCertNm != null"> ,compl_cert_nm 		= #{complCertNm}</if> 
+		<if test="passIdx > -1"> 		,pass_idx		= #{passIdx}</if> 
+		<if test="complIdx > -1"> 		,compl_idx		= #{complIdx}</if> 
+		<if test="state > 0"> 			,state			= #{state}</if> 
+		where sub_seq=#{subSeq}
+	</update>
+	
+	<select id="selectLctreTimeSubList" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureSubjectMapper.selectLctreTimeSubList */
+		select a.* from t_lecture_subject a
+		where sub_seq in (select sub_seq from t_lecture_time where edu_seq = #{eduSeq})
+	</select>
+</mapper>

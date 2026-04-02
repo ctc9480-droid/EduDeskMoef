@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureTimeMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureTime">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="url" column="URL"/>
+		<result property="urlPw" column="URL_PW"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="startTm" column="START_TM"/>
+		<result property="endTm" column="END_TM"/>
+		<result property="classHow" column="CLASS_HOW"/>
+		<result property="freeView" column="FREE_VIEW"/>
+		<result property="authNo" column="AUTH_NO"/>
+		<result property="checkStatus" column="CHECK_STATUS"/>
+		<result property="checkType" column="CHECK_TYPE"/>
+		<result property="checkId" column="CHECK_ID"/>
+		<result property="mvIdx" column="MV_IDX"/>
+		<result property="ncsNm" column="NCS_NM"/>
+		<result property="checkNm" column="CHECK_NM"/>
+		<result property="roomNm" column="ROOM_NM"/>
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="mvNm" column="MV_NM"/>
+		<result property="subSeq" column="SUB_SEQ"/>
+		
+		<result property="eduNm" column="edu_nm"/>
+		<result property="subNm" column="sub_nm"/>
+	</resultMap>
+
+	<select id="selectLectTimeCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.selectLectTimeCnt */
+	select count(*) from t_lecture_time where edu_seq=#{eduSeq}
+	</select>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.selectByPk */
+		select a.* 
+		,(select title from t_lecture_mov where idx = a.mv_idx) mv_nm
+		,(select sub_nm from t_lecture_subject where sub_seq = a.sub_seq) sub_nm
+		from t_lecture_time a where a.edu_seq=#{eduSeq} and a.time_seq=#{timeSeq}
+	</select>
+	<select id="selectByEduSeq" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.selectByEduSeq */
+		/** 시간표 조회 */
+		select a.* 
+		,(select room_nm from t_lecture_room where room_seq = a.room_seq) room_nm
+		,(select title from t_lecture_mov where idx = a.mv_idx) mv_nm
+		from t_lecture_time a 
+		where a.edu_seq=#{eduSeq} 
+		order by a.edu_dt,a.start_tm,a.time_seq
+	</select>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.deleteByPk */
+		delete from t_lecture_time where edu_seq=#{eduSeq} and time_seq=#{timeSeq}
+	</delete>
+	<delete id="deleteByEduSeq" parameterType="Integer">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.deleteByEduSeq */
+		delete from t_lecture_time where edu_seq=#{eduSeq}
+	</delete>
+	<update id="updateAllInstrNm">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.updateAllInstrNm */
+		/** 시간강사이름 전부 변경 */
+		update t_lecture_time 
+		set instr_nm = #{instrNm}
+		where edu_seq = #{eduSeq}
+	</update>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.insertByPk */
+		<selectKey order="BEFORE" keyProperty="timeSeq" resultType="int">
+			<if test="timeSeq == 0">
+			select COALESCE(max(time_seq),0)+1 from t_lecture_time where edu_seq = #{eduSeq}
+			</if>
+			<if test="timeSeq > 0">
+			select #{timeSeq}
+			</if>
+		</selectKey>
+		insert into t_lecture_time (
+			edu_seq		,sub_seq		,time_seq	
+			,edu_dt		,start_tm		,end_tm		,description	,instr_nm
+			,check_id	,check_nm		,status		,class_how
+			,url		,free_view		,mv_idx		,url_pw
+			,room_seq	,ncs_nm
+		) values (
+			#{eduSeq}	,#{subSeq}	 	,#{timeSeq}	
+			,#{eduDt}	,#{startTm}		,#{endTm}	,#{description}	,#{instrNm}
+			,#{checkId}	,#{checkNm}		,#{status}	,#{classHow}	
+			,#{url}		,#{freeView}	,#{mvIdx}	,#{urlPw}
+			,#{roomSeq}	,#{ncsNm}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.updateByPk */
+		update t_lecture_time
+		set status = 1
+		<if test="eduDt != null"> 		,edu_dt 		= #{eduDt}</if> 
+		<if test="startTm != null"> 	,start_tm 		= #{startTm}</if> 
+		<if test="endTm != null"> 		,end_tm 		= #{endTm}</if> 
+		<if test="classHow > -1"> 		,class_how 		= #{classHow}</if>
+		<if test="description != null"> ,description 	= #{description}</if> 
+		<if test="checkId >= 0"> 		,check_id 		= #{checkId}</if> 
+		<if test="roomSeq >= 0"> 		,room_seq		= #{roomSeq}</if> 
+		<if test="ncsNm != null"> 		,ncs_nm 		= #{ncsNm}</if> 
+		<if test="checkNm != null"> 	,check_nm 		= #{checkNm}</if> 
+		<if test="url != null"> 		,url 			= #{url}</if> 
+		<if test="urlPw != null"> 		,url_pw 		= #{urlPw}</if> 
+		<if test="mvIdx > 0"> 			,mv_idx 		= #{mvIdx}</if> 
+		where edu_seq = #{eduSeq} and time_seq = #{timeSeq}
+	</update>
+	
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.selectByParam */
+		select * from t_lecture_time
+		where edu_seq = #{eduSeq}
+		<if test="eduDt != null">
+			and edu_dt = #{eduDt}
+		</if>
+	</select>
+	<select id="selectByDt" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureTimeMapper.selectByDt */
+		select a.* 
+		,(select edu_nm from t_lecture where edu_seq = a.edu_seq) edu_nm
+		,(select room_nm from t_lecture_room where room_seq = a.room_seq) room_nm
+		from t_lecture_time a
+		where 1=1
+		and (
+			a.edu_dt between #{srchStartDt} and #{srchEndDt}
+		)
+	</select>
+</mapper>

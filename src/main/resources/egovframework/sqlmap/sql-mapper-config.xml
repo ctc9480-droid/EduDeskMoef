@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+    <typeAliases>
+    	<!-- 맥스넘(시퀀스) -->
+		<typeAlias alias="MaxNum" type="com.educare.edu.maxNum.service.model.MaxNumModel"/>
+		
+    	<!-- 회원 -->
+		<typeAlias alias="UserInfo" type="com.educare.edu.member.service.model.UserInfo"/>
+		<typeAlias alias="UserInfoStdnt" type="com.educare.edu.member.service.model.UserInfoStdnt"/>
+		<typeAlias alias="UserInfoInstrctr" type="com.educare.edu.member.service.model.UserInfoInstrctr"/>
+		<typeAlias alias="InstrctrAttach" type="com.educare.edu.member.service.model.InstrctrAttach"/>
+		<typeAlias alias="InstrctrRealm" type="com.educare.edu.member.service.model.InstrctrRealm"/>
+		<typeAlias alias="MemberVO" type="com.educare.edu.member.service.MemberVO"/>
+		
+		<!-- 메뉴 -->
+		<typeAlias alias="MenuAuth" type="com.educare.edu.menu.service.model.MenuAuth"/>
+		
+		<!-- 로그 -->
+		<typeAlias alias="ConnLog" type="com.educare.edu.log.service.model.ConnLog"/>
+		<typeAlias alias="LoginLog" type="com.educare.edu.log.service.model.LoginLog"/>
+		<typeAlias alias="ConnLogAdm" type="com.educare.edu.log.service.model.ConnLogAdm"/>
+		
+		<!-- 임시파일 -->
+		<typeAlias alias="TempFile" type="com.educare.edu.tmpFile.service.model.TempFile"/>
+		
+		<!-- 교육관리 -->
+		<typeAlias alias="Lecture" type="com.educare.edu.education.service.model.Lecture"/>
+		<typeAlias alias="LectureRcept" type="com.educare.edu.education.service.model.LectureRcept"/>
+		<typeAlias alias="LectureStdnt" type="com.educare.edu.education.service.model.LectureStdnt"/>
+		<typeAlias alias="LectureAttach" type="com.educare.edu.education.service.model.LectureAttach"/>
+		<typeAlias alias="LectureTutfee" type="com.educare.edu.education.service.model.LectureTutfee"/>
+		<typeAlias alias="LectureSurvey" type="com.educare.edu.education.service.model.LectureSurvey"/>
+		<typeAlias alias="Category" type="com.educare.edu.education.service.model.Category"/>
+		<typeAlias alias="EduVO" type="com.educare.edu.education.service.EduVO"/>
+		
+		<!-- 시험/평가관리 -->
+		<typeAlias alias="QstnCategoryVO" type="com.educare.edu.quizCate.vo.QstnCategoryVO"/>
+		
+		<!-- 게시판 -->
+		<typeAlias alias="Board" type="com.educare.edu.bbs.service.model.Board"/>
+		<typeAlias alias="BoardComment" type="com.educare.edu.bbs.service.model.BoardComment"/>
+		<typeAlias alias="Popup" type="com.educare.edu.bbs.service.model.Popup"/>
+		<typeAlias alias="Banner" type="com.educare.edu.bbs.service.model.Banner"/>
+		<typeAlias alias="Inqry" type="com.educare.edu.bbs.service.model.Inqry"/>
+		<typeAlias alias="BoardAttach" type="com.educare.edu.bbs.service.model.BoardAttach"/>
+		<typeAlias alias="BoardMst" type="com.educare.edu.bbs.service.model.BoardMst"/>
+		
+		<!-- 통계 -->
+		<typeAlias alias="Tuition" type="com.educare.edu.statistics.service.model.Tuition"/>
+		<typeAlias alias="EduStats" type="com.educare.edu.statistics.service.model.EduStats"/>
+		<typeAlias alias="StatsVO" type="com.educare.edu.statistics.service.StatsVO"/>
+		
+		<typeAlias alias="Ebook" type="com.educare.edu.ebook.service.model.Ebook"/>
+		
+		<typeAlias alias="QrTable" type="com.educare.edu.mobileid.model.QrTable" />
+    </typeAliases>
+   
+</configuration>

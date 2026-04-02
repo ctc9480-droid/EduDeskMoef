@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.member.service.impl.MemberMapper">
+
+	<resultMap id="userInfoMap" type="UserInfo">
+		<result property="userId" column="USER_ID" />
+		<result property="userNm" column="USER_NM" />
+		<result property="userEnNm" column="USER_EN_NM" />
+		<result property="userPw" column="USER_PW" />
+		<result property="email" column="EMAIL" />
+		<result property="tel" column="TEL" />
+		<result property="mobile" column="MOBILE" />
+		<result property="birth" column="BIRTH" />
+		<result property="mfType" column="MF_TYPE" />
+		<result property="postNo" column="POST_NO" />
+		<result property="addr" column="ADDR" />
+		<result property="addrDetail" column="ADDR_DETAIL" />
+		<result property="addrEtc" column="ADDR_ETC" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+		<result property="rgsde" column="RGSDE" />
+		<result property="lstLoginDe" column="LST_LOGIN_DE" />
+		<result property="lstPwDe" column="LST_PW_DE" />
+		<result property="totalLoginCnt" column="TOTAL_LOGIN_CNT" />
+		<result property="pwdErrorCnt" column="PWD_ERROR_CNT" />
+		<result property="state" column="STATE" />
+		<result property="stateUpdDe" column="STATE_UPD_DE" />
+		<result property="stateUpdUserId" column="STATE_UPD_USER_ID" />
+		<result property="ci" column="CI" />
+		<result property="etc1" column="ETC1" />
+		<result property="etc2" column="ETC2" />
+		<result property="etc3" column="ETC3" />
+		<result property="etc4" column="ETC4" />
+		<result property="etc5" column="ETC5" />
+		<result property="orgCd" column="ORG_CD" />
+		<result property="orgNm" column="ORG_NM" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="compUserId" column="COMP_USER_ID" />
+		
+		<result property="userTp" column="USER_TP" />
+		<result property="userOrgCd" column="USER_ORG_CD" />
+		<result property="userOrgNm" column="USER_ORG_NM" />
+		<result property="userGradeCd" column="USER_GRADE_CD" />
+		<result property="userGradeNm" column="USER_GRADE_NM" />
+		<result property="smsYn" column="sms_yn" />
+		
+		<!-- 관리자 메모 -->
+		<result property="mngrMemo" column="MNGR_MEMO" />
+		
+		<result property="subDn" column="SUB_DN" />
+		<result property="gongYn" column="GONG_YN" />
+		<result property="subDn2" column="SUB_DN2" />
+	</resultMap>
+
+	<resultMap id="userInfoStdntMap" type="UserInfoStdnt">
+		<result property="userId" column="USER_ID" />
+		<result property="userNm" column="USER_NM" />
+		<result property="userPw" column="USER_PW" />
+		<result property="email" column="EMAIL" />
+		<result property="tel" column="TEL" />
+		<result property="mobile" column="MOBILE" />
+		<result property="birth" column="BIRTH" />
+		<result property="mfType" column="MF_TYPE" />
+		<result property="postNo" column="POST_NO" />
+		<result property="addr" column="ADDR" />
+		<result property="addrDetail" column="ADDR_DETAIL" />
+		<result property="addrEtc" column="ADDR_ETC" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+		<result property="rgsde" column="RGSDE" />
+		<result property="lstLoginDe" column="LST_LOGIN_DE" />
+		<result property="lstPwDe" column="LST_PW_DE" />
+		<result property="totalLoginCnt" column="TOTAL_LOGIN_CNT" />
+		<result property="pwdErrorCnt" column="PWD_ERROR_CNT" />
+		<result property="state" column="STATE" />
+		<result property="stateUpdDe" column="STATE_UPD_DE" />
+		<result property="stateUpdUserId" column="STATE_UPD_USER_ID" />
+		<result property="ci" column="CI" />
+		<result property="etc1" column="ETC1" />
+		<result property="etc2" column="ETC2" />
+		<result property="etc3" column="ETC3" />
+		<result property="etc4" column="ETC4" />
+		<result property="etc5" column="ETC5" />
+		<result property="userNmEn" column="USER_NM_EN" />
+		<result property="belong" column="BELONG" />
+		<result property="position" column="POSITION" />
+		<result property="admRgsYn" column="ADM_RGS_YN" />
+		<result property="selfAuthYn" column="SELF_AUTH_YN" />
+		<result property="termsAcceptDe" column="TERMS_ACCEPT_DE" />
+		<result property="orgCd" column="ORG_CD" />
+		<result property="orgNm" column="ORG_NM" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="ccNm" column="CC_NM" />
+		<result property="userTp" column="USER_TP" />
+		<result property="mngrMemo" column="MNGR_MEMO" />
+	</resultMap>
+
+	<resultMap id="userInfoInstrctrMap" type="UserInfoInstrctr">
+		<result property="userId" column="USER_ID" />
+		<result property="userNm" column="USER_NM" />
+		<result property="userPw" column="USER_PW" />
+		<result property="email" column="EMAIL" />
+		<result property="tel" column="TEL" />
+		<result property="mobile" column="MOBILE" />
+		<result property="birth" column="BIRTH" />
+		<result property="mfType" column="MF_TYPE" />
+		<result property="postNo" column="POST_NO" />
+		<result property="addr" column="ADDR" />
+		<result property="addrDetail" column="ADDR_DETAIL" />
+		<result property="addrEtc" column="ADDR_ETC" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+		<result property="rgsde" column="RGSDE" />
+		<result property="lstLoginDe" column="LST_LOGIN_DE" />
+		<result property="lstPwDe" column="LST_PW_DE" />
+		<result property="totalLoginCnt" column="TOTAL_LOGIN_CNT" />
+		<result property="pwdErrorCnt" column="PWD_ERROR_CNT" />
+		<result property="state" column="STATE" />
+		<result property="stateUpdDe" column="STATE_UPD_DE" />
+		<result property="stateUpdUserId" column="STATE_UPD_USER_ID" />
+		<result property="ci" column="CI" />
+		<result property="etc1" column="ETC1" />
+		<result property="etc2" column="ETC2" />
+		<result property="etc3" column="ETC3" />
+		<result property="etc4" column="ETC4" />
+		<result property="etc5" column="ETC5" />
+		<!-- 기관코드 -->
+		<result property="orgCd" column="ORG_CD" />
+		<!-- 로그인 아이디 -->
+		<result property="loginId" column="LOGIN_ID" />
+		
+		<!-- 관리자 메모 -->
+		<result property="mngrMemo" column="MNGR_MEMO" />
+
+		<result property="belong" column="BELONG" />
+		<result property="position" column="POSITION" />
+		<result property="photoOrg" column="PHOTO_ORG" />
+		<result property="photoRename" column="PHOTO_RENAME" />
+		<result property="memo" column="MEMO" />
+		<result property="userNmEn" column="USER_NM_EN" />
+		<result property="area" column="AREA" />
+		<result property="orgCd" column="ORG_CD" />
+		<result property="orgNm" column="ORG_NM" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="mngrMemo" column="MNGR_MEMO" />
+	</resultMap>
+
+	<resultMap id="userInfoSessionMap" type="UserInfo">
+		<result property="userId" column="USER_ID" />
+		<result property="userNm" column="USER_NM" />
+		<result property="userPw" column="USER_PW" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+		<result property="rgsde" column="RGSDE" />
+		<result property="lstLoginDe" column="LST_LOGIN_DE" />
+		<result property="lstPwDe" column="LST_PW_DE" />
+		<result property="totalLoginCnt" column="TOTAL_LOGIN_CNT" />
+		<result property="orgCd" column="ORG_CD" />
+		<result property="email" column="EMAIL" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="birth" column="BIRTH" />
+	
+		<!-- 관리자 메모 -->
+		<result property="mngrMemo" column="MNGR_MEMO" />
+		<result property="pwdErrorCnt" column="pwd_error_cnt"/>
+
+	</resultMap>
+
+	<resultMap id="instrctrRealmMap" type="InstrctrRealm">
+		<result property="userId" column="USER_ID" />
+		<result property="ctgrySeq" column="CTGRY_SEQ" />
+		<result property="ctgryNm" column="CTGRY_NM" />
+	</resultMap>
+
+	<resultMap id="instrctrAttachMap" type="InstrctrAttach">
+		<result property="fileSeq" column="FILE_SEQ" />
+		<result property="userId" column="USER_ID" />
+		<result property="fileSection" column="FILE_SECTION" />
+		<result property="fileOrg" column="FILE_ORG" />
+		<result property="fileRename" column="FILE_RENAME" />
+		<result property="fileType" column="FILE_TYPE" />
+		<result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+
+	<select id="selectUserInfoLogin" parameterType="UserInfo"
+		resultMap="userInfoSessionMap">
+		/** 일반회원 로그인용도로 사용해야 할 듯,250922 */
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE, EMAIL,BIRTH,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT, ORG_CD,LOGIN_ID
+		,USER_PW
+		FROM
+		t_user_info
+		WHERE
+		LOGIN_ID = #{loginId} 
+		and user_mem_lvl in ('7','9')
+		<!-- AND USER_PW = #{userPw} -->
+
+	</select>
+	<select id="selectUserInfoLoginAdmin" parameterType="UserInfo"
+		resultMap="userInfoSessionMap">
+		/** 관리자 로그인 */
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT, ORG_CD,STATE,LOGIN_ID
+		FROM
+		t_user_info
+		WHERE
+		LOGIN_ID = #{loginId} AND USER_PW = #{userPw}
+
+	</select>
+	
+	<select id="selectUserInfoLoginAdminByLoginId" resultMap="userInfoSessionMap">
+		/** 관리자 로그인 아이디 유무 확인 및 비번 오류횟수 조회*/
+		SELECT 
+			USER_ID, pwd_error_cnt, STATE, USER_MEM_LVL
+		FROM
+			t_user_info
+		WHERE
+			LOGIN_ID = #{loginId}
+	</select>
+	<update id="updateLoginState" parameterType="UserInfo">
+		UPDATE
+			t_user_info
+		SET
+			STATE = 'W' ,
+			pwd_error_cnt = 0 
+		WHERE
+			LOGIN_ID = #{loginId}
+	</update>
+	<update id="updateLoginPwdErrorCntPlus" parameterType="UserInfo">
+		UPDATE 
+			t_user_info
+		SET 
+			pwd_error_cnt = IFNULL(pwd_error_cnt, 0) + 1 
+		WHERE 
+			LOGIN_ID = #{loginId}
+	</update>
+
+	<select id="selectUserFindId" parameterType="MemberVO"
+		resultMap="userInfoSessionMap">
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE, EMAIL,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT ,LOGIN_ID
+		FROM
+		t_user_info
+		WHERE
+		USER_NM LIKE CONCAT('%', #{userNm}, '%')
+		AND MOBILE = #{mobile}
+		AND STATE != 'S'
+	</select>
+
+	<select id="selectUserFindPw" parameterType="MemberVO"
+		resultMap="userInfoSessionMap">
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT
+		FROM
+		t_user_info
+		WHERE
+		USER_NM LIKE CONCAT('%', #{userNm}, '%')
+		AND LOGIN_ID = #{loginId}
+		<!-- AND USER_ID = #{userId} -->
+		AND STATE != 'S'
+	</select>
+
+	<select id="selectUserInfoByCi" parameterType="String"
+		resultMap="userInfoSessionMap">
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT,LOGIN_ID
+		FROM
+		t_user_info
+		WHERE
+		CI = #{ci}
+	</select>
+
+	<update id="updateLoginSuccess" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		LST_LOGIN_DE = #{lstLoginDe},
+		TOTAL_LOGIN_CNT = IFNULL(TOTAL_LOGIN_CNT, 0) + 1,
+		PWD_ERROR_CNT = 0
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateUserSelfAuth" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		CI = #{ci},
+		BIRTH = #{birth},
+		MF_TYPE = #{mfType}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateLstLoginDe" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		LST_LOGIN_DE = #{lstLoginDe},
+		PWD_ERROR_CNT = 0
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<select id="selectUserInfoByPk" parameterType="String"
+		resultMap="userInfoMap">
+		SELECT * FROM t_user_info WHERE USER_ID = #{userId}
+	</select>
+
+	<select id="selectInstrctrByPk" parameterType="String"
+		resultMap="userInfoInstrctrMap">
+		SELECT
+		A.*, B.BELONG, B.POSITION, B.PHOTO_ORG, B.PHOTO_RENAME,
+		B.MEMO,B.USER_NM_EN,B.AREA
+		FROM
+		t_user_info A, t_user_info_instrctr B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_ID = #{userId}
+	</select>
+
+	<select id="selectStdntInfoByPk" parameterType="String"
+		resultMap="userInfoMap">
+		SELECT
+		A.*
+		FROM
+		t_user_info A
+		WHERE A.USER_ID = #{userId}
+	</select>
+
+	<select id="selectMngrListCnt" parameterType="MemberVO"
+		resultType="Integer">
+		SELECT
+		COUNT(USER_ID)
+		FROM
+		t_user_info
+		WHERE 1 = 1
+		<if test="srchMemLvl != null and srchMemLvl != ''">
+			<if test="srchMemLvl == 1">
+			and USER_MEM_LVL in ('1','2')
+			</if>
+			<if test="srchMemLvl == 2">
+			and USER_MEM_LVL in ('2')
+			</if>
+			<if test="srchMemLvl == 3">
+			and USER_MEM_LVL in ('3')
+			</if>
+		</if>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userId'">
+					AND LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+
+
+	</select>
+
+	<select id="selectMngrList" parameterType="MemberVO" resultMap="userInfoMap">
+		SELECT T.* FROM (
+		SELECT
+		T.*
+		FROM
+		t_user_info T
+		WHERE 1=1
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userId'">
+					AND LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+		<if test="srchMemLvl != null and srchMemLvl != ''">
+			<if test="srchMemLvl == 1">
+			and USER_MEM_LVL in ('1','2')
+			</if>
+			<if test="srchMemLvl == 2">
+			and USER_MEM_LVL in ('2')
+			</if>
+			<if test="srchMemLvl == 3">
+			and USER_MEM_LVL in ('3')
+			</if>
+		</if>
+		ORDER BY USER_MEM_LVL ASC, RGSDE DESC
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+
+	<select id="selectStdntListCnt" parameterType="MemberVO"
+		resultType="Integer">
+		SELECT
+		COUNT(A.USER_ID)
+		FROM
+		t_user_info A
+		WHERE 1=1
+		<choose>
+			<when test="srchMemLvl != null and srchMemLvl != ''">
+				and A.USER_MEM_LVL in (#{srchMemLvl})
+			</when>
+			<otherwise>
+				and A.USER_MEM_LVL in ('7','9')
+			</otherwise>
+		</choose>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'loginId'">
+					AND (
+					A.LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+					)
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					<!-- AND pdb_acct.pdbDec('normal',A.MOBILE,'',0) LIKE CONCAT('%',
+					#{srchWrd}, '%') -->
+				</when>
+				<when test="srchColumn == 'email'">
+					AND A.EMAIL LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<select id="selectStdntList" parameterType="MemberVO" resultMap="userInfoMap">
+		/*회원 목록 조회**/
+		SELECT T.*
+		,(SELECT ORG_NM FROM t_org WHERE
+		ORG_CD=T.ORG_CD) ORG_NM
+		FROM (
+		SELECT
+		A.*
+		FROM
+		t_user_info A
+		WHERE 1=1
+		<choose>
+			<when test="srchMemLvl != null and srchMemLvl != ''">
+				and A.USER_MEM_LVL in (#{srchMemLvl})
+			</when>
+			<otherwise>
+				and A.USER_MEM_LVL in ('7','9')
+			</otherwise>
+		</choose>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'loginId'">
+					AND (
+					A.LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+					)
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					<!-- AND pdb_acct.pdbDec('normal',A.MOBILE,'',0) LIKE CONCAT('%',
+					#{srchWrd}, '%') -->
+				</when>
+				<when test="srchColumn == 'email'">
+					AND A.EMAIL LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+		<if test="srchWrdArr != null">
+			and
+			<foreach collection="srchWrdArr" item="item" separator=" and "
+				open="(" close=")">
+				concat(A.USER_NM,A.LOGIN_ID) like concat('%',#{item},'%')
+			</foreach>
+		</if>
+		
+		ORDER BY A.RGSDE DESC
+		) AS T
+		<if test="firstIndex!=null">
+			LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+
+	<select id="selectStdntListExcel" parameterType="MemberVO"
+		resultMap="userInfoStdntMap">
+		SELECT
+		A.*, B.USER_NM_EN, B.BELONG, B.POSITION, B.ADM_RGS_YN, B.SELF_AUTH_YN,
+		B.TERMS_ACCEPT_DE
+		FROM
+		t_user_info A, t_user_info_stdnt B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = #{userMemLvl}
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userId'">
+					AND A.USER_ID LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND B.BELONG LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+		
+		ORDER BY A.RGSDE DESC, A.USER_NM ASC
+	</select>
+
+	<insert id="insertMngrUserInfo" parameterType="UserInfo"
+		useGeneratedKeys="true" keyProperty="userId">
+		INSERT INTO
+		t_user_info(
+		USER_NM, USER_PW, EMAIL, MOBILE, BIRTH, MF_TYPE, POST_NO,
+		ADDR, ADDR_DETAIL, USER_MEM_LVL, RGSDE, LST_LOGIN_DE, LST_PW_DE,
+		TOTAL_LOGIN_CNT, PWD_ERROR_CNT, STATE, STATE_UPD_DE,
+		STATE_UPD_USER_ID,
+		CI, ETC1, ETC2, ETC3, ETC4, ETC5, ORG_CD, LOGIN_ID
+		,USER_TP
+		)VALUES(
+		#{userNm}, #{userPw}, #{encEmail}, #{encMobile}, #{birth}, #{mfType}, #{postNo},
+		#{addr}, #{addrDetail}, #{userMemLvl}, #{rgsde}, #{lstLoginDe},
+		#{lstPwDe},
+		0, 0, #{state}, #{stateUpdDe}, #{stateUpdUserId},
+		'', '', '', '', '', '', #{orgCd},#{loginId}
+		,#{userTp}
+		)
+	</insert>
+
+	<update id="updateUserPw" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_PW = #{userPw}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateUserInfoStdntPw" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_PW = #{userPw},
+		LST_LOGIN_DE = #{lstLoginDe},
+		LST_PW_DE = #{lstPwDe},
+		PWD_ERROR_CNT = #{pwdErrorCnt}
+		WHERE
+		LOGIN_ID = #{loginId}
+	</update>
+
+	<update id="updateNewPw" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_PW = #{userPw},
+		LST_PW_DE = #{lstPwDe},
+		PWD_ERROR_CNT = #{pwdErrorCnt}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+	<update id="updatePwSync" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_PW = #{userPw}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteMngrUserInfo" parameterType="String">
+		DELETE FROM
+		t_user_info WHERE USER_ID = #{userId}
+	</delete>
+
+	<update id="updateMngrUserInfo" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_NM = #{userNm}
+		,TEL=#{tel}
+		,MOBILE=#{mobile}
+		,EMAIL=#{email}
+		,POST_NO=#{postNo}
+		,ADDR=#{addr}
+		,ADDR_DETAIL=#{addrDetail}
+		,ADDR_ETC=#{addrEtc}
+		<if test="state != null and state != ''">
+			,state = #{state}
+		</if>
+		<if
+			test="userPw != '' and userPw != null ">
+			,USER_PW = #{userPw}
+		</if>
+		<if test="userMemLvl != '' and userPw != null">
+			,USER_MEM_LVL = #{userMemLvl}
+		</if>
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<select id="selectInstrctrListCnt" parameterType="MemberVO"
+		resultType="Integer">
+		SELECT
+		COUNT(A.USER_ID)
+		FROM
+		t_user_info A
+		WHERE
+		A.USER_MEM_LVL = #{userMemLvl}
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<otherwise>
+					AND (
+					A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+					)
+				</otherwise>
+			</choose>
+		</if>
+		<if test="srchPosition1 > 0">
+			AND A.POSITION1 = #{srchPosition1}
+		</if>
+		
+	</select>
+
+	<select id="selectInstrctrList" parameterType="MemberVO"
+		resultMap="userInfoInstrctrMap">
+		SELECT T.* FROM (
+		SELECT
+		A.*
+		FROM
+		t_user_info A
+		WHERE
+		A.USER_MEM_LVL = #{userMemLvl}
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<otherwise>
+					AND (
+					A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+					)
+				</otherwise>
+			</choose>
+		</if>
+		<if test="srchPosition1 > 0">
+			AND A.POSITION1 = #{srchPosition1}
+		</if>
+		
+		ORDER BY RGSDE DESC
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+
+	<select id="seleteInstrctrRealmList" parameterType="String"
+		resultMap="instrctrRealmMap">
+		SELECT
+		A.USER_ID, A.CTGRY_SEQ, B.CTGRY_NM
+		FROM
+		t_instrctr_realm A, t_category B
+		WHERE
+		A.CTGRY_SEQ = B.CTGRY_SEQ
+		AND A.USER_ID = #{userId}
+		ORDER BY B.ORDER_NO ASC
+	</select>
+
+	<delete id="deleteInstrctrRealm" parameterType="Integer">
+		DELETE FROM
+		t_instrctr_realm WHERE CTGRY_SEQ = #{ctgrySeq}
+	</delete>
+
+	<delete id="deleteInstrctrRealmUser" parameterType="String">
+		DELETE FROM
+		t_instrctr_realm WHERE USER_ID = #{userId}
+	</delete>
+
+	<select id="seleteInstrctrAttachList" parameterType="MemberVO"
+		resultMap="instrctrAttachMap">
+		SELECT
+		*
+		FROM
+		t_instrctr_attach
+		WHERE
+		FILE_SECTION = #{fileSection}
+		AND USER_ID = #{userId}
+		ORDER BY FILE_SEQ ASC
+	</select>
+
+	<select id="seleteInstrctrAttachListAll" parameterType="MemberVO"
+		resultMap="instrctrAttachMap">
+		SELECT
+		*
+		FROM
+		t_instrctr_attach
+		WHERE
+		USER_ID = #{userId}
+		ORDER BY FILE_SEQ ASC
+	</select>
+
+	<insert id="insertUserInfo" parameterType="UserInfo"
+		keyProperty="userId" useGeneratedKeys="true">
+		INSERT INTO
+		t_user_info(
+		USER_NM, USER_PW, EMAIL, TEL, MOBILE, MF_TYPE, POST_NO,
+		ADDR, ADDR_DETAIL, ADDR_ETC, 
+		USER_TP,
+		USER_MEM_LVL, RGSDE, LST_LOGIN_DE, LST_PW_DE,
+		TOTAL_LOGIN_CNT, PWD_ERROR_CNT, STATE, STATE_UPD_DE,
+		STATE_UPD_USER_ID,
+		CI, ETC1, ETC2, ETC3, ETC4, ETC5 ,ORG_CD ,LOGIN_ID
+		,user_org_cd,user_org_nm,user_grade_cd,user_grade_nm,etc,sms_yn
+		,birth
+		,SUB_DN
+		)VALUES(
+		#{userNm}, #{userPw}, #{encEmail}, #{encTel}, #{encMobile}, #{mfType},
+		#{postNo},
+		#{addr}, #{addrDetail}, #{addrEtc}, 
+		#{userTp},
+		#{userMemLvl}, #{rgsde}, #{lstLoginDe},
+		#{lstPwDe},
+		0, 0, #{state}, #{stateUpdDe}, #{stateUpdUserId},
+		#{ci}, '', '', '', '', '',#{orgCd},#{loginId}
+		,#{userOrgCd},#{userOrgNm},#{userGradeCd},#{userGradeNm},#{etc},#{smsYn}
+		,#{birth}
+		,#{subDn}
+		)
+	</insert>
+
+	<insert id="insertUserInfoInstrctr" parameterType="UserInfoInstrctr">
+		INSERT INTO
+		t_user_info_instrctr(
+		USER_ID, BELONG, "POSITION", PHOTO_ORG, PHOTO_RENAME, MEMO,AREA
+		)VALUES(
+		#{userId}, #{belong}, #{position}, #{photoOrg}, #{photoRename}, #{memo}, #{area}
+		)
+	</insert>
+
+	<insert id="insertUserInfoStdnt" parameterType="UserInfoStdnt">
+		INSERT INTO
+		t_user_info_stdnt(
+		USER_ID, USER_NM_EN, BELONG, "POSITION", ADM_RGS_YN, SELF_AUTH_YN,
+		TERMS_ACCEPT_DE
+		)VALUES(
+		#{userId}, #{userNmEn}, #{belong}, #{position}, #{admRgsYn}, #{selfAuthYn},
+		#{termsAcceptDe}
+		)
+	</insert>
+
+	<insert id="insertInstrctrAttach" parameterType="InstrctrAttach">
+		INSERT INTO
+		t_instrctr_attach(
+		FILE_SEQ, USER_ID, FILE_SECTION, FILE_ORG, FILE_RENAME, FILE_TYPE, FILE_SIZE
+		)VALUES(
+		#{fileSeq}, #{userId}, #{fileSection}, #{fileOrg}, #{fileRename}, #{fileType},
+		#{fileSize}
+		)
+	</insert>
+
+	<insert id="insertInstrctrRealm" parameterType="InstrctrRealm">
+		INSERT INTO
+		t_instrctr_realm(
+		USER_ID, CTGRY_SEQ
+		)VALUES(
+		#{userId}, #{ctgrySeq}
+		)
+	</insert>
+
+	<select id="selectInstrctrAttachByPk" parameterType="Integer"
+		resultMap="instrctrAttachMap">
+		SELECT
+		*
+		FROM
+		t_instrctr_attach
+		WHERE
+		FILE_SEQ = #{fileSeq}
+	</select>
+
+	<delete id="deleteInstrctrAttach" parameterType="Integer">
+		DELETE FROM
+		t_instrctr_attach WHERE FILE_SEQ = #{fileSeq}
+	</delete>
+
+	<update id="updateUserInfo" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_NM = #{userNm},
+		email = #{encEmail},
+		MOBILE = #{encMobile},
+		TEL = #{encTel},
+		<!-- 
+		MF_TYPE = #{mfType},
+		 -->
+		<if test='state != null and state != ""'>
+			STATE=#{state},
+		</if>
+		STATE_UPD_DE = #{stateUpdDe},
+		STATE_UPD_USER_ID = #{stateUpdUserId},
+		POST_NO = #{postNo},
+		ADDR = #{addr},
+		ADDR_DETAIL = #{addrDetail},
+		ADDR_ETC = #{addrEtc} ,
+		<!-- USER_MEM_LVL=#{userMemLvl}, -->
+		COMP_USER_ID=#{compUserId}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateUserInfoBase" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		POST_NO = #{postNo}
+		,ADDR = #{addr}
+		,ADDR_DETAIL = #{addrDetail}
+		,ADDR_ETC = #{addrEtc} 
+		
+		<if test="encTel != null and encTel != ''"> ,tel= #{encTel} </if>
+		<if test="encMobile != null and encMobile != ''"> ,mobile= #{encMobile} </if>
+		<if test="encEmail != null and encEmail != ''"> ,email= #{encEmail} </if>
+		<if test="userOrgCd != null and userOrgCd != ''"> ,user_org_cd= #{userOrgCd} </if>
+		<if test="userOrgNm != null and userOrgNm != ''"> ,user_org_nm= #{userOrgNm} </if>
+		<if test="userGradeCd != null and userGradeCd != ''"> ,user_grade_cd= #{userGradeCd} </if>
+		<if test="userGradeNm != null and userGradeNm != ''"> ,user_grade_nm= #{userGradeNm} </if>
+		<if test="smsYn != null and smsYn != ''"> ,sms_yn= #{smsYn} </if>
+		<if test="userTp > 0"> ,USER_TP = #{userTp} </if>
+		<if test="etc != null"> 	,ETC = #{etc} </if>
+		<if test="userEnNm != null"> 	,user_en_nm = #{userEnNm} </if>
+		<if test="subDn != null"> 	,SUB_DN = #{subDn} </if>
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateUserInfoInstrctr" parameterType="UserInfoInstrctr">
+		UPDATE
+		t_user_info_instrctr
+		SET
+		BELONG = #{belong},
+		"POSITION" = #{position},
+		PHOTO_ORG = #{photoOrg},
+		PHOTO_RENAME = #{photoRename},
+		MEMO = #{memo},
+		AREA = #{area},
+		USER_NM_EN=#{userNmEn}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteInstrctrUserInfo" parameterType="String">
+		DELETE FROM
+		t_user_info_instrctr WHERE USER_ID = #{userId}
+	</delete>
+
+	<delete id="deleteUserInfo" parameterType="String">
+		DELETE FROM
+		t_user_info WHERE USER_ID = #{userId}
+	</delete>
+
+	<select id="selectDrmncyListCnt" parameterType="MemberVO"
+		resultType="Integer">
+		SELECT
+		COUNT(A.USER_ID)
+		FROM
+		t_user_info A, t_user_info_stdnt B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = #{userMemLvl} 
+			<![CDATA[ 
+			AND DATE_FORMAT(A.LST_LOGIN_DE, '%Y%m%d') < #{compareDe} 
+			]]>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'loginId'">
+					AND A.LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND B.BELONG LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<select id="selectDrmncyList" parameterType="MemberVO"
+		resultMap="userInfoStdntMap">
+		SELECT T.* FROM (
+		SELECT
+		A.*, B.USER_NM_EN, B.BELONG, B.POSITION, B.ADM_RGS_YN, B.SELF_AUTH_YN,
+		B.TERMS_ACCEPT_DE
+		FROM
+		t_user_info A, t_user_info_stdnt B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = #{userMemLvl} 
+				<![CDATA[ 
+				AND DATE_FORMAT(A.LST_LOGIN_DE, '%Y%m%d') < #{compareDe} 
+				]]>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'loginId'">
+					AND A.LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND B.BELONG LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+		ORDER BY A.RGSDE DESC, A.USER_NM ASC
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+
+	<select id="selectInstrctrListByCategory" parameterType="Integer"
+		resultMap="userInfoMap">
+		SELECT
+		a.*
+		FROM
+		t_user_info a, t_user_info_instrctr b, T_INSTRCTR_REALM c
+		WHERE
+		a.USER_ID = b.USER_ID
+		AND a.USER_ID = c.USER_ID
+		AND c.CTGRY_SEQ = #{ctgrySeq}
+	</select>
+
+	<select id="selectStdntListByEdu" parameterType="EduVO"
+		resultMap="userInfoMap">
+		SELECT
+		A.USER_NM,A.EMAIL,A.MOBILE,A.LOGIN_ID,A.USER_ID,A.USER_TP
+		FROM
+		t_user_info A 
+		WHERE
+		A.USER_MEM_LVL = '9'
+		AND A.STATE != 'S'
+		AND A.USER_ID NOT IN(SELECT c.USER_ID FROM t_lecture_stdnt c WHERE c.EDU_SEQ = #{eduSeq} and c.state in (1,2))
+		<if test="srchWrd != null and srchWrd != ''">
+			AND (
+			A.LOGIN_ID LIKE CONCAT('%', #{srchWrd}, '%')
+			OR A.EMAIL LIKE CONCAT('%', #{srchWrd}, '%')
+			OR A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+			)
+		</if>
+		ORDER BY A.USER_NM ASC
+	</select>
+
+	<update id="updateStdntSelfAuth" parameterType="UserInfoStdnt">
+		UPDATE
+		t_user_info_stdnt
+		SET
+		SELF_AUTH_YN = #{selfAuthYn},
+		TERMS_ACCEPT_DE = #{termsAcceptDe}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<update id="updateUserInfoStdnt" parameterType="UserInfoStdnt">
+		UPDATE
+		t_user_info_stdnt
+		SET
+		BELONG = #{belong},
+		"POSITION" = #{position},
+		USER_NM_EN = #{userNmEn}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<select id="selectDrmncyMiniList" parameterType="MemberVO"
+		resultMap="userInfoStdntMap">
+		SELECT
+		A.*, B.USER_NM_EN, B.BELONG, B.POSITION, B.ADM_RGS_YN, B.SELF_AUTH_YN,
+		B.TERMS_ACCEPT_DE
+		FROM
+		t_user_info A, t_user_info_stdnt B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = '9'
+			<![CDATA[ 
+			AND DATE_FORMAT(A.LST_LOGIN_DE, '%Y%m%d') < #{compareDe} 
+			]]>
+		ORDER BY RGSDE DESC, USER_NM ASC
+		LIMIT 0, #{row}
+	</select>
+
+	<select id="selectInstrctrListExcel" parameterType="MemberVO"
+		resultMap="userInfoInstrctrMap">
+		SELECT
+		A.*, B.BELONG, B.POSITION, B.PHOTO_ORG, B.PHOTO_RENAME, B.MEMO ,B.AREA
+		FROM
+		t_user_info A, t_user_info_instrctr B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = #{userMemLvl}
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userNm'">
+					AND A.USER_NM LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND A.MOBILE LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND B.BELONG LIKE CONCAT('%', #{srchWrd}, '%')
+				</when>
+			</choose>
+		</if>
+		
+		ORDER BY RGSDE DESC
+	</select>
+
+	<select id="selectUserInfoForEmailCnt" resultType="int">
+		/**기관별 이메일 존재여부 체크 용도,엑셀일괄 등록*/
+		SELECT count(EMAIL) FROM t_user_info
+		WHERE EMAIL=#{encEmail}
+		<!-- AND ORG_CD=#{orgCd} -->
+	</select>
+	<select id="selectUserInfoForLoginIdCnt" resultType="int">
+		/**기관별 이메일
+		존재여부 체크 용도,엑셀일괄 등록*/
+		SELECT count(LOGIN_ID) FROM t_user_info
+		WHERE LOGIN_ID=#{loginId}
+	</select>
+	<select id="selectUserInfoForLastOrgUserId" resultType="string">
+		/** 기관별
+		등록한 유저 마지막 아이디 */
+		SELECT
+		COALESCE(MAX(USER_ID),concat(#{orgCd},'_000000')) FROM t_user_info
+		WHERE USER_MEM_LVL=#{userMemLvl}
+		AND ORG_CD=#{orgCd}
+	</select>
+	<select id="selectOrgCdCnt" resultType="int">
+		/** 관리자에서 기관코드 등록 건수 */
+		SELECT COUNT(*) FROM t_org
+		WHERE ORG_CD=#{orgCd}
+	</select>
+	<select id="selectOrgNmCnt" resultType="int">
+		/** 관리자에서 기관이름 등록 건수 */
+		SELECT COUNT(*) FROM t_org
+		WHERE ORG_NM=#{orgNm} AND ORG_CD!=#{orgCd}
+	</select>
+	<select id="selectInstrctrListByEdu" parameterType="EduVO"
+		resultMap="userInfoMap">
+		/**강사 찾기 리스트*/
+		SELECT
+		A.*, B.BELONG, B.POSITION
+		FROM
+		t_user_info A, t_user_info_instrctr B
+		WHERE
+		A.USER_ID = B.USER_ID
+		AND A.USER_MEM_LVL = '8'
+		AND A.STATE != 'S'
+		<if test="srchWrd != null and srchWrd != ''">
+			AND (B.BELONG LIKE CONCAT('%', #{srchWrd}, '%') or A.USER_NM like
+			CONCAT('%', #{srchWrd}, '%') or A.LOGIN_ID like CONCAT('%',
+			#{srchWrd}, '%') )
+		</if>
+		<if test="orgCd!=null and orgCd!='' ">
+			AND (A.ORG_CD=#{orgCd} or A.ORG_CD='0000' )
+		</if>
+		ORDER BY B.BELONG ASC, A.USER_NM ASC
+	</select>
+	<select id="getUserIdByLoginId" resultType="String">
+		select user_id from
+		t_user_info where login_id=#{loginId}
+	</select>
+	<select id="selectUserInfoByLoginId" resultMap="userInfoMap">
+		select * from
+		t_user_info where login_id=#{loginId}
+	</select>
+	<update id="updateUserInfoForState">
+		update t_user_info
+		set state=#{state}
+		where user_id=#{userId}
+	</update>
+	<update id="updateUserInfoForDel">
+		update t_user_info
+		set state='S'
+		,login_id=concat(login_id,'_del',date_format(now(),'%Y%m%d%H%i%S') )
+		where user_id=#{userId}
+	</update>
+
+	<select id="selectUserInfoByLoginIdAndUserMemLvl" parameterType="UserInfo"
+		resultMap="userInfoSessionMap">
+		SELECT *
+		FROM
+		t_user_info
+		WHERE
+		LOGIN_ID = #{loginId}
+		<if test="userMemLvl != null">
+			and user_mem_lvl = #{userMemLvl}
+		</if>
+
+	</select>
+	<select id="selectUserInfoByCompUserId" resultMap="userInfoMap">
+		select * from t_user_info 
+		where user_mem_lvl = '9' 
+		and comp_user_id=#{compUserId}
+	</select>
+	
+	<select id="selectUserInfoLoginBySubDn" parameterType="UserInfo"
+		resultMap="userInfoSessionMap">
+		
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE, EMAIL,BIRTH,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT, ORG_CD,LOGIN_ID
+		,USER_PW
+		FROM
+		t_user_info
+		WHERE
+		SUB_DN = #{subDn} 
+		and user_mem_lvl = #{userMemLvl}
+		<!-- AND USER_PW = #{userPw} -->
+	</select>
+	
+	<update id="updateGpkiInfo" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		SUB_DN = #{subDn},
+		<if test="userMemLvl != null and userMemLvl != ''">
+		USER_MEM_LVL = #{userMemLvl},
+		</if>
+		GONG_YN = #{gongYn}
+		
+		WHERE
+		USER_ID = #{userId}
+	</update>
+	
+	<select id="selectUserInfoLoginBySubDn2" parameterType="UserInfo"
+		resultMap="userInfoSessionMap">
+		
+		SELECT
+		USER_ID, USER_NM, USER_MEM_LVL, RGSDE, EMAIL,BIRTH,
+		LST_LOGIN_DE, LST_PW_DE, TOTAL_LOGIN_CNT, ORG_CD,LOGIN_ID
+		,USER_PW
+		FROM
+		t_user_info
+		WHERE
+		SUB_DN2 = #{subDn2} 
+		and user_mem_lvl = #{userMemLvl}
+		<!-- AND USER_PW = #{userPw} -->
+	</select>
+	
+	<update id="updateMobileId" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		SUB_DN2 = #{subDn2},
+		<if test="userMemLvl != null and userMemLvl != ''">
+		USER_MEM_LVL = #{userMemLvl},
+		</if>
+		GONG_YN = #{gongYn}
+		
+		WHERE
+		USER_ID = #{userId}
+	</update>
+	
+	<update id="updateUserAllow" parameterType="UserInfo">
+		UPDATE
+		t_user_info
+		SET
+		USER_MEM_LVL = #{userMemLvl}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+	<delete id="deleteUser" parameterType="UserInfo">
+		DELETE FROM 
+		T_USER_INFO
+		WHERE
+		USER_ID = #{userId}
+	</delete>
+</mapper>

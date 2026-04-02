@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lclike.mapper.LclikeMapper">
+	
+	<resultMap id="map" type="com.educare.edu.lclike.vo.LclikeVO" >
+		<result column="edu_seq" property="eduSeq"/>
+		<result column="user_id" property="userId"/>
+		
+		<result column="reg_de" property="regDe"/>
+		
+		<result column="edu_nm" property="eduNm"/>
+		<result column="rcept_period_begin" property="rceptPeriodBegin"/>
+		<result column="rcept_period_end" property="rceptPeriodEnd"/>
+		<result column="edu_period_begin" property="eduPeriodBegin"/>
+		<result column="edu_period_end" property="eduPeriodEnd"/>
+		<result column="target_tp" property="targetTp"/>
+		<result column="ctg1_seq" property="ctg1Seq"/>
+		<result column="rcept_period_yn" property="rceptPeriodYn"/>
+	</resultMap>
+	
+	<sql id="inc_selectLclikePage">
+		and a.user_id = #{userId}
+		<if test="state > 0">
+		and a.state = #{state}
+		</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		and b.edu_nm like concat('%',#{srchWrd},'%')
+		</if>
+	</sql>
+	<select id="selectLclikePageList" resultMap="map">
+		/** 찜한교육 게시판 리스트 */
+		SELECT a.*
+		,b.edu_nm,b.rcept_period_begin,b.rcept_period_end,b.edu_period_begin,b.edu_period_end
+		,b.target_tp,b.ctg1_seq,b.rcept_period_yn
+		FROM t_lecture_like a
+		left join t_lecture b on a.edu_seq = b.edu_seq
+		where 1=1
+		<include refid="inc_selectLclikePage"/>
+		ORDER BY REG_DE DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectLclikePageCnt" resultType="int">
+		/** 찜한교육 게시판 카운트 */
+		SELECT count(a.edu_seq)
+		FROM t_lecture_like a
+		where 1=1
+		<include refid="inc_selectLclikePage"/>
+	</select>
+	
+</mapper>

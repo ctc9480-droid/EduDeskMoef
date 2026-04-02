@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.FeedbackEduResultMapper">
+	<resultMap type="com.educare.edu.comn.model.FeedbackEduResult" id="map">
+		<result column="FE_SEQ" 		property="feSeq"/>
+		<result column="USER_ID" 		property="userId"/>
+		<result column="EDU_SEQ" 		property="eduSeq"/>
+		
+		<result column="REG_ID" 		property="regId"/>
+		<result column="REG_DE" 		property="regDe"/>
+		<result column="upd_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.FeedbackEduResultMapper.insertByPk */
+	select * from t_feedback_edu_result where fe_seq = #{feSeq} and user_id = #{userId}
+	</select>
+	<insert id="insertByPk" >
+		insert t_feedback_edu_result (
+			fe_seq			,user_id	,edu_seq 	,state
+			,reg_id			,reg_de		,upd_id		,upd_de
+		) values (
+			#{feSeq}		,#{userId}	,#{eduSeq}	,#{state}	
+			,#{regId}		,#{regDe}	,#{updId}	,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.FeedbackEduResultMapper.updateByPk */
+		update t_feedback_edu_result
+		set upd_de = #{updDe} ,upd_id = #{updId}
+		<if test="state > 0">	,state 		= #{state} </if>
+		where fe_seq = #{feSeq} and user_id = #{userId}
+	</update>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.FeedbackEduResultMapper.deleteByPk */
+		delete from t_feedback_edu_result
+		where fe_seq = #{feSeq} and user_id = #{userId}
+	</delete>
+	<select id="selectCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.FeedbackEduResultMapper.selectCnt */
+		select count(*) from t_feedback_edu_result
+		where 1=1
+		and edu_seq = #{eduSeq}
+		and fe_seq = #{feSeq}
+		<if test="state > 0" >
+		and state = #{state}
+		</if>
+	</select>
+</mapper>

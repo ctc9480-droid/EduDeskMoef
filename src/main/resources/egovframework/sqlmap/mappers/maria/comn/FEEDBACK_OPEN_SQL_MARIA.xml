@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.FeedbackOpenMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.FeedbackOpen">
+		<result property="idx" column="IDX" />
+		<result property="orgCd" column="ORG_CD" />
+		<result property="title" column="TITLE" />
+		<result property="status" column="STATUS" />
+		<result property="regTime" column="REG_TIME" />
+		<result property="regId" column="REG_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="modTime" column="MOD_TIME" />
+		<result property="modId" column="MOD_ID" />
+		<result property="fbIdx" column="FB_IDX" />
+		<result property="startDtime" column="START_DTIME" />
+		<result property="endDtime" column="END_DTIME" />
+		<result property="width" column="WIDTH" />
+		<result property="height" column="HEIGHT" />
+		<result property="posX" column="POS_X" />
+		<result property="posY" column="POS_Y" />
+	</resultMap>
+	<insert id="insertByPk">
+	/*  com.educare.edu.comn.mapper.FeedbackOpenMapper.insertByPk  */
+		INSERT INTO T_FEEDBACK 
+		(ORG_CD,TITLE,STATUS,REG_TIME,REG_ID,REG_NM,MOD_TIME,MOD_ID,FB_IDX,START_DTIME,END_DTIME,WIDTH,HEIGHT,POS_X,POS_Y)
+		VALUES
+		(#{orgCd},#{title},#{status},#{regTime},#{regId},#{regNm},#{modTime},#{modId},#{fbIdx},#{startDtime},#{endDtime},#{width},#{height},#{posX},#{posY})
+	</insert>
+	<select id="selectByPk" resultMap="map">
+	/*  com.educare.edu.comn.mapper.FeedbackOpenMapper.selectByPk  */
+		select * from t_feedback_open
+		where idx=#{idx}
+	</select>
+	<select id="selectByOpen" resultMap="map">
+	/*  com.educare.edu.comn.mapper.FeedbackOpenMapper.selectByOpen  */
+		select * from t_feedback_open
+		where #{addNowDtime} between start_dtime and end_dtime
+	</select>
+	<select id="selectBySearch" resultMap="map">
+	/*  com.educare.edu.comn.mapper.FeedbackOpenMapper.selectBySearch  */
+		select * from t_feedback_open 
+		where 1=1
+		and org_cd=#{orgCd}
+		order by reg_time desc
+	</select>
+</mapper>

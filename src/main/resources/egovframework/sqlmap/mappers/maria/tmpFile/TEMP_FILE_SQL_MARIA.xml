@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.tmpFile.service.impl.TempFileMapper">
+	
+	<resultMap id="tempFileMap" type="TempFile">
+		<result property="fileSeq" column="FILE_SEQ"/>
+		<result property="fileOrg" column="FILE_ORG"/>
+		<result property="fileRename" column="FILE_RENAME"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+	</resultMap>
+	
+	<insert id="insertTempFile" parameterType="TempFile">
+		INSERT INTO 
+			T_TEMP_FILE(
+				FILE_SEQ,
+				FILE_ORG,
+				FILE_RENAME,
+				FILE_TYPE,
+				FILE_SIZE
+			)VALUES(
+	   			#{fileSeq},
+	   			#{fileOrg},
+	   			#{fileRename},
+	   			#{fileType},
+	   			#{fileSize}
+			)
+	</insert>
+	
+	<delete id="deleteTempFile" parameterType="Integer">
+		DELETE FROM T_TEMP_FILE WHERE FILE_SEQ = #{fileSeq}
+	</delete>
+	
+	<select id="getTempFile" parameterType="Integer" resultMap="tempFileMap">
+		SELECT * FROM T_TEMP_FILE WHERE FILE_SEQ = #{fileSeq}
+	</select>
+</mapper>

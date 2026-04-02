@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureEtcIemDataMapper">
+	<resultMap id="lectureEtcIemDataVO" type="com.educare.edu.comn.vo.LectureEtcIemDataVO">
+		 <result property="eduSeq" column="EDU_SEQ"/>
+		 <result property="etcIemSeq" column="ETC_IEM_SEQ"/>
+		 <result property="etcIemData" column="ETC_IEM_DATA"/>
+		 <result property="userId" column="USER_ID"/>
+	</resultMap>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.LectureEtcIemDataMapper.insertByPk */
+		insert into t_lecture_etc_iem_data
+		(edu_seq,etc_iem_seq,etc_iem_data,user_id)
+		values
+		(#{eduSeq},#{etcIemSeq},#{etcIemData},#{userId})
+	</insert>
+	<delete id="deleteByRcept">
+	/* com.educare.edu.comn.mapper.LectureEtcIemDataMapper.deleteByRcept */
+		delete from t_lecture_etc_iem_data
+		where edu_seq = #{eduSeq} and user_id = #{userId}
+	</delete>
+	<select id="selectByRcept" resultMap="lectureEtcIemDataVO">
+	/* com.educare.edu.comn.mapper.LectureEtcIemDataMapper.selectByRcept */
+		select * from t_lecture_etc_iem_data
+		where edu_seq = #{eduSeq} and user_id = #{userId}
+		order by etc_iem_seq
+	</select>
+	<select id="selectByEdu" resultMap="lectureEtcIemDataVO">
+	/* com.educare.edu.comn.mapper.LectureEtcIemDataMapper.selectByEdu */
+		select * from t_lecture_etc_iem_data
+		where edu_seq = #{eduSeq}
+		order by user_id,etc_iem_seq
+	</select>
+</mapper>

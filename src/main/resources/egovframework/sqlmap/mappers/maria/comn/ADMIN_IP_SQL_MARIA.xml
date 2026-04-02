@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.AdminIpMapper">
+	<select id="selectByParam" resultMap="common.result.map.adminIpVO">
+	select * from t_admin_ip where 1=1
+	<if test="state > 0">
+		and state = #{state}
+	</if>
+	</select>
+	<select id="selectByPk" resultMap="common.result.map.adminIpVO">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.selectByPk */
+	select * from t_admin_ip where idx = #{idx}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="idx">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.insertByPk */
+		insert t_admin_ip 
+		(ip4,state,memo,reg_dt,reg_id,upd_dt,upd_id)
+		values
+		(#{ip4},#{state},#{memo},#{regDt},#{regId},#{updDt},#{updId})
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.updateByPk */
+		update t_admin_ip
+		set upd_dt = #{updDt}
+			,upd_id = #{updId}
+		<if test="memo != null">
+			,memo = #{memo}
+		</if>
+		<if test="ip4 != null">
+			,ip4 = #{ip4}
+		</if>
+		<if test="state > 0">
+			,state = #{state}
+		</if>
+		where idx = #{idx}
+	</update>
+	<update id="deleteByPk">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.deleteByPk */
+		delete t_admin_ip
+		where idx = #{idx}
+	</update>
+	
+	<select id="selectAccipPageCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.selectAccipPageCnt */
+		select count(*) from t_admin_ip where 1=1
+		<if test="state > 0">
+			and state = #{state}
+		</if>
+		<if test="srchWrd != '' and srchWrd != null">
+			and (
+				ip4 like concat('%',#{srchWrd},'%') 
+				or memo like concat('%',#{srchWrd},'%') 
+			)	
+		</if>
+	</select>
+	<select id="selectAccipPageList" resultMap="common.result.map.adminIpVO">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.selectAccipPageList */
+		select * from t_admin_ip where 1=1
+		<if test="state > 0">
+			and state = #{state}
+		</if>
+		<if test="srchWrd != '' and srchWrd != null">
+			and (
+				ip4 like concat('%',#{srchWrd},'%') 
+				or memo like concat('%',#{srchWrd},'%') 
+			)	
+		</if>
+		<if test="row > 0">
+			LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	<select id="selectAccipDupIp" resultType="int">
+	/* com.educare.edu.comn.mapper.AdminIpMapper.selectAccipDupIp */
+		select count(*) from t_admin_ip
+		where ip4 = #{ip4}
+		and idx != #{idx}
+	</select>
+</mapper>

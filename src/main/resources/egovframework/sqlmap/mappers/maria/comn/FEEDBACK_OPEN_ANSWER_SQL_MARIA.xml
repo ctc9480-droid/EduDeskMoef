@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.FeedbackOpenAnswer">
+		<result property="fbIdx" column="FB_IDX" />
+		<result property="qtIdx" column="QT_IDX" />
+		<result property="userId" column="USER_ID" />
+		<result property="answer" column="ANSWER" />
+		<result property="choice" column="CHOICE" />
+		<result property="regTime" column="REG_TIME" />
+	</resultMap>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper.insertByPk */
+		insert into t_feedback_open_answer
+		(open_idx,fb_idx,qt_idx,user_id,answer,choice,reg_time)
+		values
+		(#{openIdx},#{fbIdx},#{qtIdx},#{userId},#{answer},#{choice},#{regTime})
+	</insert>
+
+	<delete id="deleteByFbIdxUserId">
+	/* com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper.deleteByFbIdxUserId */
+		delete from t_feedback_open_answer
+		where open_idx=#{openIdx} and fb_idx=#{fbIdx} and user_id=#{userId}
+	</delete>
+	<select id="selectBy_FbIdx_QtIdx_UserIdx" resultMap="map">
+	/* com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper.selectBy_FbIdx_QtIdx_UserIdx */
+		select * from t_feedback_open_answer
+		where open_idx=#{openIdx} and fb_idx=#{fbIdx} and qt_idx=#{qtIdx} and user_id=#{userId}
+	</select>
+	<select id="selectCntByUserIdOpenIdx" resultType="int">
+	/* com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper.selectCntByUserIdOpenIdx */
+		select count(*) from t_feedback_open_answer where open_idx=#{openIdx} and user_id=#{userId}
+	</select>
+	<select id="selectCntByOpenIdx" resultType="int">
+	/* com.educare.edu.comn.mapper.FeedbackOpenAnswerMapper.selectCntByOpenIdx */
+		select count(*) from (
+			select open_idx,user_id
+			from t_feedback_open_answer
+			where open_idx=#{openIdx}
+			group by open_idx,user_id
+		) a
+	</select>
+</mapper>

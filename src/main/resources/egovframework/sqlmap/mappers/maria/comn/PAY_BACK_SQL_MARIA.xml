@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.PayBackMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.PayBack">
+		<result property="idx" column="PAY_NO"/>
+		<result property="bankNm" column="BANK_NM"/>
+		<result property="accountNm" column="ACCOUNT_NM"/>
+		<result property="accountNo" column="ACCOUNT_NO"/>
+		<result property="userId" column="USER_ID"/>
+	</resultMap>
+	
+	<update id="updateAnyByUk">
+	/* com.educare.edu.comn.mapper.PayBackMapper.updateAnyByUk */
+		update t_pay_back
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="bankNm != null"> bank_nm=#{bankNm}, </if>
+			<if test="accountNm != null"> account_nm=#{accountNm}, </if>
+			<if test="accountNo != null"> account_no=#{accountNo}, </if>
+		</trim>
+		WHERE
+		user_id=#{userId}
+	</update>
+	
+	<insert id="insertByPk">
+		/* com.educare.edu.comn.mapper.PayBackMapper.insertByPk */
+		insert into t_pay_back
+		(bank_nm,account_nm,account_no,user_id)
+		values
+		(#{bankNm},#{accountNm},#{accountNo},#{userId})
+	</insert>
+	
+	<select id="selectByUk" resultMap="map">
+		/* com.educare.edu.comn.mapper.PayBackMapper.selectByUk */
+		select * from t_pay_back where user_id=#{userId}
+	</select>
+</mapper>

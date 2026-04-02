@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.quizCate.mapper.QuizCateMapper">
+
+	
+	<resultMap id="categoryMap" type="com.educare.edu.comn.vo.CategoryVO">
+		<result property="ctgrySeq" column="CTGRY_SEQ"/>
+		<result property="ctgryDepth" column="CTGRY_DEPTH"/>
+		<result property="ctgryNm" column="CTGRY_NM"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="parentSeq" column="PARENT_SEQ"/>
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="fbIdx" column="FB_IDX"/>
+		<result property="openClass" column="OPEN_CLASS"/>
+		<result property="fbTitle" column="FB_TITLE"/>
+		<result property="passCd" column="pass_cd"/>
+	</resultMap>
+	
+	<resultMap id="qstnCateMap" type="com.educare.edu.quizCate.vo.QstnCategoryVO">
+		<result property="qstnCtgSeq" column="QSTN_CTG_SEQ"/>
+		<result property="ctgNm" column="CTG_NM"/>
+		<result property="ctgDepth" column="CTG_DEPTH"/>
+		<result property="parentSeq" column="PARENT_SEQ"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="orderNo" column="ORDER_NO"/>
+	</resultMap>
+	
+	<select id="selectCategoryList" parameterType="Integer" resultMap="qstnCateMap">
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			CTG_DEPTH = #{ctgDepth}
+			AND USE_YN = 'Y'
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryListAdmin" parameterType="Integer" resultMap="qstnCateMap">
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			CTG_DEPTH = #{ctgDepth}
+		ORDER BY ORDER_NO ASC
+	</select>
+	
+	<select id="selectCategoryUseList" parameterType="Integer" resultMap="qstnCateMap">
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			USE_YN = 'Y'
+			AND CTGRY_DEPTH = #{ctgDepth}
+		ORDER BY ORDER_NO ASC
+	</select>
+	
+	<select id="selectCategoryByPk" parameterType="Integer" resultMap="qstnCateMap">
+		SELECT 
+			*
+		FROM 
+			t_qstn_category a
+		WHERE
+			QSTN_CTG_SEQ = #{qstnCtgSeq}
+	</select>
+	 
+	<select id="selectParentCategoryByPk" parameterType="Integer" resultMap="qstnCateMap">
+		SELECT 
+			a.parent_seq , a.ctg_depth
+		FROM 
+			t_qstn_category a
+		WHERE
+			CTGRY_SEQ = #{qstnCtgSeq}
+	</select>	
+	
+	<insert id="insertCategory" parameterType="QstnCategoryVO">
+		INSERT INTO 
+			t_qstn_category(
+				CTG_NM,
+				CTG_DEPTH, 
+				PARENT_SEQ,
+				USE_YN, 
+				ORDER_NO,
+				UPD_DE
+			)VALUES(
+				#{ctgNm}, 
+				#{ctgDepth}, 
+				#{parentSeq},
+				#{useYn}, 
+				(SELECT COALESCE(MAX(ORDER_NO), 0)+1 FROM t_qstn_category AS T),
+				#{updDe}
+			)
+	</insert>
+	
+	<update id="updateCategory" parameterType="QstnCategoryVO">
+		UPDATE
+			t_qstn_category
+		SET
+			CTG_NM = #{ctgNm}, 
+			USE_YN = #{useYn}
+		WHERE
+			QSTN_CTG_SEQ = #{qstnCtgSeq}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Integer">
+		DELETE FROM t_qstn_category WHERE QSTN_CTG_SEQ = #{qstnCtgSeq}
+	</delete>
+	<delete id="disabledCategory" parameterType="Integer">
+		UPDATE t_qstn_category 
+		SET USE_YN = 'N'
+		WHERE QSTN_CTG_SEQ = #{qstnCtgSeq}
+	</delete>
+	
+	<update id="updateCategoryOrder" parameterType="qstnCategoryVO">
+		UPDATE
+			t_qstn_category
+		SET
+			ORDER_NO = #{orderNo}
+		WHERE
+			QSTN_CTG_SEQ = #{qstnCtgSeq}
+	</update>
+	
+	<select id="selectCategoryChildUseList" resultMap="qstnCateMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			USE_YN = 'Y'
+			AND PARENT_SEQ = #{parentSeq}
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryChildAllList" resultMap="qstnCateMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			PARENT_SEQ = #{parentSeq}
+			AND USE_YN = 'Y'
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryChildAllListAdmin" resultMap="qstnCateMap">
+		/** 자식 카테고리 리스트 */
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		WHERE
+			PARENT_SEQ = #{parentSeq}
+		ORDER BY ORDER_NO ASC
+	</select>
+	<select id="selectCategoryAllList" resultMap="qstnCateMap">
+		SELECT 
+			*
+		FROM 
+			t_qstn_category
+		where 
+			USE_YN = 'Y'
+	</select>
+	<select id="selectParentCategoryByChild" resultMap="qstnCateMap">
+		SELECT 
+			a.*
+		FROM 
+			t_qstn_category a
+		where a.qstn_ctg_seq = (select parent_seq from t_qstn_category where qstn_ctg_seq = #{qstnCtgSeq})
+	</select>
+</mapper>

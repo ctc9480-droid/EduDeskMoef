@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.education.service.impl.EduMapper">
+	
+	<resultMap id="lectureRceptMap" type="LectureRcept">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="belong" column="BELONG"/>
+		<result property="position" column="POSITION"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payYn" column="PAY_YN"/>
+		<result property="etc" column="ETC"/>
+		<result property="rceptState" column="rcept_STATE"/>
+		<result property="stdntState" column="stdnt_STATE"/>
+		<result property="payNo" column="PAY_NO"/>
+		<result property="payDt" column="PAY_DT"/>
+		<result property="fileOrg" column="FILE_ORG"/>
+		<result property="fileRe" column="FILE_RE"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payState" column="PAY_STATE"/>
+		<result property="payFee" column="PAY_FEE"/>
+		<result property="pgPayNo" column="PG_PAY_NO"/>
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+		<result property="feeTp" column="FEE_TP"/>
+		
+		<result property="mfType" 			column="mf_type"/>
+		
+		<result property="eduNm" 			column="EDU_NM"/>
+		<result property="userOrgNm" 		column="USER_ORG_NM"/>
+		<result property="userGradeNm" 		column="USER_GRADE_NM"/>
+		<result property="useTransYn" 		column="USE_TRANS_YN"/> 
+		<result property="dormiCapaYn" 		column="DORMI_CAPA_YN"/> 
+		<result property="tel" 				column="TEL"/> 
+		
+		
+		<result property="regId" column="REG_ID"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="updId" column="UPD_ID"/>
+		<result property="updDe" column="UPD_DE"/>
+	</resultMap>
+	
+	<resultMap id="lectureStdntMap" type="LectureStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="loginId2" column="LOGIN_ID2"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="belong" column="BELONG"/>
+		<result property="position" column="POSITION"/>
+		<result property="workshopScore" column="WORKSHOP_SCORE"/>
+		<result property="examScore" column="EXAM_SCORE"/>
+		<result property="attendScore" column="ATTEND_SCORE"/>
+		<result property="passYn" column="PASS_YN"/>
+		<result property="passCertIssue" column="PASS_CERT_ISSUE"/>
+		<result property="passCertNum" column="PASS_CERT_NUM"/>
+		<result property="complCertIssue" column="COMPL_CERT_ISSUE"/>
+		<result property="complCertNum" column="COMPL_CERT_NUM"/>
+		<result property="surveyYn" column="SURVEY_YN"/>
+		<result property="certDe" column="CERT_DE"/>
+		<result property="attCnt" column="ATT_CNT"/>
+		<result property="attendCnt" column="ATTEND_CNT"/>
+		<result property="testPassCnt" column="test_pass_cnt"/>
+		<result property="test2PassCnt" column="test2_pass_cnt"/>
+		<result property="testCnt" column="test_cnt"/>
+		
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+		<result property="depositYn" column="deposit_yn"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="birth" column="BIRTH"/>
+		<result property="taskFileOrg" column="TASK_FILE_ORG"/>
+		<result property="taskFileRename" column="TASK_FILE_RENAME"/>		
+		<result property="feResultState" column="FE_RESULT_STATE"/>
+	</resultMap>
+	
+	<insert id="insertLctre" parameterType="Lecture" keyProperty="eduSeq" useGeneratedKeys="true">
+		INSERT INTO 
+			t_lecture(
+				EDU_NM, CTG1_SEQ,CTG2_SEQ,CTG3_SEQ, OPEN_YN, 
+				INSTRCTR_ID, INSTRCTR_NM, IMG_ORG, IMG_RENAME, IMG_USE_YN, EDU_PERIOD_BEGIN, EDU_PERIOD_END, 
+				RCEPT_PERIOD_BEGIN, RCEPT_PERIOD_END, RCEPT_PERIOD_YN, PERSONNEL, MIN_PERSONNEL, EXT_PERSONNEL, 
+				CLOSE_TP, FEE, GROUP_FEE, FEE_LIMIT, GROUP_COMMENT, CN, POST_NO, ADDR, ADDR_DETAIL, ADDR_ETC,
+				ADDR_MEMO, RCEPT_YN, CLOSE_YN, REG_DE, REG_ID, UPD_DE, UPD_ID, ORG_CD, ONLINE_YN, ONLINE_URL, TEL, WAY_COME
+				,LCTRE_TYPE,SMS_AUTO,EDU_ETC 
+				,TARGETS,PASS_CERT_YN, FB_YN, PRE_EDU_YN ,PASS_IDX
+				,PASS_ATT_POINT, PASS_ASG_POINT, PASS_TEST_POINT, PASS_POINT, PRE_EDU_SEQ, FB_IDX, AUTO_PASS_YN 
+				,ETC_IEM_YN, INQ_NM, ETC_AGREE_YN, ESSNTL_FILE_YN,SCRTY_YN,SCRTY_PW
+				,CANCEL_LIMIT_DT,EDU_YEAR,EDU_TERM
+				,TARGET_TP,EDU_TP,RCEPT_CNT_VIEW_YN,RETURN_TP
+				,comp_stnd_01,comp_stnd_02,comp_stnd_03,comp_stnd_04,comp_stnd_05
+				,meal_fee,dormi_fee ,meal_account,dormi_account,deposit_limit_dt
+			)VALUES(
+				#{eduNm}, #{ctg1Seq}, #{ctg2Seq}, #{ctg3Seq},  #{openYn}, 
+				#{instrctrId}, #{instrctrNm}, #{imgOrg}, #{imgRename}, #{imgUseYn}, #{eduPeriodBegin}, #{eduPeriodEnd}, 
+				#{rceptPeriodBegin}, #{rceptPeriodEnd}, #{rceptPeriodYn}, #{personnel}, #{minPersonnel}, #{extPersonnel}, 
+				#{closeTp}, #{fee}, #{groupFee}, #{feeLimit}, #{groupComment}, #{cn}, #{postNo}, #{addr}, #{addrDetail}, #{addrEtc}, 
+				#{addrMemo}, #{rceptYn}, #{closeYn}, #{regDe}, #{regId}, #{updDe}, #{updId}, #{orgCd}, #{onlineYn}, #{onlineUrl}, #{tel}, #{wayCome}
+				,#{lctreType},#{smsAuto},#{eduEtc}
+				,#{targets},#{passCertYn},#{fbYn},#{preEduYn}, #{passIdx}
+				,#{passAttPoint},#{passAsgPoint},#{passTestPoint},#{passPoint},#{preEduSeq}, #{fbIdx} ,#{autoPassYn}
+				,#{etcIemYn},#{inqNm},#{etcAgreeYn},#{essntlFileYn},#{scrtyYn},#{scrtyPw}
+				,#{cancelLimitDt},#{eduYear},#{eduTerm}
+				,#{targetTp},#{eduTp},#{rceptCntViewYn},#{returnTp}
+				,#{compStnd01},#{compStnd02},#{compStnd03},#{compStnd04},#{compStnd05}
+				,#{mealFee},#{dormiFee},#{mealAccount},#{dormiAccount},#{depositLimitDt}
+			)
+	</insert>
+	
+	<select id="selectLctreListMngrCnt" resultType="Integer" parameterType="EduVO">
+		SELECT 
+			COUNT(EDU_SEQ) 
+		FROM 
+			t_lecture a
+		WHERE
+			1 = 1 
+		<if test="srchWrd != null and srchWrd != ''">
+			AND (EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') or cn LIKE CONCAT('%', #{srchWrd}, '%'))
+		</if>
+		<if test="srchCtgry > 0">
+				AND ctg1_seq = #{srchCtgry}
+			</if>
+			<if test="srchCtgry2 > 0">
+				<if test="srchCtgry3 > 0">
+					AND ctg3_seq = #{srchCtgry3}
+				</if>
+				<if test="srchCtgry3 lt 1">
+					AND (
+						ctg2_seq = #{srchCtgry2}
+					)
+				</if>
+			</if>
+		<if test="srchAgency != null and srchAgency != ''">
+			AND a.ORG_CD = #{srchAgency}
+		</if> 
+		<if test="srchSidoCd != null and srchSidoCd != '' and srchSidoCd != '0'">
+			AND a.ORG_CD in (select org_cd from t_org where sido_cd =#{srchSidoCd})
+		</if> 
+		
+		<if test="srchRegId != null and srchRegId != ''">
+			<if test='srchCtgryAuthYn == "Y"'>
+				and a.ctg1_seq in (select ctgry_seq from t_category_auth where user_id=#{srchRegId})
+			</if>
+			<if test='srchCtgryAuthYn != "Y"'>
+				and a.reg_id = #{srchRegId}
+			</if>
+		</if>
+		<if test="eduYear != '' and eduYear != null">
+		AND a.EDU_YEAR = #{eduYear}
+		</if>
+		<if test="eduTerm > 0">
+		AND a.EDU_TERM = #{eduTerm}
+		</if>
+	</select>
+	
+	<select id="selectLctreListMngr" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		/** 관리자 > 수업관리 리스트 */
+		SELECT T.* FROM (
+			SELECT 
+				a.*, 
+				(SELECT COUNT(USER_ID) FROM t_lecture_stdnt WHERE EDU_SEQ = a.EDU_SEQ ) AS RCEPT_CNT,
+				0 AS WAIT_CNT
+				,(select ctgry_nm from t_category where ctgry_seq=a.ctg1_seq) ctg1_nm
+				,(select ctgry_nm from t_category where ctgry_seq=a.ctg2_seq) ctg2_nm
+				,(select ctgry_nm from t_category where ctgry_seq=a.ctg3_seq) ctg3_nm
+			FROM 
+				t_lecture a
+			WHERE
+				1 = 1 
+			<if test="srchWrd != null and srchWrd != ''">
+				AND (EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') or cn LIKE CONCAT('%', #{srchWrd}, '%'))
+			</if>
+			<if test="srchCtgry > 0">
+				AND ctg1_seq = #{srchCtgry}
+			</if>
+			<if test="srchCtgry2 > 0">
+				<if test="srchCtgry3 > 0">
+					AND ctg3_seq = #{srchCtgry3}
+				</if>
+				<if test="srchCtgry3 lt 1">
+					AND (
+						ctg2_seq = #{srchCtgry2}
+					)
+				</if>
+			</if>
+			<if test="srchAgency != null and srchAgency != ''">
+				AND a.ORG_CD = #{srchAgency}
+			</if> 
+			<if test="srchSidoCd != null and srchSidoCd != '' and srchSidoCd != '0'">
+				AND a.ORG_CD in (select org_cd from t_org where sido_cd =#{srchSidoCd})
+			</if> 
+		
+			<if test="srchRegId != null and srchRegId != ''">
+				<if test='srchCtgryAuthYn == "Y"'>
+					and a.ctg1_seq in (select ctgry_seq from t_category_auth where user_id=#{srchRegId})
+				</if>
+				<if test='srchCtgryAuthYn != "Y"'>
+					and a.reg_id = #{srchRegId}
+				</if>
+			</if>
+			<if test="eduYear != '' and eduYear != null">
+			AND a.EDU_YEAR = #{eduYear}
+			</if>
+			<if test="eduTerm > 0">
+			AND a.EDU_TERM = #{eduTerm}
+			</if>
+			
+		) AS T
+		ORDER BY T.EDU_PERIOD_BEGIN DESC		
+		<if test="row > 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+	<select id="selectLctreByPk" resultMap="common.result.map.lectureMap" parameterType="Integer">
+		/** 수업상세 */
+		SELECT
+			a.*,
+			(SELECT COUNT(T.USER_ID) FROM t_lecture_stdnt T WHERE T.STATE in (1,2) AND T.EDU_SEQ = #{eduSeq} ) AS RCEPT_CNT,
+			(SELECT ORG_NM FROM t_org T WHERE T.ORG_CD = a.ORG_CD) AS ORG_NM,
+			0 AS WAIT_CNT 
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg1_seq) ctg1_nm
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg2_seq) ctg2_nm
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg3_seq) ctg3_nm
+		FROM 
+			t_lecture a 
+		WHERE a.EDU_SEQ = #{eduSeq}
+	</select>
+	
+	<select id="selectLctreMiniList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		SELECT 
+			*,
+			0 AS RCEPT_CNT,
+			0 AS WAIT_CNT
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg1_seq) ctg1_nm
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg2_seq) ctg2_nm
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg3_seq) ctg3_nm
+		FROM 
+			t_lecture a
+		WHERE
+			OPEN_YN = 'Y' 
+			<!-- 
+			<![CDATA[ 
+			AND #{srchDate} <= RCEPT_PERIOD_END
+			]]>
+			 -->
+			<if test="srchCtgry > 0">
+				and a.ctg1_seq = #{srchCtgry}
+			</if>
+		ORDER BY edu_period_begin desc,
+		CASE WHEN RCEPT_PERIOD_END >= #{srchDate} THEN 1   
+        	ELSE 2                                       
+	    	END,
+	    CASE WHEN RCEPT_PERIOD_END >= #{srchDate} THEN RCEPT_PERIOD_END 
+	    	END ASC,
+	    CASE WHEN RCEPT_PERIOD_END <![CDATA[ < ]]>#{srchDate} THEN RCEPT_PERIOD_END   
+	    	END DESC
+		LIMIT 0, #{viewCnt}
+	</select>
+	
+	<select id="selectLctreUserList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		/** 개인교육 리스트 */
+		SELECT 
+			a.*,
+			(SELECT COUNT(*) FROM t_lecture_stdnt T WHERE T.STATE != 3 AND T.EDU_SEQ = a.EDU_SEQ ) AS RCEPT_CNT,
+			0 AS WAIT_CNT,
+			(SELECT ORG_NM FROM t_org T WHERE T.ORG_CD = a.ORG_CD) AS ORG_NM
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg1_seq) ctg1_nm
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg2_seq) ctg2_nm
+			,(select ctgry_nm from t_category where ctgry_seq=a.ctg3_seq) ctg3_nm
+		FROM 
+			t_lecture a
+		WHERE
+			a.OPEN_YN = 'Y' 
+			<!-- 
+			AND SUBSTRING(A.EDU_PERIOD_BEGIN, 6, 2) = #{srchMonth} 
+			-->
+			<if test="srchYear != null">
+				<choose>
+				<when test="srchMonth != null and srchMonth != ''">
+			AND (
+			
+				concat(SUBSTRING(a.EDU_PERIOD_BEGIN, 1, 4),SUBSTRING(a.EDU_PERIOD_BEGIN, 6, 2)) <![CDATA[=]]> concat(#{srchYear},#{srchMonth} ) 
+				<!-- 
+				<![CDATA[
+				(
+					concat(SUBSTRING(a.EDU_PERIOD_BEGIN, 1, 4),SUBSTRING(a.EDU_PERIOD_BEGIN, 6, 2)) <= concat(#{srchYear},#{srchMonth} ) 
+					and concat(SUBSTRING(a.EDU_PERIOD_END, 1, 4),SUBSTRING(a.EDU_PERIOD_END, 6, 2)) >= concat(#{srchYear},#{srchMonth} ) 
+				)
+				or
+				(
+					SUBSTRING(RCEPT_PERIOD_BEGIN,1,6) <= concat(#{srchYear},#{srchMonth} ) 
+					AND SUBSTRING(RCEPT_PERIOD_END,1,6) >= concat(#{srchYear},#{srchMonth} ) 
+				) 
+				]]>
+				-->
+			)
+				</when>
+				<otherwise>
+					and SUBSTRING(a.EDU_PERIOD_BEGIN, 1, 4) = #{srchYear}
+				</otherwise>
+				</choose>
+			</if>
+			<if test="srchDate != null and srchDate != ''">
+			AND a.EDU_PERIOD_BEGIN = #{srchDate}
+			</if>
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'eduNm'">
+						AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'instrctrNm'">
+						AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'orgNm'">
+						AND a.ORG_CD IN (SELECT ORG_CD FROM t_org WHERE ORG_NM LIKE CONCAT('%', #{srchWrd}, '%') )
+					</when>
+					<otherwise>
+						AND (a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%')  )
+					</otherwise>
+				</choose>
+			</if>
+			
+			<if test="srchCtgry > 0">
+				AND ctg1_seq = #{srchCtgry}
+			</if>
+			<if test="srchCtgry2 > 0">
+				<if test="srchCtgry3 > 0">
+					AND ctg3_seq = #{srchCtgry3}
+				</if>
+				<if test="srchCtgry3 lt 1">
+					AND (
+						ctg2_seq = #{srchCtgry2}
+					)
+				</if>
+			</if>
+			
+			<if test="srchAgency != null and srchAgency != ''">
+				AND a.ORG_CD = #{srchAgency}
+			</if> 
+			<if test="srchSidoCd != null and srchSidoCd != '' and srchSidoCd != '0'">
+				AND a.ORG_CD in (select org_cd from t_org where sido_cd =#{srchSidoCd})
+			</if> 
+			
+			<if test='srchRcept=="Y"'>
+				AND a.rcept_period_begin <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+				AND a.rcept_period_end >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+			</if>
+		ORDER BY
+<!-- 		<choose> -->
+<!-- 		<when test="srchSort=='eduNmAsc'">  -->
+<!-- 		a.EDU_NM -->
+<!-- 		</when> -->
+<!-- 		<when test="srchSort=='eduDtAsc'">  -->
+<!-- 		a.EDU_PERIOD_BEGIN -->
+<!-- 		</when> -->
+<!-- 		<when test="srchSort=='rceptEndDtAsc'">  -->
+<!-- 		a.RCEPT_PERIOD_END -->
+<!-- 		</when> -->
+<!-- 		<otherwise> -->
+		a.EDU_PERIOD_BEGIN DESC, a.EDU_PERIOD_END DESC, a.EDU_NM
+<!-- 		</otherwise>	 -->
+<!-- 		</choose> -->
+	</select>
+	
+	<select id="selectLctreCalList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		SELECT 
+			*,
+			0 AS RCEPT_CNT,
+			0 AS WAIT_CNT
+		FROM 
+			t_lecture a
+		WHERE
+			OPEN_YN = 'Y' 
+			<![CDATA[ 
+			AND (
+					(
+						REPLACE(EDU_PERIOD_BEGIN, '-', '') <= REPLACE(#{srchDateBegin}, '-', '') 
+						AND REPLACE(EDU_PERIOD_END, '-', '') >= REPLACE(#{srchDateBegin}, '-', '')
+					) or ( 
+						REPLACE(EDU_PERIOD_BEGIN, '-', '') >= REPLACE(#{srchDateBegin}, '-', '') 
+						AND REPLACE(EDU_PERIOD_END, '-', '') <= REPLACE(#{srchDateEnd}, '-', '')
+					) or (
+						REPLACE(EDU_PERIOD_BEGIN, '-', '') <= REPLACE(#{srchDateEnd}, '-', '') 
+						AND REPLACE(EDU_PERIOD_END, '-', '') >= REPLACE(#{srchDateEnd}, '-', '')
+					)
+				)
+			]]>
+			
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'eduNm'">
+						AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'instrctrNm'">
+						AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%')
+					</when>
+					<when test="srchColumn == 'orgNm'">
+						AND a.ORG_CD IN (SELECT ORG_CD FROM t_org WHERE ORG_NM LIKE CONCAT('%', #{srchWrd}, '%') )
+					</when>
+				</choose>
+			</if>
+			<if test="srchCtgry > 0">
+				AND a.ctg1_seq = #{srchCtgry}
+			</if> 
+			<if test="srchCtgry2 > 0">
+				AND a.ctg2_seq = #{srchCtgry2}
+			</if> 
+			
+			<if test="srchAgency != null and srchAgency != ''">
+				AND a.ORG_CD = #{srchAgency}
+			</if> 
+			<if test="srchSidoCd != null and srchSidoCd != '' and srchSidoCd != '0'">
+				AND a.ORG_CD in (select org_cd from t_org where sido_cd =#{srchSidoCd})
+			</if> 
+			
+		ORDER BY case when edu_ctgry_seq=49 then 1 when edu_ctgry_seq=50 then 2 when edu_ctgry_seq=51 then 3 else 4 end asc
+		, edu_period_begin desc
+	</select>
+	
+	<select id="selectLctreBannerList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		SELECT 
+			*,
+			0 AS RCEPT_CNT,
+			0 AS WAIT_CNT
+		FROM 
+			t_lecture
+		WHERE
+			OPEN_YN = 'Y' 
+			<![CDATA[ 
+			AND SUBSTRING(EDU_PERIOD_END, 1, 4) >= #{srchYear}
+			]]>
+		ORDER BY EDU_PERIOD_BEGIN ASC 
+	</select>
+	
+	<select id="selectLctreRceptCnt" resultType="Integer" parameterType="Integer">
+		SELECT 
+			COUNT(USER_ID) 
+		FROM 
+			t_lecture_stdnt
+		WHERE
+			STATE != 3
+			AND EDU_SEQ = #{eduSeq}
+	</select>
+	
+	<select id="selectLctreRceptByPk" resultMap="lectureRceptMap" parameterType="EduVO">
+		SELECT 
+			a.*
+			,b.state pay_state
+			,b.pay_type
+			,b.amount pay_fee
+			,b.pg_pay_no
+		FROM 
+			t_lecture_rcept a 
+			left join t_pay b on a.pay_no=b.pay_no
+		WHERE
+			a.EDU_SEQ = #{eduSeq} 
+			AND a.USER_ID = #{userId}
+			AND a.rcept_seq = #{rceptSeq}
+	</select>
+	<select id="selectLcrcpInfo" resultMap="common.result.map.lectureMap" >
+		SELECT 
+			a.*
+			,b.state pay_state
+			,b.pay_type 
+			,b.amount pay_fee
+			,b.pg_pay_no
+		FROM 
+			t_lecture_rcept a 
+			left join t_pay b on a.pay_no=b.pay_no
+		WHERE
+			a.rcept_seq = #{rceptSeq}
+	</select>
+	
+	<delete id="deleteLectureRcept" parameterType="EduVO">
+		DELETE FROM	t_lecture_rcept	WHERE EDU_SEQ = #{eduSeq} AND USER_ID = #{userId} and rcept_seq = #{rceptSeq}
+	</delete>
+	
+	
+	<select id="selectLectureRceptListCnt" resultType="Integer" parameterType="EduVO">
+		/** 관리자 > 신청자카운트 */
+		SELECT 
+			COUNT(*) 
+		FROM
+			t_lecture_stdnt a
+			inner join t_lecture_rcept d on a.rcept_seq = d.rcept_seq
+			left join t_user_info b on a.user_id =b.user_id 
+		WHERE 
+			a.EDU_SEQ = #{eduSeq} 
+			and a.state in (1,2,3,4)
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userNm'">
+					AND b.USER_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND a.MOBILE LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND a.BELONG LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<otherwise>
+					AND (
+						b.login_id LIKE CONCAT('%', #{srchWrd}, '%') 
+						or b.user_nm like concat('%', #{srchWrd}, '%') 
+					)
+				</otherwise>
+			</choose>
+			
+		</if>
+		<if test="srchRceptState > 0">
+			AND d.STATE = #{srchRceptState}
+		</if>
+	</select>
+	
+	<select id="selectLectureRceptList" resultMap="lectureRceptMap" parameterType="EduVO">
+		/** 관리자 > 신청자목록 */
+		SELECT T.* 
+		,(SELECT LOGIN_ID FROM t_user_info WHERE USER_ID=T.USER_ID) LOGIN_ID
+		FROM (
+			SELECT 
+				a.edu_seq,a.user_id,a.mobile,a.email,a.state
+				,d.rcept_seq,d.etc,d.reg_de,d.file_org,d.file_re,d.fee_tp
+				,d.comp_json,d.school_list_json,d.certif_list_json,d.langua_list_json,d.career_list_json
+				,d.emp_insr_tp,d.learn_card_tp,d.emp_succ_tp,d.biz_rgs_tp
+				,b.user_nm,b.birth,b.mf_type
+				,c.pay_no,c.state pay_state ,c.pay_type
+				,c.amount pay_fee
+				,e.fee
+				,b.user_org_nm
+				,b.user_grade_nm
+				,b.tel
+				,d.use_trans +'' AS use_trans_yn     -- 버스탑승여부
+				,IF(d.dormi_capa_cnt>0,'Y','N') AS dormi_capa_yn -- 숙소이용여부
+				,e.edu_nm
+			FROM 
+				t_lecture_stdnt a
+				inner join t_lecture_rcept d on a.rcept_seq = d.rcept_seq
+				left join t_user_info b on a.user_id =b.user_id
+				left join t_pay c on d.pay_no=c.pay_no
+				inner join t_lecture e on a.edu_seq = e.edu_seq
+			WHERE
+				a.EDU_SEQ = #{eduSeq} 
+				and a.state in (1,2,3,4)
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'userNm'">
+						AND b.USER_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'mobile'">
+						AND a.MOBILE LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'belong'">
+						AND a.BELONG LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<otherwise>
+						AND (
+							b.login_id LIKE CONCAT('%', #{srchWrd}, '%') 
+							or b.user_nm like concat('%', #{srchWrd}, '%') 
+						)
+					</otherwise>
+				</choose>
+			</if>
+			<if test="srchRceptState > 0">
+			AND d.STATE = #{srchRceptState}
+			</if>
+			ORDER BY d.REG_DE desc,a.STATE ASC
+		) AS T
+		<if test="row != null and row > 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+	<update id="updateLctre" parameterType="Lecture">
+		/** 교육 수정 */
+		UPDATE 
+			t_lecture
+		SET
+			EDU_NM = #{eduNm}, 
+			ctg1_seq = #{ctg1Seq}, 
+			ctg2_seq = #{ctg2Seq}, 
+			ctg3_seq = #{ctg3Seq}, 
+			OPEN_YN = #{openYn}, 
+			INSTRCTR_ID = #{instrctrId}, 
+			INSTRCTR_NM = #{instrctrNm}, 
+			IMG_ORG = #{imgOrg}, 
+			IMG_RENAME = #{imgRename}, 
+			IMG_USE_YN = #{imgUseYn}, 
+			EDU_PERIOD_BEGIN = #{eduPeriodBegin}, 
+			EDU_PERIOD_END = #{eduPeriodEnd}, 
+			RCEPT_PERIOD_BEGIN = #{rceptPeriodBegin}, 
+			RCEPT_PERIOD_END = #{rceptPeriodEnd}, 
+			RCEPT_PERIOD_YN = #{rceptPeriodYn}, 
+			PERSONNEL = #{personnel}, 
+			MIN_PERSONNEL = #{minPersonnel}, 
+			EXT_PERSONNEL = #{extPersonnel}, 
+			CLOSE_TP = #{closeTp}, 
+			FEE = #{fee}, 
+			GROUP_FEE = #{groupFee}, 
+			FEE_LIMIT = #{feeLimit}, 
+			GROUP_COMMENT = #{groupComment}, 
+			CN = #{cn}, 
+			POST_NO = #{postNo}, 
+			ADDR = #{addr}, 
+			ADDR_DETAIL = #{addrDetail}, 
+			ADDR_ETC = #{addrEtc},
+			ADDR_MEMO = #{addrMemo},
+			UPD_DE = #{updDe}, 
+			UPD_ID = #{updId},
+			ONLINE_YN=#{onlineYn},
+			ONLINE_URL=#{onlineUrl},
+			TEL=#{tel},
+			WAY_COME=#{wayCome},
+			FB_IDX=#{fbIdx},
+			PASS_IDX=#{passIdx},
+			LCTRE_TYPE=#{lctreType},
+			SMS_AUTO=#{smsAuto},
+			EDU_ETC=#{eduEtc},
+			TARGETS=#{targets},
+			PASS_CERT_YN=#{passCertYn},
+			FB_YN=#{fbYn},
+			PRE_EDU_YN= #{preEduYn},
+			PASS_ATT_POINT=#{passAttPoint},
+			PASS_ASG_POINT=#{passAsgPoint},
+			PASS_TEST_POINT=#{passTestPoint},
+			PASS_POINT=#{passPoint},
+			PRE_EDU_SEQ=#{preEduSeq},
+			AUTO_PASS_YN= #{autoPassYn},
+			ETC_IEM_YN=#{etcIemYn},
+			INQ_NM=#{inqNm},
+			ETC_AGREE_YN=#{etcAgreeYn},
+			SCRTY_YN=#{scrtyYn},
+			<if test='(scrtyPw != "" and scrtyPw != null) or scrtyYn == "N" '>
+			SCRTY_PW=#{scrtyPw},
+			</if>
+			ESSNTL_FILE_YN=#{essntlFileYn},
+			CANCEL_LIMIT_DT=#{cancelLimitDt},
+			EDU_YEAR = #{eduYear},
+			EDU_TERM = #{eduTerm},
+			TARGET_TP = #{targetTp},
+			EDU_TP = #{eduTp},
+			RCEPT_CNT_VIEW_YN = #{rceptCntViewYn},
+			RETURN_TP = #{returnTp},
+			meal_fee = #{mealFee},
+			dormi_fee = #{dormiFee},
+			meal_account = #{mealAccount},
+			dormi_account = #{dormiAccount},
+			deposit_limit_dt = #{depositLimitDt},
+			comp_stnd_01 = #{compStnd01},
+			comp_stnd_02 = #{compStnd02},
+			comp_stnd_03 = #{compStnd03},
+			comp_stnd_04 = #{compStnd04},
+			comp_stnd_05 = #{compStnd05}
+		WHERE
+			EDU_SEQ = #{eduSeq}
+	</update>
+	
+	<update id="updateLctreRceptClose" parameterType="Lecture">
+		UPDATE 
+			t_lecture
+		SET
+			RCEPT_YN = #{rceptYn} 
+		WHERE
+			EDU_SEQ = #{eduSeq}
+	</update>
+	
+	<update id="updateLctreEduClose" parameterType="Lecture">
+		UPDATE 
+			t_lecture
+		SET
+			CLOSE_YN = #{closeYn}
+		WHERE
+			EDU_SEQ = #{eduSeq}
+	</update>
+	
+	<select id="selectConfirmRceptCnt" resultType="Integer" parameterType="Integer">
+		SELECT 
+			COUNT(*) 
+		FROM
+			t_lecture_stdnt
+		WHERE 
+			EDU_SEQ = #{eduSeq}
+			AND STATE = 2
+	</select>
+	<select id="selectRceptExceptMeCnt" resultType="Integer" parameterType="Integer">
+		/*진행중*/
+		SELECT 
+			COUNT(*) 
+		FROM
+			t_lecture_rcept 
+		WHERE 
+			EDU_SEQ = #{eduSeq}
+			and user_id != #{userId}
+	</select>
+	
+	
+	<select id="selectInstrctrEduListCnt" resultType="Integer" parameterType="EduVO">
+		SELECT 
+			COUNT(EDU_SEQ) 
+		FROM
+			t_lecture 
+		WHERE 
+			INSTRCTR_ID = #{userId} 
+	</select>
+	
+	<select id="selectInstrctrEduList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		SELECT T.* FROM (
+			SELECT 
+				A.*, 
+				@rnum := @rnum + 1 AS RNUM
+			FROM 
+				t_lecture A, (SELECT @rownum :=0) r
+			WHERE
+				INSTRCTR_ID = #{userId} 
+			ORDER BY A.EDU_PERIOD_BEGIN DESC		
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+	
+	<insert id="insertLectureStdnt" parameterType="LectureStdnt">
+		INSERT INTO t_lecture_stdnt(
+			EDU_SEQ, USER_ID, USER_NM, BELONG, "POSITION", 
+			WORKSHOP_SCORE, EXAM_SCORE, PASS_YN, PASS_CERT_ISSUE, PASS_CERT_NUM, 
+			COMPL_CERT_ISSUE, COMPL_CERT_NUM, SURVEY_YN ,RCEPT_SEQ, STATE
+		) VALUES (
+			#{eduSeq}, #{userId}, #{userNm}, #{belong}, #{position}, 
+			#{workshopScore}, #{examScore}, #{passYn}, #{passCertIssue}, #{passCertNum}, 
+			#{complCertIssue}, #{complCertNum}, #{surveyYn}, #{rceptSeq}, #{state}
+		)
+	</insert>
+	
+	<select id="selectLctreStdntByPk" parameterType="EduVO" resultMap="lectureStdntMap">
+		SELECT ls.*
+			 , (select min(state) as state from t_feedback_edu_result where edu_seq = ls.EDU_SEQ and user_id = ls.USER_ID) fe_result_state
+		  FROM t_lecture_stdnt ls
+		 WHERE ls.EDU_SEQ = #{eduSeq}
+		   AND ls.USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteLectureStdnt" parameterType="EduVO">
+		DELETE FROM t_lecture_stdnt WHERE EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</delete>
+	
+	<select id="selectLectureStdntListCnt" resultType="Integer" parameterType="EduVO">
+		/** 수강자명단 카운트 */
+		SELECT 
+			COUNT(*) 
+		FROM
+			t_lecture_stdnt a
+			left join t_user_info c on a.user_id =c.user_id 
+		WHERE 
+			a.EDU_SEQ = #{eduSeq} 
+			and a.state = 2
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'userNm'">
+					AND c.USER_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<when test="srchColumn == 'mobile'">
+					AND a.MOBILE LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<when test="srchColumn == 'belong'">
+					AND a.BELONG LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="selectLectureStdntList" resultMap="lectureStdntMap" parameterType="EduVO">
+		/** 수강자 명단 */
+		SELECT t.* 
+		,(select count(*) from t_attend_stdnt where edu_seq = t.edu_seq and user_id = t.user_id and att_cd='O') attend_cnt
+		,(select count(*) from t_test_result where user_id = t.user_id and pass_yn = 'Y' and test_seq in (select test_seq from t_test where edu_seq = t.edu_seq and try_no = 1)) test_pass_cnt
+		,(select count(*) from t_test_result where user_id = t.user_id and pass_yn = 'Y' and test_seq in (select test_seq from t_test where edu_seq = t.edu_seq and try_no = 2)) test2_pass_cnt
+		FROM (
+			SELECT 
+				a.edu_seq
+				,a.user_id
+				,a.mobile
+				,a.email
+				,a.belong
+				,a.position
+				,a.workshop_score
+				,a.exam_score
+				,a.attend_score
+				,a.pass_yn
+				,a.pass_cert_issue
+				,a.pass_cert_num
+				,a.compl_cert_issue
+				,a.compl_cert_num
+				,IF((SELECT ifnull(min(state),1) FROM t_feedback_edu_result WHERE edu_seq = a.EDU_SEQ AND user_id = a.user_id) = 1,'N','Y') AS survey_yn
+				,a.cert_de
+				,a.att_cnt
+				,a.task_file_Org
+				,a.task_file_rename
+				,a.rcept_seq
+				,a.deposit_yn
+				,c.user_nm,c.birth,c.login_id
+			FROM 
+				t_lecture_stdnt a 
+				left join t_lecture_rcept b on a.edu_seq=b.edu_seq and a.user_id=b.user_id and a.rcept_seq = b.rcept_seq
+				left join t_user_info c on a.user_id =c.user_id 
+			WHERE
+				a.EDU_SEQ = #{eduSeq} and b.EDU_SEQ = #{eduSeq} 
+				and a.state = 2
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'userNm'">
+						AND c.USER_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'mobile'">
+						AND a.MOBILE LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'belong'">
+						AND a.BELONG LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+				</choose>
+			</if>
+			
+		) AS t
+		ORDER BY t.user_nm 
+		<if test="row > 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+	<update id="updateLectureStdntScore" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			ATT_CNT = #{attCnt},
+			WORKSHOP_SCORE = #{workshopScore}, 
+			EXAM_SCORE = #{examScore},
+			ATTEND_SCORE = #{attendScore},
+			PASS_YN=#{passYn}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<update id="updateLectureStdntCertNum" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			PASS_CERT_NUM = #{passCertNum}, 
+			COMPL_CERT_NUM = #{complCertNum},
+			CERT_DE=#{certDe}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<update id="updateLectureStdntIssuePass" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			PASS_CERT_ISSUE = #{passCertIssue}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<update id="updateLectureStdntIssueCompl" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			COMPL_CERT_ISSUE = #{complCertIssue}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<update id="updateLectureStdntPass" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			PASS_YN = #{passYn}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<update id="updateLectureStdntSurvey" parameterType="LectureStdnt">
+		UPDATE
+			t_lecture_stdnt
+		SET
+			SURVEY_YN = #{surveyYn}
+		WHERE
+			EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</update>
+	
+	<select id="selectLectureStdntListByEdu" resultMap="lectureStdntMap" parameterType="Integer">
+		SELECT * FROM t_lecture_stdnt WHERE EDU_SEQ = #{eduSeq} and state in (2)
+	</select>
+	
+	<select id="selectEduMemberListCnt" resultType="Integer" parameterType="EduVO">
+		SELECT COUNT(EDU_SEQ) FROM t_lecture_stdnt WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="selectEduMemberList" resultMap="lectureStdntMap" parameterType="EduVO">
+		SELECT T.* FROM (
+			SELECT
+				A.EDU_SEQ, A.USER_ID, A.USER_NM, A.MOBILE, 
+				B.EDU_NM AS EMAIL, 
+				B.EDU_PERIOD_BEGIN  AS BELONG, 
+				B.EDU_PERIOD_END AS POSITION, 
+				A.WORKSHOP_SCORE, A.EXAM_SCORE, A.PASS_YN, A.PASS_CERT_ISSUE, 
+				A.PASS_CERT_NUM, A.COMPL_CERT_ISSUE, A.COMPL_CERT_NUM
+			FROM
+				t_lecture_stdnt A, t_lecture B
+			WHERE
+			 	A.USER_ID = #{userId} 
+			 	AND A.EDU_SEQ = B.EDU_SEQ
+			ORDER BY B.EDU_PERIOD_END DESC
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+	
+	<select id="selectRceptMiniList" resultMap="lectureRceptMap" parameterType="Integer">
+		/** 관리자 > 신청 미니 리스트 */
+		SELECT 
+			a.EDU_SEQ, 
+			a.USER_ID, 
+			a.USER_NM, 
+			a.MOBILE, 
+			a.EMAIL, 
+			a.BELONG, 
+			a.POSITION, 
+			(SELECT b.EDU_NM FROM t_lecture b WHERE b.EDU_SEQ = a.EDU_SEQ) AS ETC, 
+			a.STATE, 
+			a.REG_DE, 
+			a.PAY_NO
+			,(select login_id from t_user_info where user_id=a.user_id) login_id
+		FROM 
+			t_lecture_rcept a 
+		WHERE  1=1
+		AND a.state = 1
+			<if test="orgCd != null and orgCd != '' and orgCd != '0000'">
+<!-- 			AND EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture WHERE ORG_CD=#{orgCd}) -->
+			</if>
+		AND a.REG_DE >= TRUNC(NOW())
+		ORDER BY a.REG_DE DESC, a.USER_NM ASC 
+		LIMIT 0, #{row}
+	</select>
+	
+	<select id="selectRceptExcelList" resultMap="lectureRceptMap" parameterType="Integer">
+		SELECT 
+			a.edu_seq
+			,a.user_id
+			,a.mobile
+			,a.email
+			,a.belong
+			,a.POSITION
+			,a.pay_type
+			,a.pay_yn
+			,a.etc
+			,a.state
+			,a.recpt_de
+			,a.pay_no
+			,a.file_org
+			,a.file_re
+			,a.pay_dt
+			,b.user_nm,b.login_id,b.birth
+		FROM
+			t_lecture_rcept a left join t_user_info b on a.user_id=b.user_id
+		WHERE 
+			EDU_SEQ = #{eduSeq}
+		ORDER BY STATE ASC, RECPT_DE DESC
+	</select>
+	
+	<select id="selectStdntExcelList" resultMap="lectureStdntMap" parameterType="Integer">
+		SELECT 
+			a.edu_seq
+,a.user_id
+,a.mobile
+,a.email
+,a.belong
+,a.POSITION
+,a.workshop_score
+,a.exam_score
+,a.pass_yn
+,a.pass_cert_issue
+,a.pass_cert_num
+,a.compl_cert_issue
+,a.compl_cert_num
+,a.survey_yn
+,a.cert_de
+,a.att_cnt
+			,b.reg_de
+			,c.birth,c.user_nm,c.login_id
+		FROM
+			t_lecture_stdnt a 
+			left join t_lecture_rcept b on a.edu_seq=b.edu_seq and a.user_id=b.user_id and a.rcept_seq = b.rcept_seq
+			left join t_user_info c on a.user_id =c.user_id 
+		WHERE 
+			a.EDU_SEQ = #{eduSeq}
+		ORDER BY a.USER_NM ASC
+	</select>
+	<update id="updateLectureRceptState">
+		/** 교육 신청 상태 변경  */
+		UPDATE
+			t_lecture_rcept
+		SET
+			STATE = #{state} 
+		WHERE
+			EDU_SEQ = #{eduSeq} 
+			AND USER_ID = #{userId}
+			and rcept_seq = #{rceptSeq}
+	</update>
+	<select id="selectWaitRceptCnt" resultType="Integer" parameterType="Integer">
+		SELECT 
+			COUNT(USER_ID) 
+		FROM 
+			t_lecture_stdnt
+		WHERE
+			STATE = 1
+			AND EDU_SEQ = #{eduSeq}
+	</select>
+	<select id="selectLctreRceptByEduSeq" resultMap="lectureRceptMap">
+		/** 신청정보 리스트 ,신청일 정렬*/
+		SELECT * FROM t_lecture_rcept
+		WHERE
+			EDU_SEQ = #{eduSeq} 
+		order by RECPT_DE
+	</select>
+
+	
+	<select id="selectLectureInstrctrListCnt" resultType="Integer" parameterType="EduVO">
+		SELECT 
+			COUNT(a.EDU_SEQ) 
+		FROM
+			t_lecture a
+		WHERE 1=1
+			AND (
+				a.INSTRCTR_ID = #{userId}
+				or (a.edu_seq in (select edu_seq from t_lecture_time where check_id=#{userId}))
+			)
+			<if test="gubun eq 'Open'">
+			AND (
+				a.edu_period_begin <![CDATA[<=]]> #{srchDate} and a.EDU_PERIOD_END >= #{srchDate} and a.CLOSE_YN!='Y'
+			)
+			</if>
+			<if test="gubun eq 'Wait'">
+			AND (
+				a.edu_period_begin <![CDATA[>]]> #{srchDate} and a.CLOSE_YN!='Y'
+			)
+			</if>
+		<if test="srchWrd != null and srchWrd != ''">
+			<choose>
+				<when test="srchColumn == 'eduNm'">
+					AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+				<when test="srchColumn == 'instrctrNm'">
+					AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+				</when>
+			</choose>
+		</if>
+		<if test="srchCtgry != null and srchCtgry != ''">
+			AND a.ctg1_seq = #{srchCtgry}
+		</if>
+	</select>
+	<select id="selectLectureInstrctrList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		/**강사 > 마이페이지*/
+		SELECT T.* FROM (
+			SELECT 
+				a.*
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg1_seq) ctg1_nm
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg2_seq) ctg2_nm
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg3_seq) ctg3_nm
+				,(SELECT COUNT(T.USER_ID) FROM t_lecture_rcept T WHERE T.STATE = 2 AND T.EDU_SEQ = a.EDU_SEQ ) AS RCEPT_CNT
+				,0 AS WAIT_CNT
+				,(SELECT ORG_NM FROM t_org T WHERE T.ORG_CD = a.ORG_CD) AS ORG_NM
+			FROM 
+				t_lecture a
+			WHERE 1=1
+				and (
+					a.INSTRCTR_ID = #{userId}
+					or (a.edu_seq in (select edu_seq from t_lecture_time where check_id=#{userId}))
+				)
+				<if test="gubun eq 'Open'">
+				AND (
+					a.edu_period_begin <![CDATA[<=]]> #{srchDate} and a.EDU_PERIOD_END >= #{srchDate} and a.CLOSE_YN!='Y'
+				)
+				</if>
+				<if test="gubun eq 'Wait'">
+				AND (
+					a.edu_period_begin <![CDATA[>]]> #{srchDate} and a.CLOSE_YN!='Y'
+				)
+				</if>
+				
+				
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'eduNm'">
+						AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'instrctrNm'">
+						AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+				</choose>
+			</if>
+			<if test="srchCtgry != null and srchCtgry != ''">
+				AND a.ctg1_seq = #{srchCtgry}
+			</if>
+			ORDER BY a.EDU_PERIOD_BEGIN DESC		
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+	
+	<update id="updateLectureFbIdx">
+		/** 피드백템플릿 적용하기 */
+		UPDATE t_lecture
+		SET FB_IDX=#{fbIdx}
+		WHERE EDU_SEQ=#{eduSeq}
+	</update>
+	<select id="selectlctreStdntCntBySurveyY" resultType="int">
+		/** 설문조사 응시 인원수 */
+		SELECT COUNT(*) FROM t_lecture_stdnt
+		WHERE EDU_SEQ = #{eduSeq} and survey_yn='Y'
+	</select>
+	
+	<select id="selectMyEduList" resultMap="common.result.map.lectureMap" parameterType="EduVO">
+		/** 마이페이지 > 교육리스트, 학생용 */
+		SELECT T.* FROM (
+			SELECT 
+				a.*, 
+				(SELECT COUNT(USER_ID) FROM t_lecture_stdnt WHERE STATE = 1 AND EDU_SEQ = a.EDU_SEQ ) AS RCEPT_CNT,
+				0 AS WAIT_CNT, 
+				(SELECT ORG_NM FROM t_org WHERE ORG_CD = a.ORG_CD) AS ORG_NM
+				,(select min(start_tm) from t_lecture_time where edu_seq = a.edu_seq) start_tm
+				,(select max(end_tm) from t_lecture_time where edu_seq = a.edu_seq) end_tm
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg1_seq) ctg1_nm
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg2_seq) ctg2_nm
+				,(select ctgry_nm from t_category where ctgry_seq = a.ctg3_seq) ctg3_nm
+			FROM 
+				t_lecture a 
+				LEFT JOIN (select * from t_lecture_stdnt where user_id=#{userId}) b
+				ON a.EDU_SEQ=b.EDU_SEQ 
+			WHERE 1=1
+				<if test="gubun eq 'Open'">
+				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture_stdnt WHERE USER_ID = #{userId} and state = 2) 
+				AND (
+					#{srchDate} BETWEEN a.EDU_PERIOD_BEGIN and a.EDU_PERIOD_END and a.CLOSE_YN!='Y'
+				)
+				</if>
+				<if test="gubun eq 'Rcept'">
+				AND b.state = 1
+				</if>
+				<if test="gubun eq 'Stdnt'">
+				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture_stdnt WHERE USER_ID = #{userId} and state = 2) 
+				<!-- 전체 교육 보이도록수정,231207
+				AND (
+					CLOSE_YN = 'Y' or a.EDU_PERIOD_END <![CDATA[<]]> #{srchDate} or b.pass_yn='Y'
+				)
+				 -->
+				</if>
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'eduNm'">
+						AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'instrctrNm'">
+						AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+				</choose>
+			</if>
+			<if test="srchCtgry != null and srchCtgry != ''">
+				AND a.ctg1_seq = #{srchCtgry}
+			</if>
+			ORDER BY a.EDU_PERIOD_BEGIN DESC		
+		) AS T
+		LIMIT #{firstIndex}, #{row}
+	</select>
+	<select id="selectMyEduCnt" resultType="int" parameterType="EduVO">
+			/** 마이페이지 교육리스트 */
+			SELECT 
+				count(*)
+			FROM 
+				t_lecture a 
+				left join (select * from t_lecture_stdnt where user_id=#{userId}) b on a.edu_seq=b.edu_seq 
+			WHERE 1=1
+				<if test="gubun eq 'Open'">
+				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture_stdnt WHERE USER_ID = #{userId} and state = 2) 
+				AND (
+					#{srchDate} BETWEEN a.EDU_PERIOD_BEGIN and a.EDU_PERIOD_END and a.CLOSE_YN!='Y'
+				)
+				</if>
+				<if test="gubun eq 'Rcept'">
+				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture_rcept WHERE USER_ID = #{userId} AND state = 1) 
+				and b.user_id is null
+				</if>
+				<if test="gubun eq 'Stdnt'">
+				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture_stdnt WHERE USER_ID = #{userId} and state = 2) 
+				<!-- 전체 교육 보이도록수정,231207
+				AND (
+					CLOSE_YN = 'Y' or a.EDU_PERIOD_END <![CDATA[<]]> #{srchDate} or b.pass_yn='Y'
+				)
+				-->
+				</if>
+			<if test="srchWrd != null and srchWrd != ''">
+				<choose>
+					<when test="srchColumn == 'eduNm'">
+						AND a.EDU_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+					<when test="srchColumn == 'instrctrNm'">
+						AND a.INSTRCTR_NM LIKE CONCAT('%', #{srchWrd}, '%') 
+					</when>
+				</choose>
+			</if>
+			<if test="srchCtgry != null and srchCtgry != ''">
+				AND a.ctg1_seq = #{srchCtgry}
+			</if>
+	</select>
+	
+	<update id="updateLctreThum" >
+	UPDATE t_lecture
+	SET 
+		IMG_ORG = #{imgOrg}, 
+		IMG_RENAME = #{imgRename} 
+	WHERE
+		EDU_SEQ = #{eduSeq}
+	</update>
+	<update id="updateLectureRceptSuccessPay">
+		/** 결제성공 후 상태 변경  */
+		UPDATE
+			t_lecture_rcept
+		SET
+			STATE = #{state} 
+		WHERE
+			EDU_SEQ = #{eduSeq} 
+			AND USER_ID = #{userId}
+			and PAY_NO=#{payNo}
+	</update>
+	<update id="updateLectureRceptCancelPay">
+			/** 취소성공 후 상태 변경  */
+		UPDATE
+			t_lecture_rcept
+		SET
+			STATE = 3 
+		WHERE
+			EDU_SEQ = #{eduSeq} 
+			AND USER_ID = #{userId}
+			AND rcept_seq = #{rceptSeq}
+	</update>
+	<select id="getResvLectureTimeByRoom" resultMap="common.result.map.lectureMap">
+		/** 강의실 사용현황 */
+		select 
+		a.edu_seq,a.edu_nm
+		,b.edu_dt
+		,c.room_nm
+		,b.start_tm,b.end_tm
+		from t_lecture a
+		inner join t_lecture_time b on a.edu_seq = b.edu_seq 
+		left join t_lecture_room c on b.room_seq = c.room_seq
+		where b.room_seq > 0
+		<if test="eduDt != null and eduDt != ''">
+			and b.edu_dt = #{eduDt}
+		</if>
+		<if test="roomSeq != 0">
+			and c.room_seq = #{roomSeq}
+		</if>
+		<if test="srchYear != null and srchMonth != null">
+			and b.edu_dt between concat(#{srchYear},'',#{srchMonth},'01') and concat(#{srchYear},'',#{srchMonth},'31')
+		</if>
+	</select>
+	<update id="updateLectureInstrctr">
+		update t_lecture 
+		set
+			instrctr_id = #{instrctrId}
+			,instrctr_nm = #{instrctrNm}
+		where 
+			edu_seq = #{eduSeq}
+	</update>
+	
+	<select id="selectLcrcpPageCnt" resultType="int">
+		/** 개인교육신청내역 카운트 */
+		select count(a.edu_seq) from (
+			select a.edu_seq,a.edu_nm, a.edu_period_begin,a.edu_period_end,a.fee,a.cancel_limit_dt,a.edu_year,a.edu_term
+			,e.state rcept_state,e.user_id,e.reg_de
+			,d.pay_no,d.reg_dt,d.state pay_state,d.pay_type,d.pg_pay_no
+			,d.upd_dt upd_dt2
+			,d.amount
+			,f.user_nm,f.mobile,f.email
+			from t_lecture a
+			inner join t_lecture_rcept e on a.edu_seq = e.edu_seq
+			left join t_pay d on e.rcept_seq = d.rcept_seq and e.user_id = d.user_id and e.pay_no = d.pay_no
+			left join t_lecture_stdnt c on e.rcept_seq = c.rcept_seq
+			left join t_user_info f on e.user_id=f.user_id
+			where 1=1
+			<if test="userId != null and userId != ''">
+			and e.user_id = #{userId}
+			</if>
+			<if test="eduSeq > 0">
+			and e.edu_seq = #{eduSeq}
+			</if>
+			<if test='srchState != null and srchState != ""'>
+			and e.state = #{srchState}
+			</if>
+			<if test="srchFeeTp > 0">
+			and e.fee_tp = #{srchFeeTp}
+			</if>
+			<if test="srchCtgry > 0">
+			AND a.ctg1_seq = #{srchCtgry}
+				<if test="srchCtgry2 > 0">
+					<if test="srchCtgry3 > 0">
+						AND a.ctg3_seq = #{srchCtgry3}
+					</if>
+					<if test="srchCtgry3 lt 1">
+						AND (
+							a.ctg2_seq = #{srchCtgry2}
+						)
+					</if>
+				</if>
+			</if>
+		) a
+		where 1=1
+		<if test="srchDateBegin != null and srchDateBegin != '' and srchDateEnd != null and srchDateEnd != ''">
+		<if test='srchDtGb == "R"'>
+		and date_format(a.reg_de,'%Y%m%d') between #{srchDateBegin} and #{srchDateEnd}
+		</if>
+		</if>
+		<if test="srchWrd != '' and srchWrd != null">
+		and (
+			a.edu_nm like concat('%',#{srchWrd},'%')
+			or a.user_nm like concat('%',#{srchWrd},'%')
+		)
+		</if>
+		
+		<if test="eduYear != '' and eduYear != null">
+		AND a.EDU_YEAR = #{eduYear}
+		</if>
+		<if test="eduTerm > 0">
+		AND a.EDU_TERM = #{eduTerm}
+		</if>
+		<if test='srchState != "" and srchState != null'>
+		AND a.RCEPT_STATE = #{srchState}
+		</if>
+	</select>
+	<select id="selectLcrcpPageList" resultMap="common.result.map.lectureMap">
+		/** 개인교육신청내역 페이징 */
+		select a.*  
+		from (
+			select a.edu_seq,a.edu_nm, a.edu_period_begin,a.edu_period_end,a.fee,a.cancel_limit_dt,a.edu_year,a.edu_term,a.target_tp
+			,d.pay_no,d.reg_dt pay_de,d.state pay_state,d.pay_type,d.pg_pay_no,d.amount
+			,e.reg_de,e.rcept_seq ,e.state rcept_state,e.user_id,e.rfnd_state,e.fee_tp,e.comp_json
+			,f.user_nm,f.login_id,f.birth,f.mobile,f.email,f.mf_type,f.user_en_nm,f.user_org_nm
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg1_seq) ctg1_nm
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg2_seq) ctg2_nm
+			,(select ctgry_nm from t_category where ctgry_seq = a.ctg3_seq) ctg3_nm
+			from t_lecture a
+			inner join t_lecture_rcept e on a.edu_seq = e.edu_seq
+			left join t_pay d on e.rcept_seq = d.rcept_seq and e.user_id = d.user_id and e.pay_no = d.pay_no
+			left join t_lecture_stdnt c on e.rcept_seq = c.rcept_seq
+			left join t_user_info f on e.user_id=f.user_id
+			where 1=1
+			<if test="userId != null and userId != ''">
+			and e.user_id = #{userId}
+			</if>
+			<if test="eduSeq > 0">
+			and e.edu_seq = #{eduSeq}
+			</if>
+			<if test='srchState != null and srchState != ""'>
+			and e.state = #{srchState}
+			</if>
+			<if test="srchFeeTp > 0">
+			and e.fee_tp = #{srchFeeTp}
+			</if>
+			<if test="srchCtgry > 0">
+			AND a.ctg1_seq = #{srchCtgry}
+				<if test="srchCtgry2 > 0">
+					<if test="srchCtgry3 > 0">
+						AND a.ctg3_seq = #{srchCtgry3}
+					</if>
+					<if test="srchCtgry3 lt 1">
+						AND (
+							a.ctg2_seq = #{srchCtgry2}
+						)
+					</if>
+				</if>
+			</if>
+		) a
+		where 1=1
+		<if test="srchDateBegin != null and srchDateBegin != '' and srchDateEnd != null and srchDateEnd != ''">
+		<if test='srchDtGb == "R"'>
+		and date_format(a.reg_de,'%Y%m%d') between #{srchDateBegin} and #{srchDateEnd}
+		</if>
+		</if>
+		<if test="srchWrd != '' and srchWrd != null">
+		and (
+			a.edu_nm like concat('%',#{srchWrd},'%')
+			or a.user_nm like concat('%',#{srchWrd},'%')
+		)
+		</if>
+		
+		<if test="eduYear != '' and eduYear != null">
+		AND a.EDU_YEAR = #{eduYear}
+		</if>
+		<if test="eduTerm > 0">
+		AND a.EDU_TERM = #{eduTerm}
+		</if>
+		<if test='srchState != "" and srchState != null'>
+		AND a.RCEPT_STATE = #{srchState}
+		</if>
+		order by 
+		<if test="srchSort == 'REGDESC'">
+		a.REG_DE DESC,
+		</if>
+		a.REG_DE DESC,
+		a.EDU_NM,a.USER_NM,a.PAY_DE DESC
+		<if test="row != 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	<select id="selectEtcIemDataList" resultMap="common.result.map.lectureMap">
+		/** eduSeq,userId로 기타항목 조회하기 */
+		select 
+		a.user_id 
+		,a.edu_seq 
+		,group_concat(etc_data  separator ' | ') etc_data_01
+		from (
+			select 
+			a.user_nm 
+			,a.user_id 
+			,a.edu_seq 
+			,b.etc_iem_seq 
+			,concat(b.etc_iem_nm,' : ',c.etc_iem_data ) etc_data
+			from t_lecture_rcept a 
+			left join t_lecture_etc_iem b on a.edu_seq =b.edu_seq 
+			left join t_lecture_etc_iem_data c on b.edu_seq =c.edu_seq and b.etc_iem_seq =c.etc_iem_seq and a.user_id =c.user_id 
+			where 
+			<choose>
+	            <when test="srchArr.size != 0">
+	                (a.edu_seq,a.user_id) in 
+	                <foreach collection="srchArr" item="item" index="index" separator="," open="(" close=")">
+	                    (#{item.eduSeq},#{item.userId})
+	                </foreach>
+	            </when>
+	            <otherwise>
+	            	1!=1
+	            </otherwise>
+	        </choose>
+	        order by b.etc_iem_seq
+		) a
+		group by 
+		a.user_nm 
+		,a.user_id 
+		,a.edu_seq 
+	</select>
+	
+	<select id="getLctreSubList" resultMap="common.result.map.subjectResultVO">
+		/** 과목수료정보 */
+		select a.edu_seq,a.user_id ,a.user_nm 
+		,b.sub_nm,b.sub_seq,b.compl_idx,b.pass_idx
+		,c.pass_cert_num ,c.pass_cert_de,c.pass_state ,c.compl_cert_num ,c.compl_cert_de ,c.compl_state 
+		,(select max(concat(edu_dt,end_tm)) from t_lecture_time where edu_seq = a.edu_seq and sub_seq = b.sub_seq) end_de_str
+		from t_lecture_stdnt a 
+		left join (select * from t_lecture_subject where sub_seq in (select sub_seq from t_lecture_time where edu_seq = #{eduSeq} )) b on 1=1 
+		left join t_lecture_subject_stdnt c on a.edu_seq = c.edu_seq and a.user_id = c.user_id and b.sub_seq = c.sub_seq 
+		where a.edu_seq = #{eduSeq} 
+		<if test="userId != null">
+			and a.user_id=#{userId}
+		</if>
+		<if test="subSeq > 0">
+			and b.sub_seq = #{subSeq}
+		</if>
+		order by a.user_id ,b.sub_seq 
+		<!-- select a.* 
+		,b.sub_nm,b.compl_idx,b.pass_idx
+		,c.user_id,c.compl_state,c.pass_state,c.compl_cert_num,c.pass_cert_num,c.compl_cert_de,c.pass_cert_de
+		from (
+			select a.edu_seq,a.sub_seq 
+			,max(concat(a.edu_dt,a.end_tm)) end_de_str
+			from t_lecture_time a
+			where a.edu_seq = #{eduSeq}
+			group by a.edu_seq,a.sub_seq 
+		) a
+		inner join t_lecture_subject b on a.sub_seq = b.sub_seq
+		left join (
+			select * from t_lecture_subject_stdnt where edu_seq = #{eduSeq} 
+			<if test="userId != null">
+			and user_id=#{userId}
+			</if>
+		) c on a.edu_seq = c.edu_seq and a.sub_seq = c.sub_seq
+		order by a.sub_seq -->
+	</select>
+</mapper>

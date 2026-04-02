@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.ExamBankChoiceMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.ExamBankChoice">
+		<result property="ebqIdx" column="EBQ_IDX" />
+		<result property="ebcIdx" column="EBC_IDX" />
+		<result property="choice" column="CHOICE" />
+		<result property="correctType" column="CORRECT_TYPE" />
+		<result property="status" column="STATUS" />
+	</resultMap>
+	
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.ExamBankChoiceMapper.insertByPk */
+		insert into t_exam_bank_choice
+		(EBQ_IDX,EBC_IDX,CHOICE,CORRECT_TYPE,STATUS)
+		values
+		(#{ebqIdx},#{ebcIdx},#{choice},#{correctType},#{status})
+	</insert>
+	<delete id="deleteByEbqIdx">
+	/* com.educare.edu.comn.mapper.ExamBankChoiceMapper.deleteByEbqIdx */
+		delete from t_exam_bank_choice
+		where ebq_idx=#{ebqIdx}
+	</delete>
+
+</mapper>

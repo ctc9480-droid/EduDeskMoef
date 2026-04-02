@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<!-- 
+	<Resource 
+		name="jdbc/edudesk" driverClassName="org.mariadb.jdbc.Driver" auth="Container" type="javax.sql.DataSource"
+		maxActive="10" minIdle="6" maxWait="10000" initialSize="10" validationQuery="select 1"
+		testWhileIdle="true" timeBetweenEvictionRunsMillis="72000"  defaultAutoCommit="false"
+	username="edudesk_moef" password="edudesk_moef"
+	url="jdbc:mariadb://106.244.74.221:13306/edudesk_moef?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;useSSL=false&amp;autoReconnection=true" />
+	 -->
+    	
+    	<Resource name="jdbc/edudesk" auth="Container" type="javax.sql.DataSource"
+    	username="edudesk_moef"
+    	password="edudesk_moef" driverClassName="cubrid.jdbc.driver.CUBRIDDriver"
+    	url="jdbc:cubrid:106.244.74.221:33000:edudesk_moef:::?charset=UTF-8" 
+    	maxTotal="10"
+          maxIdle="5"
+          maxWaitMillis="10000"
+          validationQuery="SELECT 1"
+          testOnBorrow="true"
+          testWhileIdle="true"
+          timeBetweenEvictionRunsMillis="60000"
+    	/>
+ 
+ <!-- 
+      <Context docBase="C:\GNSM\data\upload\web" path="/DATA/upload/web" />
+      <Context docBase="C:\GNSM\data\mov" path="/DATA/mov" />
+  -->
+  
+</Context>

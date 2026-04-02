@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lcsub.mapper.LcsubMapper">
+	
+	<resultMap id="map" type="com.educare.edu.lcsub.vo.LcsubVO" >
+		<result column="SUB_SEQ" property="subSeq"/>
+		<result column="SUB_NM" property="subNm"/>
+		<result column="PASS_IDX" property="passIdx"/>
+		<result column="REG_DE" property="regDe"/>
+		
+		<result column="REG_NM" property="regNm"/>
+		<result column="PASS_NM" property="passNm"/>
+		<result column="COMPL_NM" property="complNm"/>
+	</resultMap>
+	
+	<sql id="inc_selectLcsubPage">
+		<if test="srchWrd != null and srchWrd != ''">
+		and a.sub_nm like concat('%',#{srchWrd},'%')
+		</if>
+	</sql>
+	<select id="selectLcsubPageList" resultMap="map">
+		/** 문제은행 게시판 리스트 */
+		SELECT a.*
+		,(select title from t_pass_cert_tpl where pass_idx = a.pass_idx) pass_nm
+		,(select title from t_pass_cert_tpl where pass_idx = a.compl_idx) compl_nm
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		FROM t_lecture_subject a
+		where 1=1
+		<include refid="inc_selectLcsubPage"/>
+		ORDER BY REG_DE DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectLcsubPageCnt" resultType="int">
+		/** 문제은행 게시판 카운트 */
+		SELECT count(a.SUB_SEQ)
+		FROM t_lecture_subject a
+		where 1=1
+		<include refid="inc_selectLcsubPage"/>
+	</select>
+	
+</mapper>

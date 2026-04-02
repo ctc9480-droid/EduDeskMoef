@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.StatMapper">
+	<resultMap type="hashmap" id="map">
+		<result column="YEAR" property="year" />
+		<result column="MONTH" property="month" />
+		<result column="CNT" property="cnt" />
+		<result column="CNT2" property="cnt2" />
+	</resultMap>
+	
+	<select id="getRceptMonthMain" resultMap="map">
+		SELECT a.year, a.month 
+			 , COUNT(*) CNT
+			 , SUM(cnt2) CNT2
+		  FROM (
+				SELECT YEAR(a.reg_de) "year", MONTH(a.reg_de) "month"
+					 , (SELECT COUNT(*) FROM t_lecture_stdnt WHERE edu_seq = a.edu_seq AND rcept_seq = a.rcept_seq AND user_id = a.user_id AND pass_yn = 'Y') cnt2
+				  FROM t_lecture_rcept a
+				 WHERE a.state = 1
+				<if test="orgCd != null and orgCd != '' and orgCd != '0000'">
+<!-- 				AND a.EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture WHERE ORG_CD=#{orgCd})  -->
+				</if>
+				   AND a.REG_DE <![CDATA[>=]]> #{startDtime}
+		) a
+		 GROUP BY a.year, a.month
+		 ORDER BY a.year, a.month
+	</select>
+	
+	<resultMap type="hashmap" id="map2">
+		<result column="TOTAL_EDU_CNT" property="totalEduCnt" javaType="string"/>
+		<result column="RCEPT_EDU_CNT" property="rceptEduCnt" javaType="string"/>
+		<result column="PLAY_EDU_CNT" property="playEduCnt" javaType="string"/>
+	</resultMap>
+	<select id="getEduCntInfo" resultMap="map2">
+		SELECT COUNT(*) TOTAL_EDU_CNT
+			 , IFNULL(SUM(CASE WHEN rcept_period_begin <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y%m%d%H%i') AND rcept_period_end >= DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+			 	         AND (SELECT COUNT(*) FROM t_lecture_stdnt WHERE state IN (1, 2, 4) AND edu_seq = a.edu_seq) <![CDATA[<]]> personnel THEN 1
+			 	        ELSE 0 END),0) RCEPT_EDU_CNT
+			 , IFNULL(SUM(CASE WHEN CLOSE_YN ='N' AND edu_period_begin <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y%m%d%H%i') AND edu_period_end >= DATE_FORMAT(NOW(), '%Y%m%d%H%i') THEN 1
+			 	        ELSE 0 END),0) PLAY_EDU_CNT
+		  FROM t_lecture a 
+		 WHERE open_yn = 'Y'
+		<if test="orgCd != null and orgCd != '' and orgCd != '1'">
+<!-- 			AND ORG_CD=#{orgCd} -->
+		</if>
+		   AND reg_de >= DATE_FORMAT(NOW(), '%Y-01-01 00:00:00')
+	</select>
+	
+	<resultMap type="hashmap" id="map3">
+		<result column="TOTAL_RCEPT_STDNT_CNT" property="totalRceptStdntCnt" javaType="string"/>
+		<result column="NOW_RCEPT_STDNT_CNT" property="nowRceptStdntCnt" javaType="string"/>
+	</resultMap>
+	<select id="getRceptStdntCntInfo" resultMap="map3">
+		SELECT COUNT(*) TOTAL_RCEPT_STDNT_CNT
+			 , IFNULL(SUM(CASE WHEN REG_DE >= #{startDtime} THEN 1 ELSE 0 END),0) NOW_RCEPT_STDNT_CNT
+		  FROM t_lecture_rcept
+		 WHERE state = 1
+		<if test="orgCd != null and orgCd != '' and orgCd != '0000'">
+<!-- 			AND EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture WHERE ORG_CD=#{orgCd})  -->
+		</if>
+		   AND reg_de >= DATE_FORMAT(NOW(), '%Y-01-01 00:00:00')
+	</select>
+	
+	<resultMap type="hashmap" id="map4">
+		<result column="TOTAL_COMPL_STDNT_CNT" property="totalComplStdntCnt" javaType="string"/>
+	</resultMap>
+	<select id="getComplStdntCntInfo" resultMap="map4">
+		SELECT COUNT(*) TOTAL_COMPL_STDNT_CNT
+		  FROM t_lecture_stdnt a
+		 WHERE pass_yn = 'Y'
+		<if test="orgCd != null and orgCd != '' and orgCd != '0000'">
+<!-- 			AND EDU_SEQ IN (SELECT EDU_SEQ FROM t_lecture WHERE ORG_CD=#{orgCd})  -->
+		</if>
+		   AND (SELECT reg_de FROM t_lecture_rcept WHERE rcept_seq = a.rcept_seq AND edu_seq = a.edu_seq AND user_id = a.user_id) >= DATE_FORMAT(NOW(), '%Y-01-01 00:00:00')
+	</select>
+	<select id="getTotalOnline" resultType="hashmap">
+		select a.edu_seq ,a.edu_nm 
+		,b.time_seq ,b.edu_dt ,b.class_how
+		,c.user_id,c.user_nm ,c.email
+		,d.mov_all_time,d.mov_time 
+		,(select min(e.reg_time) from t_online_history e where e.edu_seq=a.edu_seq and e.time_seq=b.time_seq and e.user_id=c.user_id) access_date
+		from t_lecture a
+		inner join t_lecture_time b on a.edu_seq =b.edu_seq 
+		inner join t_lecture_stdnt c on a.edu_seq=c.edu_seq 
+		left join t_lecture_time_stdnt d on a.edu_seq =d.edu_seq and b.time_seq =d.time_seq and c.user_id =d.user_id 
+		where a.edu_seq =#{eduSeq}
+		and a.org_cd=#{orgCd}
+		order by b.time_seq
+	</select>
+	
+	<select id="getMyStatPlayEduCnt" resultType="int">
+	select count(*) from t_lecture a
+	where edu_seq in (
+		select edu_seq from t_lecture_stdnt where user_id=#{userId} and pass_yn='N'
+	)
+	AND (
+		 date_format(now(),'%Y-%m-%d') BETWEEN a.EDU_PERIOD_BEGIN and a.EDU_PERIOD_END 
+	)
+	</select>
+	<select id="getMyStatComplEduCnt" resultType="int">
+	select count(*) from t_lecture
+	where edu_seq in (
+		select edu_seq from t_lecture_stdnt where user_id=#{userId} and pass_yn='Y'
+	)
+	</select>
+	<select id="getMyStatRceptEduCnt" resultType="int">
+	select count(*) from t_lecture
+	where edu_seq in (
+		select edu_seq from t_lecture_stdnt where user_id=#{userId}
+	)
+	</select>
+	
+	<select id="getStdntCntByDetailCtgrySeq" resultType="int">
+		select count(*) from t_lecture_stdnt a
+		where a.edu_seq in (
+			select edu_seq from t_lecture a1 where a1.detail_ctgry_seq=#{detailCtgrySeq}
+		)
+	</select>
+	<select id="getPersonCntByDetailCtgrySeq" resultType="int">
+		select sum(personnel) from t_lecture
+		where detail_ctgry_seq=#{detailCtgrySeq}
+	</select>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.bbs.service.impl.BoardCommentMapper">
+	
+	<resultMap id="map" type="BoardComment">
+		<result property="idx" column="IDX"/>
+		<result property="bIdx" column="B_IDX"/>
+		<result property="content" column="CONTENT"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="regNm" column="REG_NM"/>
+		<result property="regNk" column="REG_NK"/>
+		<result property="regDtime" column="REG_DTIME"/>
+		<result property="modId" column="MOD_ID"/>
+		<result property="modNm" column="MOD_NM"/>
+		<result property="modDtime" column="MOD_DTIME"/>
+		<result property="gLvl" column="G_LVL"/>
+		<result property="gIdx" column="G_IDX"/>
+		<result property="gOrd" column="G_ORD"/>
+	</resultMap>
+	
+	<select id="selectBoardCommentList" resultMap="map">
+		/**통합 게시판코멘트 리스트*/
+		SELECT A.* FROM (
+		
+			SELECT A.*
+			FROM t_board_comment A
+			WHERE B_IDX=#{bIdx}
+			ORDER BY G_IDX
+		
+		) A
+	</select>
+	
+	<select id="selectBoardCommentMap" resultMap="map">
+		/** 통합게시판코멘트 상세 조회 */
+		SELECT * FROM t_board_comment WHERE IDX=#{idx} 
+	</select>
+	<update id="updateBoardCommentMap">
+		/** 통합게시판코멘트 수정 */
+		UPDATE t_board_comment 
+		SET
+			CONTENT=#{content}
+			,MOD_DTIME=#{modDtime}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<insert id="insertBoardCommentMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+	    	SELECT COALESCE(MAX(IDX),0)+1 IDX FROM t_board_comment
+	    </selectKey>
+		/** 통합게시판코멘트 등록 */
+		INSERT INTO t_board_comment
+		(IDX,P_IDX,B_IDX,CONTENT,REG_ID,REG_NM,REG_NK,REG_DTIME,MOD_ID,MOD_DTIME,G_IDX,G_ORD,G_LVL,STATUS)
+		VALUES
+		(#{idx},#{pIdx},#{bIdx},#{content},#{regId},#{regNm},#{regNk},#{regDtime},#{modId},#{modDtime},#{idx},#{gOrd},#{gLvl},#{status})
+	</insert>
+	<update id="updateBoardCommentMapForGroup">
+		/** 통합게시판 답글관련 정보 수정 */
+		UPDATE t_board_comment 
+		SET	
+			G_IDX=#{gIdx},
+			G_ORD=#{gOrd},
+			G_LVL=#{gLvl}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<delete id="deleteBoardCommentMap">
+		DELETE FROM t_board_comment WHERE B_IDX=#{bIdx}
+	</delete>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TestQuestionMapper">
+	<resultMap type="com.educare.edu.comn.model.TestQuestion" id="map">
+		<result column="TQ_SEQ" 		property="tqSeq"/>
+		<result column="TEST_TMPL_SEQ" 	property="testTmplSeq"/>
+		<result column="QSTN_SEQ" 		property="qstnSeq"/>
+		<result column="QSTN_ORD" 		property="qstnOrd"/>
+		<result column="MARKS" 			property="marks"/>
+		<result column="UPD_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	select * from t_test_question where tq_seq = #{tqSeq}
+	</select>
+	<select id="selectByUk1" resultMap="map">
+	select * from t_test_question where test_tmpl_seq = #{testTmplSeq} and qstn_seq = #{qstnSeq}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="tqSeq">
+		insert t_test_question (
+			test_tmpl_seq	,qstn_seq	,qstn_ord	,marks
+			,upd_id			,upd_de
+		)
+		values (
+			#{testTmplSeq}	,#{qstnSeq}	,#{qstnOrd}	,#{marks}		
+			,#{updId}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_test_question
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+			<if test="testTmplSeq > 0">,test_tmpl_seq = #{testTmplSeq} </if>
+			<if test="qstnSeq > 0">,qstn_seq = #{qstnSeq} </if>
+			<if test="qstnOrd > 0">,qstn_ord = #{qstnOrd} </if>
+			<if test="marks > 0">,marks = #{marks} </if>
+		where tq_seq = #{tqSeq}
+	</update>
+	<delete id="deleteByPk">
+		delete from t_test_question
+		where tq_seq = #{tqSeq}
+	</delete>
+	
+	<delete id="delQuizTestQstn">
+	/* com.educare.edu.comn.mapper.TestQuestionMapper.delQuizTestQstn */
+		delete from t_test_tmpl
+		where test_tmpl_seq = #{testTmplSeq}
+		
+	</delete>
+</mapper>

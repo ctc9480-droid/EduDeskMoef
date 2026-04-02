@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureRceptMapper">
+	<resultMap id="map" type="LectureRcept">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="payNo" column="PAY_NO"/>
+		<result property="state" column="STATE"/>
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+		<result property="feeTp" column="FEE_TP"/>
+		
+		<result property="rfndReqFee" 			column="rfnd_req_fee"/>
+		<result property="rfndBankNm" 			column="rfnd_bank_nm"/>
+		<result property="rfndAccountNm" 		column="rfnd_account_nm"/>
+		<result property="rfndAccountNo" 		column="rfnd_account_no"/>
+		<result property="rfndState" 			column="rfnd_state"/>
+		
+		<result property="dormiCapaCnt" 		column="dormi_capa_cnt"/>
+		<result property="dormiAccessYn" 		column="dormi_access_yn"/>
+		<result property="useTrans" 			column="use_trans"/>
+
+		<result property="regId" column="REG_ID"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="updId" column="UPD_ID"/>
+		<result property="updDe" column="UPD_DE"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.selectByPk */
+		select * from t_lecture_rcept where <!-- edu_seq = #{eduSeq} and user_id = #{userId} and --> rcept_seq = #{rceptSeq}
+	</select>
+	<update id="updateAnyByPk">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.updateAnyByPk */
+		update t_lecture_rcept
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="etc != null"> etc=#{etc}, </if>
+			<if test="state > 0"> state=#{state}, </if>
+			<if test="feeTp > 0"> fee_tp=#{feeTp}, </if>
+			<if test="payNo != null"> 				pay_no=#{payNo}, </if>
+		</trim>
+		WHERE
+		rcept_seq = #{rceptSeq}
+	</update>
+	<insert id="insertByPk" keyProperty="rceptSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.insertByPk */
+		insert into t_lecture_rcept (
+			edu_seq,user_id,user_nm,belong,"position",etc,state,file_org,file_re
+			,fee,fee_tp
+			,dormi_capa_cnt,dormi_access_yn,use_trans
+			,reg_de,reg_id,upd_de,upd_id
+		) values (
+			#{eduSeq},#{userId},#{userNm},#{belong},#{position},#{etc},#{state},#{fileOrg},#{fileRe}
+			,#{fee},#{feeTp}
+			,#{dormiCapaCnt},#{dormiAccessYn},#{useTrans}
+			,#{regDe},#{regId},#{updDe},#{updId}
+		)
+	</insert>
+	<select id="selectByPayNo" resultMap="map">
+		/* com.educare.edu.comn.mapper.LectureRceptMapper.selectByPayNo */
+		select * from t_lecture_rcept where pay_no=#{payNo}
+	</select>
+	<delete id="deleteByPk">
+		/* com.educare.edu.comn.mapper.LectureRceptMapper.deleteByPk */
+		delete from t_lecture_rcept where edu_seq=#{eduSeq} and user_id=#{userId}
+	</delete>
+	<select id="selectByWait" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.selectByWait */
+		select edu_seq,user_id,recpt_de,rcept_seq,user_nm,mobile from t_lecture_rcept where state = 'W'
+	</select>
+	<update id="updateByRceptSeq">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.updateByRceptSeq */
+		update t_lecture_rcept
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="updDe != null"> 	upd_de=#{updDe}, </if>
+			<if test="state > 0"> 		state=#{state}, </if>
+			<if test="dormiCapaCnt > -1"> 		DORMI_CAPA_CNT=#{dormiCapaCnt}, </if>
+			<if test="useTrans > -1"> 			USE_TRANS=#{useTrans}, </if>
+			<if test="dormiAccessYn != null and dormiAccessYn != ''"> 		DORMI_ACCESS_YN=#{dormiAccessYn}, </if>
+			<if test="payNo != null"> 				pay_no=#{payNo}, </if>
+			<if test="rfndReqFee > -1"> 			rfnd_req_fee=#{rfndReqFee}, </if>
+			<if test="rfndBankNm != null"> 			rfnd_bank_nm=#{rfndBankNm}, </if>
+			<if test="rfndAccountNm != null"> 		rfnd_account_nm=#{rfndAccountNm}, </if>
+			<if test="rfndAccountNo != null"> 		rfnd_account_no=#{rfndAccountNo}, </if>
+			<if test="rfndState > 0"> 				rfnd_state=#{rfndState}, </if>
+			<if test="feeTp > 0"> 					fee_tp=#{feeTp}, </if>
+			<if test="employYn != null"> 			employ_yn=#{employYn}, </if>
+			
+		</trim>
+		WHERE
+		rcept_seq=#{rceptSeq}
+	</update>
+	
+	<select id="selectByEduSeqNUserId" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRceptMapper.selectByEduSeqNUserId */
+		select * from t_lecture_rcept where edu_seq = #{eduSeq} and user_id = #{userId}
+	</select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.UserCertifMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.UserCertif" >
+		<result property="userId" column="USER_ID"/>
+		
+		<result property="crtfSeq" column="CRTF_SEQ"/>
+		<result property="crtfNm" column="CRTF_NM"/>
+		<result property="crtfDt" column="CRTF_DT"/>
+		<result property="issueNm" column="ISSUE_NM"/>
+		
+		<result property="updId" column="upd_id"/>
+		<result property="updDe" column="upd_de"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+		SELECT * FROM t_user_certif WHERE USER_ID=#{userId} AND CRTF_SEQ = #{crtfSeq} 
+	</select>
+	<select id="selectByUserId" resultMap="map">
+		SELECT * FROM t_user_certif WHERE USER_ID=#{userId}
+		order by crtf_seq
+	</select>
+	<delete id="deleteByUserId">
+		delete from t_user_certif where user_id = #{userId}
+	</delete>
+	<update id="updateByPk">
+		UPDATE t_user_certif
+		SET UPD_ID=#{updId} ,UPD_DE=#{updDe}
+		<if test="crtfNm != null"> 	,CRTF_NM 	= #{crtfNm} </if>
+		<if test="crtfDt != null"> 	,CRTF_DT 	= #{crtfDt} </if>
+		<if test="issueNm != null">	,ISSUE_NM 	= #{issueNm} </if>
+		WHERE USER_ID=#{userId} AND CRTF_SEQ = #{crtfSeq} 
+	</update>
+	<insert id="insertByPk">
+		INSERT t_user_certif (
+			USER_ID			,CRTF_SEQ		
+			,CRTF_NM		,CRTF_DT	,ISSUE_NM		
+			,UPD_ID			,UPD_DE
+		) VALUES (
+			#{userId}		,#{crtfSeq}		
+			,#{crtfNm}		,#{crtfDt}	,#{issueNm}
+			,#{updId}		,#{updDe}
+		)
+	</insert>
+</mapper>

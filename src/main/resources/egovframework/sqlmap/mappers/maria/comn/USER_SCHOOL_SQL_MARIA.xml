@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.UserSchoolMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.UserSchool" >
+		<result property="userId" column="user_id"/>
+		
+		<result property="schlSeq" column="SCHL_SEQ"/>
+		<result property="beginDt" column="BEGIN_DT"/>
+		<result property="endDt" column="END_DT"/>
+		<result property="schoolNm" column="SCHOOL_NM"/>
+		<result property="majorNm" column="MAJOR_NM"/>
+		<result property="submjrNm" column="SUBMJR_NM"/>
+		<result property="location" column="LOCATION"/>
+		<result property="grdtTp" column="GRDT_TP"/>
+		<result property="mark" column="MARK"/>
+		<result property="fullMark" column="FULL_MARK"/>
+		
+		<result property="updId" column="upd_id"/>
+		<result property="updDe" column="upd_de"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+		select * from t_user_school where user_id=#{userId} and schl_seq = #{schlSeq} 
+	</select>
+	<select id="selectByUserId" resultMap="map">
+		select * from t_user_school where user_id=#{userId} 
+		order by schl_seq 
+	</select>
+	<delete id="deleteByUserId">
+		delete from t_user_school where user_id = #{userId}
+	</delete>
+	<update id="updateByPk">
+		UPDATE t_user_school
+		SET UPD_ID=#{updId} ,UPD_DE=#{updDe}
+		<if test="beginDt != null"> 	,BEGIN_DT 	= #{beginDt} </if>
+		<if test="endDt != null"> 		,END_DT 	= #{endDt} </if>
+		<if test="schoolNm != null">	,SCHOOL_NM 	= #{schoolNm} </if>
+		<if test="majorNm != null"> 	,MAJOR_NM 	= #{majorNm} </if>
+		<if test="submjrNm != null"> 	,SUBMJR_NM 	= #{submjrNm} </if>
+		<if test="location != null"> 	,LOCATION 	= #{location} </if>
+		<if test="grdtTp > 0"> 			,GRDT_TP 	= #{grdtTp} </if>
+		<if test="mark >= 0"> 			,MARK 		= #{mark} </if>
+		<if test="fullMark >= 0"> 		,FULL_MARK 	= #{fullMark} </if>
+		WHERE USER_ID=#{userId} AND SCHL_SEQ = #{schlSeq} 
+	</update>
+	<insert id="insertByPk">
+		INSERT t_user_school (
+			USER_ID			,SCHL_SEQ		,BEGIN_DT		,END_DT	
+			,SCHOOL_NM		,MAJOR_NM		,SUBMJR_NM		,LOCATION
+			,GRDT_TP		,MARK			,FULL_MARK
+			,upd_id			,upd_de
+		) VALUES (
+			#{userId}		,#{schlSeq}		,#{beginDt}		,#{endDt}
+			,#{schoolNm}	,#{majorNm}		,#{submjrNm} 	,#{location}	
+			,#{grdtTp}		,#{mark}		,#{fullMark}
+			,#{updId}		,#{updDe}
+		)
+	</insert>
+</mapper>

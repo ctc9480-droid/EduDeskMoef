@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.eduOld.mapper.EduOldMapper">
+
+	<resultMap id="lectureOldMap" type="com.educare.edu.eduOld.vo.EduOldVO" >
+		<result column="edu_year" property="eduYear"/>			<!-- 교육연도 -->
+		<result column="edu_nm" property="eduNm"/> 				<!-- 교육명 -->
+		<result column="chasu" property="chasu"/>				<!-- 차수 -->
+		<result column="dt_edu_start" property="dtEduStart"/>	<!-- 교육기간(시작) -->
+		<result column="dt_edu_end" property="dtEduEnd"/>		<!-- 교육기간(종료) -->
+	</resultMap>
+	
+	<select id="selectEduOldPageCnt" resultType="int">
+		/** 구버전 교육내역 개수 */
+		select 
+			count(1) 
+		from ktl_edu_master kem, ktl_edu_item kei, ktl_edu_member kemm, ktl_member km  
+		where 1=1
+			and kem.idx_edu_master = kei.idx_edu_master
+			and kei.idx_edu_item = kemm.idx_edu_item
+			and kemm.idx_member = km.idx_member
+			and km.login_id = #{userId} 
+	</select>
+	
+	<select id="selectEduOldPageList" resultMap="lectureOldMap">
+		/** 구버전 교육내역 페이징 */
+		select 
+			kem.edu_year, kem.edu_nm,
+			kei.idx_edu_item, kei.idx_edu_master, kei.chasu, kei.dt_edu_start, kei.dt_edu_end 
+		from ktl_edu_master kem, ktl_edu_item kei, ktl_edu_member kemm, ktl_member km  
+		where 1=1
+			and kem.idx_edu_master = kei.idx_edu_master
+			and kei.idx_edu_item = kemm.idx_edu_item
+			and kemm.idx_member = km.idx_member
+			and km.login_id = #{userId} 
+		order by 
+		kem.edu_year
+		<if test="row != 0">
+		LIMIT #{firstIndex}, #{row}
+		</if>
+	</select>
+	
+</mapper>

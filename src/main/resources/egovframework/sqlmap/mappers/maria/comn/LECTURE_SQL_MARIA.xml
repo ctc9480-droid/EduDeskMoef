@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureMapper">
+	
+	<select id="selectByPk" resultMap="common.result.map.lectureMap">
+	/* com.educare.edu.comn.mapper.LectureMapper.selectByPk */
+	select * from t_lecture where edu_seq=#{eduSeq}
+	</select>
+	<select id="selectByTmEdu" resultMap="common.result.map.lectureMap">
+	/* com.educare.edu.comn.mapper.LectureMapper.selectByTmEdu */
+		SELECT * FROM t_lecture
+		WHERE 1=1 
+		and TM_SEQ = #{tmSeq} 
+		<if test="tmPlanSeq != null and tmPlanSeq != 0">
+		AND TM_PLAN_SEQ = #{tmPlanSeq} 
+		</if>
+		<if test="tmSubSeq != null and tmSubSeq != 0">
+		AND TM_SUB_SEQ = #{tmSubSeq} 
+		</if>
+		<if test="tmEduDt != null and tmPlanSeq != ''">
+		AND TM_EDU_DT = #{tmEduDt} 
+		</if>
+	</select>
+	<insert id="insertByPk" keyProperty="eduSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureMapper.insertByPk */
+		INSERT INTO t_lecture (
+			EDU_NM,EDU_CTGRY_SEQ,EDU_CTGRY_NM,DETAIL_CTGRY_SEQ,DETAIL_CTGRY_NM,FEE,OPEN_YN,INSTRCTR_ID,INSTRCTR_NM
+			,IMG_ORG,IMG_RENAME,IMG_USE_YN,EDU_PERIOD_BEGIN,EDU_PERIOD_END,CLOSE_TP,LCTRE_TYPE,RCEPT_PERIOD_YN,RCEPT_PERIOD_BEGIN,RCEPT_PERIOD_END
+			,RGS_DE,UPD_DE
+			,TM_SEQ,TM_PLAN_SEQ,TM_SUB_SEQ,TM_EDU_DT,TM_RCEPT_SEQ,ROOM_SEQ
+			,PERSONNEL,MIN_PERSONNEL,TARGETS
+			,pass_point,pass_att_point,pass_asg_point,pass_test_point,pass_cert_yn,pass_idx,auto_pass_yn,close_yn,rcept_yn
+			,edu_year,edu_term
+		)VALUES(
+			#{eduNm},#{eduCtgrySeq},#{eduCtgryNm},#{detailCtgrySeq},#{detailCtgryNm},#{fee},#{openYn},#{instrctrId},#{instrctrNm}
+			,#{imgOrg},#{imgRename},#{imgUseYn},#{eduPeriodBegin},#{eduPeriodEnd},#{closeTp},#{lctreType},#{rceptPeriodYn},#{rceptPeriodBegin},#{rceptPeriodEnd}
+			,#{rgsDe},#{updDe}
+			,#{tmSeq},#{tmPlanSeq},#{tmSubSeq},#{tmEduDt},#{tmRceptSeq},#{roomSeq}
+			,#{personnel},#{minPersonnel},#{targets}
+			,#{passPoint},#{passAttPoint},#{passAsgPoint},#{passTestPoint},#{passCertYn},#{passIdx},#{autoPassYn},#{closeYn},#{rceptYn}
+			,#{eduYear},#{eduTerm}
+		)
+	</insert>
+	<select id="selectByTmRcept" resultMap="common.result.map.lectureMap">
+	/* com.educare.edu.comn.mapper.LectureMapper.selectByTmRcept */
+		select * from t_lecture where tm_rcept_seq = #{tmRceptSeq}
+		order by tm_plan_seq
+	</select>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureMapper.deleteByPk */
+		delete from t_lecture where edu_seq = #{eduSeq}
+	</delete>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureMapper.updateByPk */
+		update t_lecture
+		set upd_de = #{updDe}
+		<if test='openYn != "" and openYn != null'>,open_yn = #{openYn}</if>
+		where edu_seq = #{eduSeq}
+	</update>
+	<select id="selectFbIdxByEduSeqArr" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureMapper.selectFbIdxByEduSeqArr */
+		select fb_idx from t_lecture
+		where 1=1
+		<if test="list != null">
+			and edu_seq in
+			<foreach collection="list" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>	
+		</if>
+		group by fb_idx
+	</select>
+	<update id="updateByTmSeq">
+	/* com.educare.edu.comn.mapper.LectureMapper.updateByTmSeq */
+		update t_lecture
+		set 
+			IMG_USE_YN = #{imgUseYn}
+			,IMG_RENAME = #{imgRename}
+		where tm_seq = #{tmSeq}
+		and tm_seq > 0
+	</update>
+</mapper>

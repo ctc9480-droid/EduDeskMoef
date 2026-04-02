@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureCounsMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureCouns" >
+		<result property="cnsSeq" column="cns_seq"/>
+		<result property="eduSeq" column="edu_seq"/>
+		<result property="userId" column="user_id"/>
+		
+		<result property="regId" column="reg_id"/>
+		<result property="regDe" column="reg_de"/>
+		<result property="updId" column="upd_id"/>
+		<result property="updDe" column="upd_de"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureCounsMapper.selectByPk */
+		select * from t_lecture_couns where cns_seq = #{cnsSeq} 
+	</select>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureCounsMapper.updateByPk */
+		UPDATE t_lecture_couns
+		SET UPD_ID=#{updId} ,UPD_DE=#{updDe}
+		<if test="title != null"> 		,title 	= #{title} </if>
+		<if test="content != null"> 	,content 	= #{content} </if>
+		<if test="state > 0"> 			,state 	= #{state} </if>
+		WHERE cns_seq = #{cnsSeq} 
+	</update>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.LectureCounsMapper.insertByPk */
+		INSERT t_lecture_couns (
+			cns_seq			,edu_seq		,user_id	
+			,title			,content		,state
+			,reg_id			,reg_de	 		,upd_id			,upd_de
+		) VALUES (
+			#{cnsSeq}		,#{eduSeq}		,#{userId}	
+			,#{title}		,#{content}		,#{state}
+			,#{regId}		,#{regDe}		,#{updId}		,#{updDe}
+		)
+	</insert>
+</mapper>

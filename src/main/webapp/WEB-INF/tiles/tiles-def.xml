@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+
+    <!-- 사용자-->
+    <definition name=".user" template="/WEB-INF/jsp/layout/user/baseLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/layout/user/header.jsp" />
+        <put-attribute name="subBox" value="/WEB-INF/jsp/layout/user/subBox.jsp" />     
+        <put-attribute name="footer" value="/WEB-INF/jsp/layout/user/footer.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/jsp/layout/user/modal.jsp" />
+    </definition>
+    
+    <!-- 관리자-->
+    <definition name=".admin" template="/WEB-INF/jsp/layout/admin/baseLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/layout/admin/header.jsp" />
+        <put-attribute name="subBox" value="/WEB-INF/jsp/layout/admin/subBox.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/layout/admin/menu.jsp" />        
+        <put-attribute name="footer" value="/WEB-INF/jsp/layout/admin/footer.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/jsp/layout/admin/modal.jsp" />
+    </definition>
+
+	<!-- csia 사용자 -->
+    <definition name=".csia" template="/WEB-INF/jsp/layout/csia/baseLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/layout/csia/csia_head.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/layout/csia/csia_menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/layout/csia/csia_foot.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/jsp/layout/csia/csia_modal.jsp" />
+    </definition>
+
+	<!-- popup -->
+    <definition name=".popup" template="/WEB-INF/jsp/layout/popup/baseLayout.jsp">
+	    <put-attribute name="modal" value="/WEB-INF/jsp/layout/user/modal.jsp" />
+    </definition>
+    <definition name=".popup_admin" template="/WEB-INF/jsp/layout/popup/baseLayout_admin.jsp">
+    </definition>
+    
+    <!-- 사용자 기능 -->    
+    <definition name="/user/*/*.tiles" extends=".user">
+      <put-attribute name="body" value="/WEB-INF/jsp/user/{1}/{2}.jsp" />
+    </definition> 
+    
+    <!-- 사용자 html -->    
+    <definition name="/user/*/contents/*.tiles" extends=".user">
+      <put-attribute name="body" value="/WEB-INF/jsp/user/{1}/contents/{2}.jsp" />
+    </definition>
+    
+    <!-- 관리자 -->    
+    <definition name="/admin/*/*.tiles" extends=".admin">
+      <put-attribute name="body" value="/WEB-INF/jsp/admin/{1}/{2}.jsp" />
+    </definition>
+
+    <!-- comm -->
+    <definition name="/comm/*/*.tiles" extends=".user">
+      <put-attribute name="body" value="/WEB-INF/jsp/comm/{1}/{2}.jsp" />
+    </definition> 
+
+	<!-- user popup -->
+    <definition name="/user/*/popup/*.tiles" extends=".popup">
+      <put-attribute name="body" value="/WEB-INF/jsp/user/{1}/popup/{2}.jsp" />
+    </definition> 
+
+	<!-- admin popup -->
+    <definition name="/admin/*/popup/*.tiles" extends=".popup_admin">
+      <put-attribute name="body" value="/WEB-INF/jsp/admin/{1}/popup/{2}.jsp" />
+    </definition> 
+
+	<!-- user csia popup -->
+    <definition name="/user/csia/*/popup/*.tiles" extends=".popup">
+      <put-attribute name="body" value="/WEB-INF/jsp/user/csia/{1}/popup/{2}.jsp" />
+    </definition> 
+    
+</tiles-definitions>

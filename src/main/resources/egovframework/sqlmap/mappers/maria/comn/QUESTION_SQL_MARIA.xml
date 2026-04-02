@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.QuestionMapper">
+	<resultMap type="com.educare.edu.comn.model.Question" id="map">
+		<result column="QSTN_SEQ" property="qstnSeq"/>
+		<result column="QSTN_NM" property="qstnNm"/>
+		<result column="QSTN_TP" property="qstnTp"/>
+		<result column="CTG1_SEQ" property="ctg1Seq"/>
+		<result column="CTG2_SEQ" property="ctg2Seq"/>
+		<result column="CTG3_SEQ" property="ctg3Seq"/>
+		<result column="DIFF_TYPE" property="diffType"/>
+		<result column="QSTN_DESC" property="qstnDesc"/>
+		<result column="QSTN_STR" property="qstnStr"/>
+		<result column="QSTN_FN_ORG" property="qstnFnOrg"/>
+		<result column="QSTN_FN_RNM" property="qstnFnRnm"/>
+		<result column="OPTION_CNT" property="optionCnt"/>
+		<result column="FILL_BLANK" property="fillBlank"/>
+		<result column="ANS_DESC" property="ansDesc"/>
+		<result column="USE_YN" property="useYn"/>
+		<result column="REG_ID" property="regId"/>
+		<result column="UPD_ID" property="updId"/>
+		<result column="REG_DE" property="regDe"/>
+		<result column="UPD_DE" property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	select * from t_question where qstn_seq = #{qstnSeq}
+	</select>
+	<select id="selectByAll" resultMap="map">
+	select * from t_question
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="qstnSeq">
+		insert t_question (
+			qstn_nm			,qstn_tp
+			,ctg1_seq		,ctg2_seq		,ctg3_seq
+			,diff_type		,qstn_desc		,qstn_str
+			,qstn_fn_org	,qstn_fn_rnm
+			,option_cnt		,fill_blank		,ans_desc		,use_yn
+			,reg_id			,upd_id			,reg_de			,upd_de
+		)
+		values (
+			#{qstnNm}		,#{qstnTp}
+			,#{ctg1Seq}		,#{ctg2Seq}		,#{ctg3Seq}
+			,#{diffType}	,#{qstnDesc}	,#{qstnStr}
+			,#{qstnFnOrg}	,#{qstnFnRnm}
+			,#{optionCnt}	,#{fillBlank}	,#{ansDesc}		,#{useYn}
+			,#{regId}		,#{updId}		,#{regDe}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_question
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+			<if test="qstnNm != null and qstnNm != ''">,qstn_nm = #{qstnNm} </if>
+			<if test="qstnTp > 0">,qstn_tp = #{qstnTp} </if>
+			<if test="ctg1Seq > 0">,ctg1_seq = #{ctg1Seq}</if>
+			<if test="ctg2Seq > 0">,ctg2_seq = #{ctg2Seq}</if>
+			<if test="ctg3Seq > 0">,ctg3_seq = #{ctg3Seq}</if>
+			<if test="diffType > 0">,diff_type = #{diffType}</if>
+			<if test="qstnDesc != null ">,qstn_desc = #{qstnDesc} </if>
+			<if test="qstnStr != null ">,qstn_str = #{qstnStr} </if>
+			<if test="optionCnt > 0">,option_cnt = #{optionCnt}</if>
+			<if test="fillBlank != null ">,fill_blank = #{fillBlank} </if>
+			<if test="ansDesc != null ">,ans_desc = #{ansDesc} </if>
+			<if test="useYn != null ">,use_yn = #{useYn} </if>
+		where qstn_seq = #{qstnSeq}
+	</update>
+	<update id="updateByFile">
+		update t_question
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+			<!-- 
+			<if test="qstnFnOrg != null ">,qstn_fn_org = #{qstnFnOrg} </if>
+			<if test="qstnFnRnm != null ">,qstn_fn_rnm = #{qstnFnRnm} </if>
+			-->
+			,qstn_fn_org = #{qstnFnOrg}
+			,qstn_fn_rnm = #{qstnFnRnm}
+			
+		where qstn_seq = #{qstnSeq}
+	</update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.education.service.impl.TuitionFeeMapper">
+
+	<resultMap id="lectureTutfeeMap" type="LectureTutfee">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="eduCtgrySeq" column="EDU_CTGRY_SEQ"/>
+		<result property="detailCtgrySeq" column="DETAIL_CTGRY_SEQ"/>
+		<result property="year" column="YEAR"/>
+		<result property="month" column="MONTH"/>
+		<result property="tutfee" column="TUTFEE"/>
+	</resultMap>
+
+	<insert id="insertTutfee" parameterType="LectureTutfee">
+		INSERT INTO 
+			T_LECTURE_TUTFEE(
+				EDU_SEQ, 
+				EDU_CTGRY_SEQ, 
+				DETAIL_CTGRY_SEQ, 
+				YEAR, 
+				MONTH, 
+				TUTFEE
+			)VALUES(
+				#{eduSeq}, 
+				#{eduCtgrySeq}, 
+				#{detailCtgrySeq}, 
+				#{year}, 
+				#{month},
+				#{tutfee}
+			)
+	</insert>
+	
+	<select id="selectTutfeeByEdu" parameterType="Integer" resultMap="lectureTutfeeMap">
+		SELECT * FROM T_LECTURE_TUTFEE WHERE EDU_SEQ = #{eduSeq}
+	</select>
+	
+	<delete id="deleteTutfee" parameterType="Integer">
+		DELETE FROM T_LECTURE_TUTFEE WHERE EDU_SEQ = #{eduSeq}
+	</delete>
+	
+</mapper>

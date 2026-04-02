@@ -1,0 +1,373 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include/includePageTaglib.jsp" %>
+<jsp:useBean id="curDate" class="java.util.Date" />
+<style>
+	.no_data {
+		height:150px; 
+		width:100%; 
+		line-height:150px; 
+		text-align:center; 
+		vertical-align:middle;
+	}
+</style>
+<script type="text/javascript">
+function fn_srch(){
+	$("#i_srchCtgry").val($("#srchCtgry").val());
+	$("#i_srchColumn").val($("#srchColumn").val());
+	$("#i_srchWrd").val($("#srchWrd").val());
+	$("#i_page").val(1);
+	fn_listUpd();
+}
+
+function fn_page(page){
+	$("#i_page").val(page);
+	fn_listUpd()
+}
+
+function fn_listUpd(){
+	$.ajax({
+        url: "/user/mypage/instrctrEduList.json",
+        type: "POST",
+        data: { 
+        	"srchCtgry" : $("#i_srchCtgry").val(),
+        	"srchColumn" : $("#i_srchColumn").val(),
+        	"srchWrd" : $("#i_srchWrd").val(),
+        	"page" : $("#i_page").val()
+        },  
+        dataType: 'json',
+	    crossDomain: true,
+		success: function(r) {
+        	var htmlData = "";
+        	var pageHtml = "";
+        	var dataList = r.dataList;
+			var pageNavi = r.pageNavi;
+			var vo = r.vo;
+			
+        	if(dataList == null || dataList == undefined || dataList == "") {
+        		htmlData = "<li class=\"flex\">" +
+    							"<div class=\"no_data\">데이터가 없습니다.</div>" +
+       		 				"</li>";
+       		 	pageHtml = "<a href=\"javascript:;\" class=\"active\">1</a>";
+        	}else{
+        		var imgPath;
+        		var rceptClass;
+        		var rceptStat;
+        		var curde = "<fmt:formatDate value='${curDate}' pattern='yyyyMMddHHmm' />";
+        		
+        		$(dataList).each(function(i, e) {
+        			if(this.imgUseYn == "Y" && this.imgRename != ""){
+        				imgPath = "/upload/edu/img/" + this.imgRename;
+        			}else{
+        				imgPath = "/resources/admin/images/default_img.png";
+        			}
+        			
+        			if(this.rceptYn != "Y"){
+        				rceptClass = "end";
+        				rceptStat = "접수마감";
+        			}else{
+        				if(this.rceptPeriodYn != "Y"){
+            				rceptClass = "end";
+            				rceptStat = "접수마감";
+            			}else{
+							if(Number(this.rceptPeriodBegin) <= Number(curde) && Number(curde) <= Number(this.rceptPeriodEnd)){
+								if(Number(this.rceptCnt) >= Number(this.personnel)){
+									if(Number(this.waitCnt) < Number(this.extPersonnel)){
+										rceptClass = "wait";
+			            				rceptStat = "대기접수";	
+									}else{
+										rceptClass = "end";
+			            				rceptStat = "접수마감";
+									}
+								}else{
+									rceptClass = "ing";
+		            				rceptStat = "접수중";	
+								}
+							}else{
+								rceptClass = "end";
+	            				rceptStat = "접수마감";
+							}
+            			}	
+        			}			
+        				
+        			htmlData += "<li class=\"flex\">" +
+				    				"<span class=\"img_logo\">" +
+        								"<img src=\"" + imgPath + "\" alt=\"" + this.eduNm + "\" width=\"112px\" height=\"149px\"/>" +
+				    				"</span>" +
+				    				"<div class=\"text_title\">" +
+		                                "<div onclick=\"fn_moveView('" + this.eduSeq + "');\" style=\"cursor:pointer\">" +
+		                                    "<strong>" + this.eduNm + "</strong>" +
+		                                    " <span class=\"icon_tag " + rceptClass + "\">" + rceptStat + "</span>" +
+		                                    "<p>" + this.eduCtgryNm + " / " + this.instrctrNm + " 강사</p>" + 
+		                                "</div>" +
+		                            "</div>" +	
+		                            "<div class=\"text_info\">" +
+		                                "<div>" +
+		                                    "<span>" + this.eduPeriodBegin + " ~ " + this.eduPeriodEnd + "</span><br/>" +
+		                                    "<span>" + this.personnel + "명 모집 (<strong class=\"color\">" + Number(this.rceptCnt) + "</strong>명 신청)</span>" +
+		                                "</div>" +
+		                            "</div>" +
+					    		"</li>";
+        		});
+				
+				if(pageNavi.currentPageNo != 1){
+					pageHtml +=	"<a href=\"javascript:;\" onclick=\"fn_page('" + (pageNavi.currentPageNo - 1) + "');\">&laquo;</a>";	
+				}
+
+				var subHtml = "";
+				
+				for(var i = pageNavi.firstPageNoOnPageList; i <= pageNavi.lastPageNoOnPageList; i++){
+					if(i == pageNavi.currentPageNo){
+						subHtml = "<a href=\"javascript:;\" class=\"active\">" + i + "</a>";
+					}else{
+						subHtml = "<a href=\"javascript:;\" onclick=\"fn_page('" + i + "');\">" + i + "</a>";
+					}
+					pageHtml += subHtml;
+				}
+				
+				if(pageNavi.currentPageNo != pageNavi.totalPageCount && pageNavi.totalPageCount > 0){
+					pageHtml +=	"<a href=\"javascript:;\" onclick=\"fn_page('" + (pageNavi.currentPageNo + 1) + "');\">&raquo;</a>";	
+				}
+        	}
+        	$("#lctreView").html(htmlData);
+        	$("#pageDiv").html(pageHtml);
+		}
+    });
+}
+
+function fn_moveView(eduSeq){
+	location.href='/user/mypage/instrctrEduDetail.do?eduSeq='+eduSeq;
+}
+
+function fn_moveList(){
+	$("#viewDiv").hide();
+	$("#listDiv").show();
+}
+
+function fn_cancel(eduSeq){
+	$("#eduSeq").val(eduSeq);
+	location.href= "#confirm";
+}
+
+function fn_reload(){
+	var eduSeq = $("#eduSeq").val(); 
+	location.href = "#";
+	fn_moveView(eduSeq);
+}
+
+function fn_cancelProc(){
+	var eduSeq = $("#eduSeq").val(); 
+	$.ajax({
+		url: "/user/mypage/cancelRcept.json",
+		type: "post",
+		data: {
+			"eduSeq" : eduSeq
+		},
+		cache: false,
+		async: true,
+		success: function(r) {
+			if(r.isLogined){
+				if(r.isSuccess){
+					location.href = "#success";
+				}else{
+					$("#messageStr").html(r.message);
+					location.href = "#message";
+				}	
+			}else{
+				location.href = "#login";	
+			}
+		}
+	});
+}
+
+function fn_pay(){
+	alert("결제연동");
+}
+
+function fn_moveLogin(){
+	location.href= "/user/login.do";
+}
+</script>
+<div class="listWrap" style="padding-top:0">
+	<div id="listDiv">
+	    <div class="box_sort flex">
+	       <div class="box_cate">
+		        <select id="srchCtgry" onchange="fn_srch()">
+		            <option value="">교육과정 정렬</option>
+		            <c:forEach var="data" items="${eduList}" varStatus="stat">
+						<option value="${data.ctgrySeq}" <c:if test='${vo.srchCtgry == data.ctgrySeq}'>selected</c:if>>${data.ctgryNm}</option>
+					</c:forEach>
+	    		</select>
+			</div>
+			<div class="box_search">
+			    <select id="srchColumn">
+			        <option value="eduNm" <c:if test='${vo.srchColumn == "eduNm"}'>selected</c:if>>교육과정 명</option>
+					<option value="instrctrNm" <c:if test='${vo.srchColumn == "instrctrNm"}'>selected</c:if>>강사</option>
+				</select>
+				<input type="text" id="srchWrd"/>
+				<button type="submit" onclick="fn_srch(); return false;">검색</button>
+	    	</div>
+	    </div>
+	    <form name="srchFrm" method="post">
+			<input type="hidden" name="srchCtgry" id="i_srchCtgry" value="${vo.srchCtgry}"/>
+			<input type="hidden" name="srchColumn" id="i_srchColumn" value="${vo.srchColumn}"/>
+			<input type="hidden" name="srchWrd" id="i_srchWrd" value="${vo.srchWrd}"/>
+			<input type="hidden" name="page" id="i_page" value="${vo.page}"/>
+		</form>
+	    <div class="box_list">
+	        <ul id="lctreView">
+	            <c:choose>
+					<c:when test='${dataList != null && fn:length(dataList) > 0}'>
+						<c:forEach var="lctre" items="${dataList}" varStatus="stat">
+							<li class="flex">
+	       						<span class="img_logo">
+	       							<c:choose>
+										<c:when test='${lctre.imgUseYn == "Y" && lctre.imgRename != ""}'>
+											<img src="/upload/edu/img/${lctre.imgRename}" alt="수업이미지" width="112px" height="149px"/>
+										</c:when>
+										<c:otherwise>
+											<img src="/resources/admin/images/default_img.png" alt="수업이미지" width="112px" height="149px"/>
+										</c:otherwise>
+									</c:choose>
+								</span>
+								<div class="text_title">
+	    							<div onclick="fn_moveView('${lctre.eduSeq}');" style="cursor:pointer">
+										<p style="margin-top:0;" class="mgb15"><span class="mgr3">${lctre.onlineYn == 'Y'?'[온라인]':'' }</span>${lctre.eduCtgryNm }</p>
+										<strong>${lctre.eduNm}</strong>
+										<c:set var="checkRcept" value="${utcp.checkRcept(lctre.eduSeq) }"/>
+										<span class="icon_tag ${checkRcept==1?'wait':checkRcept==2?'ing':'end' }">
+										${checkRcept==1?'접수대기':checkRcept==2?'접수중':'접수마감' }
+										</span>
+										<p>${lctre.orgNm} / ${lctre.instrctrNm} 강사</p>
+	    							</div>
+								</div>
+								<div class="text_info">
+	    							<div>
+	    								<span>
+											[접수] <b class="fw_500">
+											<c:if test="${lctre.rceptPeriodYn eq 'Y'}">
+											${utcp.convDateToStr(utcp.convStrToDate(lctre.rceptPeriodBegin,'yyyyMMddHHmm'),'yyyy-MM-dd')} ~
+										 	${utcp.convDateToStr(utcp.convStrToDate(lctre.rceptPeriodEnd,'yyyyMMddHHmm'),'yyyy-MM-dd')}
+											</c:if>
+											<c:if test="${lctre.rceptPeriodYn ne 'Y'}">
+											미설정
+											</c:if>
+											</b>
+										</span><br/>
+			    						<span>
+											[교육] <b>${lctre.eduPeriodBegin}</b>
+										</span><br/>
+										<span class="fw_500">${lctre.personnel}명 모집 (<strong class="color fw_500">${lctre.rceptCnt}</strong>명 신청)</span>
+	    							
+	        						</div>
+	    						</div>
+							</li>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<li class="flex">
+							<div class="no_data">데이터가 없습니다.</div>
+					 	</li>
+					</c:otherwise>
+				</c:choose>	
+	        </ul>
+	    </div>
+		<div class="board_pager" style="margin-bottom:30px;">
+			<div class="pagination" id="pageDiv">
+				<c:if test="${pageNavi.currentPageNo != 1}">
+					<a href="javascript:;" onclick="fn_page('${pageNavi.currentPageNo - 1}'); return false;">&laquo;</a>
+				</c:if>
+				<c:forEach var="pageNo" begin="${pageNavi.firstPageNoOnPageList}" end="${pageNavi.lastPageNoOnPageList}">
+					<c:choose>
+					<c:when test="${pageNo == pageNavi.currentPageNo}">
+						<a href="javascript:;" class="active">${pageNo}</a>
+					</c:when>
+					<c:otherwise>
+						<a href="javascript:;" onclick="fn_page('${pageNo}'); return false;")">${pageNo}</a>
+					</c:otherwise>
+				</c:choose>
+				</c:forEach>
+				<c:if test="${pageNavi.currentPageNo != pageNavi.totalPageCount && pageNavi.totalPageCount > 0}">
+			  		<a href="javascript:;" onclick="fn_page('${pageNavi.currentPageNo + 1}'); return false;">&raquo;</a>
+			  	</c:if>
+			</div>
+		</div>
+	</div>
+	<div id="viewDiv" style="display:none;">
+       	
+	</div>
+	<input type="hidden" id="eduSeq" />
+</div>
+
+<div class="remodal messagePop messagePop1" data-remodal-id="login" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+	<div class="modal-content">
+		<div class="modal-header">
+			<p class="tit alignC">알림</p>
+		</div>
+		<div class="modal-body">
+			<p class="messageTxt">
+				로그인이 필요한 서비스입니다.<br/>로그인 하시겠습니까?
+			</p>
+		</div>
+		<div class="modal-footer">
+			<div class="tc">
+				<button onclick="fn_moveLogin(); return false;" class="remodal-confirm btn02 btn_green">확인</button>
+				<button data-remodal-action="cancel" class="remodal-cancel btn02 btn_gray">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="remodal messagePop messagePop1" data-remodal-id="success" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+	<div class="modal-content">
+		<div class="modal-header">
+			<p class="tit alignC">알림</p>
+		</div>
+		<div class="modal-body">
+			<p class="messageTxt">
+				취소처리 되었습니다.
+			</p>
+		</div>
+		<div class="modal-footer">
+			<div class="tc">
+				<button onclick="fn_reload(); return false;" class="remodal-confirm btn02 btn_green">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="remodal messagePop messagePop2" data-remodal-id="message" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+	<div class="modal-content">
+		<div class="modal-header">
+			<p class="tit alignC">알림</p>
+		</div>
+		<div class="modal-body">
+			<p class="messageTxt" id="messageStr">
+			
+			</p>
+		</div>
+		<div class="modal-footer">
+			<div class="tc">
+				<button onclick="fn_reload(); return false;" class="remodal-confirm btn02 btn_orange">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="remodal messagePop messagePop2" data-remodal-id="confirm" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+	<div class="modal-content">
+		<div class="modal-header">
+			<p class="tit alignC">교육신청취소</p>
+		</div>
+		<div class="modal-body">
+			<p class="messageTxt">
+				취소하시겠습니까?
+			</p>
+		</div>
+		<div class="modal-footer">
+			<div class="tc">
+				<button onclick="fn_cancelProc(); return false;" class="remodal-confirm btn02 btn_orange">확인</button>
+				<button data-remodal-action="cancel" class="remodal-cancel btn02 btn_gray">취소</button>
+			</div>
+		</div>
+	</div>
+</div>

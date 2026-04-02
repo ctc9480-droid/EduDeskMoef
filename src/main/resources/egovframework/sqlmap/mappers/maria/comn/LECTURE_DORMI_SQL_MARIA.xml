@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureDormiMapper">
+
+	<resultMap id="map" type="com.educare.edu.comn.vo.LectureDormiVO">
+		<result property="dormiSeq" column="DORMI_SEQ"/>
+		<result property="dormiNm" column="DORMI_NM"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="capaCnt" column="CAPA_CNT"/>
+		<result property="accessYn" column="ACCESS_YN"/>
+		<result property="assignedCnt" column="ASSIGNED_CNT"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="startDt" column="start_dt"/>
+		<result property="endDt" column="end_dt"/>
+		<result property="dormiFee" column="dormi_fee"/>
+		<result property="mealFee" column="meal_fee"/>
+		<result property="depositYn" column="deposit_yn"/>
+		
+		<result property="rceptCapaCnt" column="RCEPT_CAPA_CNT"/>
+		<result property="rceptAccessYn" column="RCEPT_ACCESS_YN"/>
+		<result property="useTrans" column="USE_TRANS"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectByPk */
+		select * from t_lecture_dormi where dormi_seq = #{dormiSeq}
+	</select>
+	<insert id="insertByPk" keyProperty="dormiSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.insertByPk */
+		insert into t_lecture_dormi
+		(dormi_nm	,place		,memo		,use_yn		, capa_cnt
+		, access_yn
+		, reg_id, reg_de, upd_id, upd_de)
+		values 
+		(#{dormiNm}	,#{place}	,#{memo}	,#{useYn}	,#{capaCnt}
+		,#{accessYn}
+		,#{regId},#{regDe},#{updId},#{updDe})
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.updateByPk */
+		update t_lecture_dormi
+		set 
+		upd_id = #{updId}
+		,upd_de = #{updDe}
+		<if test="dormiNm != null">,dormi_nm = #{dormiNm}</if>
+		<if test="accessYn != null">,access_yn = #{accessYn}</if>
+		<if test="capaCnt > 0">,capa_cnt = #{capaCnt}</if>
+		<if test="place != null">,place = #{place}</if>
+		<if test="memo != null">,memo = #{memo}</if>
+		<if test="useYn != null">,use_yn = #{useYn}</if>
+		where dormi_seq = #{dormiSeq}
+	</update>
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectByParam */
+		SELECT * FROM t_lecture_dormi
+		WHERE 1=1 
+		<if test="roomSeq != null and roomSeq != ''">
+		and DORMI_SEQ = #{dormiSeq} 
+		</if>
+		<if test="useYn != null and useYn != ''">
+		and USE_YN = #{useYn} 
+		</if>
+		order by dormi_nm
+	</select>
+	
+	<sql id="inc_selectClassDormiPage">	
+		and use_yn in ('Y','N')
+		<if test="srchWrd != null and srchWrd != ''">
+		and (room_nm like concat('%',#{srchWrd},'%') or place like concat('%',#{srchWrd},'%') or memo like concat('%',#{srchWrd},'%'))
+		</if>
+	</sql>
+	<select id="selectPageTotalCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectPageTotalCnt */
+		SELECT count(*) FROM t_lecture_dormi
+		WHERE 1=1 
+		<include refid="inc_selectClassDormiPage"/>
+	</select>
+	<select id="selectPageList" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectPageList */
+		SELECT * FROM t_lecture_dormi
+		WHERE 1=1 
+		<include refid="inc_selectClassDormiPage"/>
+		order by dormi_seq desc
+		limit #{firstIndex} , #{rowCnt}
+	</select>
+	
+	<select id="getLectureDormiList" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.getLectureDormiList */
+		select a.* from t_lecture_dormi a
+		where 1=1
+		<if test="srchStartDt != null and srchStartDt != ''">
+		and a.dormi_seq in (
+			select dormi_seq from t_lecture_dormi_stdnt 
+			where 1=1 
+			and ( 
+				(start_dt between #{srchStartDt} and #{srchEndDt}) 
+				or (end_dt between #{srchStartDt} and #{srchEndDt}) 
+			)
+		)
+		</if>
+	</select>
+	<select id="getLectureDormiListForPeriod" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.getLectureDormiListForPeriod */
+	/** 특정기간 빈방 목록 */
+	SELECT d.dormi_seq,
+           d.dormi_nm,
+           d.capa_cnt,
+           d.place,
+           d.access_yn,
+           COALESCE(s.assigned_cnt, 0) AS assigned_cnt
+    FROM t_lecture_dormi d
+    LEFT JOIN (
+        SELECT dormi_seq, COUNT(*) AS assigned_cnt
+        FROM t_lecture_dormi_stdnt
+        WHERE NOT (end_dt <![CDATA[<=]]>#{srchStartDt} OR start_dt >= #{srchEndDt})
+        GROUP BY dormi_seq 
+    ) s ON d.dormi_seq = s.dormi_seq
+    WHERE d.use_yn = 'Y'
+  	<if test="emptySt == 1">
+  	AND COALESCE(s.assigned_cnt, 0) <![CDATA[<]]> d.capa_cnt
+  	</if>
+   	<if test="srchDormiSeq > 0">
+      and d.dormi_seq = #{srchDormiSeq}
+      </if>
+      <if test="srchDormiSeqArr != null">
+	and d.dormi_seq in
+		<foreach collection="srchDormiSeqArr" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</if>
+    ORDER BY d.dormi_seq
+    FOR UPDATE of d
+	</select>
+	<select id="selectLectureStdntListForAssign" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectLectureStdntListForAssign */
+		/** 특정수업의 학생명단, 배정정보 포함 */
+		select a.edu_seq, a.user_id, a.dormi_fee, a.meal_fee, a.deposit_yn
+			 , b.start_dt, b.end_dt, b.dormi_seq
+			 , (select dormi_nm from t_lecture_dormi where dormi_seq = b.dormi_seq) dormi_nm
+			 , (select capa_cnt from t_lecture_dormi where dormi_seq = b.dormi_seq) capa_cnt
+			 , (select access_yn from t_lecture_dormi where dormi_seq = b.dormi_seq) access_yn
+			 , (select dormi_access_yn from t_lecture_rcept where rcept_seq = a.rcept_seq) rcept_access_yn
+			 , (select dormi_capa_cnt from t_lecture_rcept where rcept_seq = a.rcept_seq) rcept_capa_cnt
+			 , (select use_trans from t_lecture_rcept where rcept_seq = a.rcept_seq) use_trans
+		from t_lecture_stdnt a
+		left join (
+			select * from t_lecture_dormi_stdnt where not (end_dt <![CDATA[<]]>#{srchStartDt} OR start_dt > #{srchEndDt})
+		) b on a.user_id = b.user_id and a.edu_seq = b.edu_seq
+		where a.edu_seq = #{eduSeq} and a.state in (2, 4)
+		<if test="srchUserId != null and srchUserId != ''">
+		and a.user_id = #{srchUserId}
+		</if>
+		<if test="rowCnt > 0">
+		limit #{firstIndex}, #{rowCnt}
+		</if>
+	</select>
+	<select id="selectLectureStdntPageCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.selectLectureStdntPageCnt */
+		/** 숙소배정 전체수, 페이징처리 */
+		select count(a.edu_seq)
+		from t_lecture_stdnt a
+		where a.edu_seq = #{eduSeq} and a.state in (2,4)
+		
+	</select>
+	<select id="getAssignLectureDormi" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiMapper.getAssignLectureDormi */
+		/** 숙소 사용현황 */
+		select 
+		a.edu_seq,a.user_id,a.start_dt,a.end_dt,a.dormi_seq
+		,b.dormi_nm
+		from t_lecture_dormi_stdnt a 
+		inner join t_lecture_dormi b on a.dormi_seq = b.dormi_seq 
+		where a.dormi_seq > 0
+		<if test="srchDt != null and srchDt != ''">
+			and #{srchDt} between a.start_dt and a.end_dt
+		</if>
+		<if test="dormiSeq > 0">
+			and b.dormi_seq = #{dormiSeq}
+		</if>
+		<if test="srchYear != null and srchMonth != null">
+			and not ( 
+				a.end_dt <![CDATA[<]]> concat(#{srchYear},'-',#{srchMonth},'-01') 
+				or a.start_dt >  concat(#{srchYear},'-',#{srchMonth},'-31')
+			)
+		</if>
+		
+	</select>
+</mapper>

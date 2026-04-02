@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TestMapper">
+	<resultMap type="com.educare.edu.comn.model.Test" id="map">
+		<result column="TEST_SEQ" 		property="testSeq"/>
+		<result column="TEST_TMPL_SEQ" 	property="testTmplSeq"/>
+		<result column="EDU_SEQ" 		property="eduSeq"/>
+		<result column="TEST_NM" 		property="testNm"/>
+		<result column="BFAF_TP" 		property="bfafTp"/>
+		<result column="START_DE" 		property="startDe"/>
+		<result column="END_DE" 		property="endDe"/>
+		<result column="DESCR" 			property="descr"/>
+		<result column="PASS_MARKS" 	property="passMarks"/>
+		<result column="STATUS" 		property="status"/>
+		<result column="MARK_TP" 		property="markTp"/>
+		<result column="TRY_NO" 		property="tryNo"/>
+		<result column="PRNT_TEST_SEQ" 	property="prntTestSeq"/>
+		<result column="SUB_SEQ" 		property="subSeq"/>
+		
+		
+		<result column="REG_ID" 		property="regId"/>
+		<result column="REG_DE" 		property="regDe"/>
+		<result column="upd_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	select * from t_test where test_seq = #{testSeq}
+	</select>
+	<select id="selectByEduSeq" resultMap="map">
+	select * from t_test where edu_seq = #{eduSeq}
+	</select>
+	<select id="selectCntByEduSeq" resultType="int">
+	select count(*) from t_test where edu_seq = #{eduSeq}
+	<if test="tryNo > 0">
+	and try_no = #{tryNo}
+	</if>
+	</select>
+	<select id="selectCntByPrntTestSeq" resultType="int">
+		select count(*) from t_test where prnt_test_seq = #{prntTestSeq}
+	</select>
+	
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="testSeq">
+		insert t_test (
+			test_tmpl_seq	,edu_seq		,test_nm	,bfaf_tp	
+			,start_de		,end_de
+			,descr			,pass_marks		,status		,timer		,mark_tp
+			,try_no			,prnt_test_seq	,sub_seq
+			,reg_id			,reg_de			,upd_id		,upd_de
+		)
+		values (
+			#{testTmplSeq}	,#{eduSeq}		,#{testNm}	,#{bfafTp}		
+			,#{startDe}		,#{endDe}			
+			,#{descr}		,#{passMarks}	,#{status}	,#{timer}	,#{markTp}
+			,#{tryNo}		,#{prntTestSeq}	,#{subSeq}
+			,#{regId}		,#{regDe}		,#{updId}	,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_test
+		set upd_de = #{updDe} ,upd_id = #{updId}
+		<if test="testTmplSeq > 0">					,test_tmpl_seq 	= #{testTmplSeq} </if>
+		<if test="testNm != null and testNm != ''">	,test_nm 		= #{testNm} </if>
+		<if test="bfafTp > 0">						,bfaf_tp 		= #{bfafTp} </if>
+		<if test="startDe != null">					,start_de 		= #{startDe} </if>
+		<if test="endDe != null">					,end_de 		= #{endDe} </if>
+		<if test="descr != null">					,descr 			= #{descr} </if>
+		<if test="passMarks != null">				,pass_marks 	= #{passMarks} </if>
+		<if test="status > 0">						,status 		= #{status} </if>
+		<if test="markTp > 0">						,mark_tp 		= #{markTp} </if>
+		<if test="timer > -1">						,timer 			= #{timer} </if>
+		<if test="subSeq > -1">						,sub_seq 		= #{subSeq} </if>
+		where test_seq = #{testSeq}
+	</update>
+	<delete id="deleteByPk">
+		delete from t_test
+		where test_seq = #{testSeq}
+	</delete>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.ExamBankQuestionMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.ExamBankQuestion">
+		<result property="ebqIdx" column="EBQ_IDX" />
+		<result property="question" column="QUESTION" />
+		<result property="answerText" column="ANSWER_TEXT" />
+		<result property="questionType" column="QUESTION_TYPE" />
+	</resultMap>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="ebqIdx">
+	/*com.educare.edu.comn.mapper.ExamBankQuestionMapper.insertByPk */
+		insert into t_exam_bank_question
+		(QUESTION,ANSWER_TEXT,QUESTION_TYPE,REG_TIME,UPD_TIME)
+		values
+		(#{question},#{answerText},#{questionType},#{regTime},#{updTime})
+	</insert>
+	<select id="selectByPk" resultMap="map">
+	/*com.educare.edu.comn.mapper.ExamBankQuestionMapper.selectByPk */
+		select * from t_exam_bank_question where ebq_idx=#{ebqIdx}
+	</select>
+	<update id="updateByPk">
+	/*com.educare.edu.comn.mapper.ExamBankQuestionMapper.updateByPk */
+		update t_exam_bank_question
+		set 
+			question=#{question}
+			,answer_text=#{answerText}
+			,question_type=#{questionType}
+			,upd_time=#{updTime}
+		where 
+			ebq_idx=#{ebqIdx}
+	</update>
+</mapper>

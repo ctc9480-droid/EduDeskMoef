@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.ContentHtmlMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.ContentHtml">
+		<result property="cnhtSeq" column="cnht_seq"/>
+		<result property="cnhtType" column="cnht_type"/>
+	
+		<result property="regDe" column="REG_DE"/>
+		<result property="updDe" column="UPD_DE"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+	</resultMap>
+	
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.ContentHtmlMapper.selectByParam */
+	select * from t_content_html where 1=1
+	<if test="state > 0">
+		and state = #{state}
+	</if>
+	</select>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.ContentHtmlMapper.selectByPk */
+	select * from t_content_html where cnht_seq = #{cnhtSeq}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="cnhtSeq">
+	/* com.educare.edu.comn.mapper.ContentHtmlMapper.insertByPk */
+		insert t_content_html (
+			cnht_seq	,cnht_type		,title		,content	,state
+			,reg_de		,reg_id			,upd_de		,upd_id
+		) values (
+			#{cnhtSeq}	,#{cnhtType}	,#{title}	,#{content}	,#{state}
+			,#{regDe}	,#{regId}		,#{updDe}	,#{updId}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.ContentHtmlMapper.updateByPk */
+		update t_content_html
+		set upd_de = #{updDe}
+			,upd_id = #{updId}
+		<if test="title != null and title != ''">
+			,title = #{title}
+		</if>
+		<if test="content != null and content != ''">
+			,content = #{content}
+		</if>
+		<if test="state > 0">
+			,state = #{state}
+		</if>
+		where cnht_seq = #{cnhtSeq}
+	</update>
+	
+	<select id="selectByActive" resultMap="map">
+	/* com.educare.edu.comn.mapper.ContentHtmlMapper.selectByActive */
+		select a.* from t_content_html a
+		where a.cnht_type = #{cnhtType}
+		and a.state = 1
+		order by a.cnht_seq desc
+		limit 1
+	</select>
+</mapper>

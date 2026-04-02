@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Popup Page</title>
+</head>
+<body>
+  <button id="sendMsg">Send Message to Parent</button>
+
+  <script>
+    // �˾� �� �θ� �޽��� ����
+    document.getElementById("sendMsg").addEventListener("click", () => {
+      window.opener.postMessage("Hello from popup!", "http://localhost:8580");
+    });
+
+    // �θ� �� �˾� �޽��� ����
+    window.addEventListener("message", (event) => {
+      if (event.origin !== "http://localhost:8580") return; // ���� üũ
+      console.log("Message from parent:", event.data);
+      alert("Parent says: " + event.data);
+    });
+  </script>
+</body>
+</html>

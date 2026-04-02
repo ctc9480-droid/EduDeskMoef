@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureMovMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureMov">
+		<result property="idx" column="IDX"/>
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="fileOrg" column="FILE_ORG"/>
+		<result property="fileRename" column="FILE_RENAME"/>
+		<result property="chapterData" column="CHAPTER_DATA"/>
+		<result property="regId" column="REG_ID"/>
+	</resultMap>
+	
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="idx">
+	/* com.educare.edu.comn.mapper.LectureMovMapper.insertByPk */
+		INSERT INTO t_lecture_mov
+		(ORG_CD,TITLE,CONTENT,FILE_ORG,FILE_RENAME,INSTRCTR_NM,REG_TIME,REG_ID,MOD_TIME,DURATION)
+		VALUES
+		(#{orgCd},#{title},#{content},#{fileOrg},#{fileRename},#{instrctrNm},#{regTime},#{regId},#{modTime},#{duration})
+	</insert>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureMovMapper.selectByPk */
+		SELECT * FROM t_lecture_mov WHERE IDX=#{idx}
+	</select>
+	<update id="updateByPk" >
+	/* com.educare.edu.comn.mapper.LectureMovMapper.updateByPk */
+		update t_lecture_mov
+		set 
+			title=#{title}
+			,content=#{content}
+			,mod_time=#{modTime}
+			,instrctr_nm=#{instrctrNm}
+		where
+			idx=#{idx}
+	</update>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.LectureMovMapper.deleteByPk */
+		DELETE FROM t_lecture_mov WHERE IDX=#{idx}
+	</delete>
+</mapper>

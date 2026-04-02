@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.UserMemoMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.UserMemo" >
+		<result property="userId" column="USER_ID"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="memoPay" column="MEMO_PAY"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+		select * from t_user_memo where user_id=#{userId} and edu_seq=#{eduSeq}
+	</select>
+	<update id="updateAnyByPk">
+		update t_user_memo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="memoPay != null"> memo_pay=#{memoPay}, </if>
+		</trim>
+		where user_id=#{userId} and edu_seq=#{eduSeq}
+	</update>
+	<insert id="insertByPk">
+		insert t_user_memo 
+		(user_id,memo_pay,edu_seq)
+		values
+		(#{userId},#{memoPay},#{eduSeq})
+	</insert>
+</mapper>

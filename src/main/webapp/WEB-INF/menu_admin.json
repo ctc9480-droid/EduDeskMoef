@@ -1,0 +1,358 @@
+[
+  {
+    "url": "/admin/main/index.do",
+    "nm": "대시보드",
+    "cd": "index",
+    "iconNm":"fas fa-home",
+    "st":0,
+    "sub": []
+  },
+  {
+    "url": "/admin/member/stdntList.do",
+    "nm": "회원관리",
+    "cd": "member",
+    "iconNm":"far fa-address-book",
+    "st":1,
+    "sub": [
+      {
+        "url": "/admin/member/stdntList.do",
+        "cd": "stdnt",
+        "st":1,
+        "nm": "회원정보",
+    	"sub": []
+      },
+      {
+        "url": "/admin/member/instrctrList.do",
+        "cd": "instrctr",
+        "st":1,
+        "nm": "강사정보",
+    	"sub": []
+      },
+      {
+        "url": "/admin/member/oprtList.do",
+        "cd": "oprt",
+        "st":1,
+        "nm": "운영자정보",
+    	"sub": []
+      },
+      {
+         "url": "/admin/member/mngrList.do",
+        "cd": "mngr",
+        "st":1,
+        "nm": "관리자정보",
+    	"sub": []
+      },
+      {
+        "url": "/admin/member/drmncyList.do",
+        "cd": "drmncy",
+        "st":0,
+        "nm": "휴면계정 관리",
+    	"sub": []
+      },
+      {
+        "url": "#none",
+        "cd": "none2",
+        "st":0,
+        "nm": "관리자 접속로그",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/edu/lctreList.do",
+    "cd": "eduMng",
+    "nm": "교육관리",
+    "st":1,
+    "iconNm":"fab fa-readme",
+    "sub": [
+      {
+        "url": "/admin/edu/lctreList.do",
+        "cd": "lctre",
+        "st":1,
+        "nm": "교육생성 및 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/edu/lcrcpList.do",
+        "cd": "lcrcp",
+        "st":1,
+        "nm": "교육신청내역",
+    	"sub": []
+      },
+      {
+        "url": "/admin/edu/ctgryList.do",
+        "cd": "ctgry",
+        "st":1,
+        "nm": "카테고리 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/lcsub/lcsubList.do",
+        "cd": "lcsub",
+        "st":0,
+        "nm": "과목 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/feedback/feedbackList.do",
+        "cd": "feedback",
+        "st":1,
+        "nm": "만족도조사 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/passTpl/passTplList.do",
+        "cd": "passTpl",
+        "st":1,
+        "nm": "수료증 관리",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/testMng/quizCateMng.do",
+    "cd": "testCateMng",
+    "nm": "시험/평가관리",
+    "st":1,
+    "iconNm":"fa-regular fa-file-lines",
+    "sub": [
+      {
+        "url": "/admin/testMng/quizCateMng.do",
+        "cd": "quizCateMng",
+        "st":1,
+        "nm": "문제 카테고리",
+        "sub":[]
+      },
+      {
+         "url": "/admin/quizBank/quizBankList.do",
+        "cd": "quizBank",
+        "st":1,
+        "nm": "문제은행",
+    	"sub": []
+      },
+      {
+         "url": "/admin/quizTest/quizTestList.do",
+        "cd": "quizTest",
+        "st":1,
+        "nm": "시험지관리",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/classRoomMng/classRoomCalInfo.do",
+    "cd": "classRoom",
+    "nm": "시설관리",
+    "st":1,
+    "iconNm":"fa-regular fa-calendar-check",
+    "sub": [
+      {
+        "url": "/admin/classRoom/classRoomCalInfo.do",
+        "cd": "classRoomCal",
+        "st":1,
+        "nm": "강의실 사용현황",
+        "sub":[]
+      },
+      {
+         "url": "/admin/classRoom/classRoomMng.do",
+        "cd": "classRoomMng",
+        "st":1,
+        "nm": "강의실 관리",
+    	"sub": []
+      },
+      {
+         "url": "/admin/classDormi/classDormiCalInfo.do",
+        "cd": "classDormiCal",
+        "st":1,
+        "nm": "숙소 사용현황",
+    	"sub": []
+      },
+      {
+         "url": "/admin/classDormi/classDormiMng.do",
+        "cd": "classDormiMng",
+        "st":1,
+        "nm": "숙소 관리", 
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/stats/statCtgryList.do",
+    "cd": "stats",
+    "nm": "통계/현황관리",
+    "st":1,
+    "iconNm":"fas fa-chart-bar",
+	"sub": [
+      {
+        "url": "/admin/stats/statCtgryList.do",
+        "cd": "statCtgry",
+        "st":1,
+        "nm": "교육과정별 현황",
+        "sub":[]
+      },
+      {
+        "url": "/admin/stats/statInstrctrList.do",
+        "cd": "statInstrctr",
+        "st":0,
+        "nm": "강사별 교육 실시 현황",
+    	"sub": []
+      },
+      {
+        "url": "/admin/stats/statRoomList.do",
+        "cd": "statRoom",
+        "st":0,
+        "nm": "강의실 가동률",
+    	"sub": []
+      },
+      {
+        "url": "/admin/stats/statCertList.do",
+        "cd": "statCert",
+        "st":0,
+        "nm": "증명서 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/stats/statFbLctreList.do",
+        "cd": "statFbLctre",
+        "st":0,
+        "nm": "만족도조사 통계",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/bbs/noticeList.do",
+    "cd": "contMng",
+    "nm": "콘텐츠관리",
+    "st":1,
+    "iconNm":"fa-solid fa-shapes",
+    "sub": [
+      {
+        "url": "/admin/edu/movList.do",
+        "cd": "mov",
+        "st":1,
+        "nm": "동영상관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/etc1List.do",
+        "cd": "etc1",
+        "st":0,
+        "nm": "기타콘텐츠",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/bbs/noticeList.do",
+    "cd": "siteMng",
+    "nm": "사이트관리",
+    "st":1,
+    "iconNm":"fas fa-laptop",
+    "sub": [
+      {
+        "url": "/admin/bbs/noticeList.do",
+        "cd": "notice",
+        "st":1,
+        "nm": "공지사항",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/recsList.do",
+        "cd": "recs",
+        "st":1,
+        "nm": "자료실",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/faqList.do",
+        "cd": "faq",
+        "st":1,
+        "nm": "자주찾는질문 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/inqryList.do",
+        "cd": "inqry",
+        "st":1,
+        "nm": "교육상담 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/edyearList.do",
+        "cd": "edyear",
+        "st":0,
+        "nm": "연도별 교육일정",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/mealList.do",
+        "cd": "meal",
+        "st":1,
+        "nm": "식단안내",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/popupList.do",
+        "cd": "popup",
+        "st":1,
+        "nm": "팝업 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/bbs/bannerList.do",
+        "cd": "banner",
+        "st":1,
+        "nm": "배너 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/ebook/ebookList.do",
+        "cd": "ebook",
+        "st":0,
+        "nm": "E-BOOK 관리",
+    	"sub": []
+      },
+      
+      {
+        "url": "/admin/log/userLoginLogList.do",
+        "cd": "userLoginLog",
+        "st":1,
+        "nm": "사용자 접속 로그",
+    	"sub": []
+      },
+      {
+        "url": "/admin/accip/accipList.do",
+        "cd": "accip",
+        "st":1,
+        "nm": "관리자(운영자) 아이피 등록",
+    	"sub": []
+      }
+    ]
+  },
+  {
+    "url": "/admin/sms/smsList.do",
+    "cd": "msgMng",
+    "nm": "알림관리",
+    "st":1,
+    "iconNm":"fas fa-bell",
+    "sub": [
+      
+      {
+        "url": "/admin/sms/smsList.do",
+        "cd": "sms",
+        "st":1,
+        "nm": "모바일메시지 관리",
+    	"sub": []
+      },
+      {
+        "url": "/admin/email/emailList.do",
+        "cd": "email",
+        "st":1,
+        "nm": "이메일 관리",
+    	"sub": []
+      }
+      
+    ]
+  }
+] 

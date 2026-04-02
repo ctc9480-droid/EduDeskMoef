@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.QrCodeMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.QrCode">
+		<result property="qrSeq" column="QR_SEQ"/>
+		<result property="qrType" column="QR_TYPE"/>
+		<result property="qrKey" column="QR_KEY"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="genDe" column="GEN_DE"/>
+		<result property="qrDt" column="qr_dt"/>
+		<result property="qrBeginDe" column="qr_begin_de"/>
+		<result property="qrEndDe" column="qr_end_de"/>
+	</resultMap>
+	
+	<select id="selectByAttend" resultMap="map">
+	/* com.educare.edu.comn.mapper.QrCodeMapper.selectByAttend */
+	select * from t_qr_code where qr_type=#{qrType} and edu_seq=#{eduSeq} and qr_dt = #{qrDt}
+	</select>
+	<select id="selectByFeedback" resultMap="map">
+	/* com.educare.edu.comn.mapper.QrCodeMapper.selectByFeedback */
+	select *
+	  from t_qr_code
+	 where qr_type = #{qrType}
+	   and edu_seq = #{eduSeq}
+	</select>
+	<select id="selectByEdu" resultMap="map">
+	/* com.educare.edu.comn.mapper.QrCodeMapper.selectByEdu */
+	select *
+	  from t_qr_code
+	 where edu_seq = #{eduSeq}
+	   and qr_type in ('1', '2', '3')
+	</select>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.QrCodeMapper.updateByPk */
+		update t_qr_code
+		set qr_key=#{qrKey}
+			,gen_de = #{genDe}
+			<if test="qrDt != null and qrDt != ''"> ,qr_dt = #{qrDt} </if>
+			<if test="qrBeginDe != null"> ,qr_begin_de = #{qrBeginDe} </if>
+			<if test="qrEndDe != null"> ,qr_end_de = #{qrEndDe} </if>
+		where qr_seq=#{qrSeq}
+	</update>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.QrCodeMapper.insertByPk */
+		insert into t_qr_code
+		(qr_type,qr_key,edu_seq,gen_de,qr_dt,qr_begin_de,qr_end_de)
+		values
+		(#{qrType},#{qrKey},#{eduSeq},#{genDe},#{qrDt},#{qrBeginDe},#{qrEndDe})
+	</insert>
+</mapper>

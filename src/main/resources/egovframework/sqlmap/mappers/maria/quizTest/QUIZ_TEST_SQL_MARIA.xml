@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.quizTest.mapper.QuizTestMapper">
+	
+	<resultMap id="map" type="com.educare.edu.quizTest.vo.QuizTestVO" >
+		<result column="EDU_SEQ" property="eduSeq"/>
+		<result column="QSTN_SEQ" property="qstnSeq"/>
+		<result column="QSTN_NM" property="qstnNm"/>
+		<result column="QSTN_STR" property="qstnStr"/>
+		<result column="QSTN_DESC" property="qstnDesc"/>
+		<result column="TEST_SEQ" property="testSeq"/>
+		<result column="TEST_NM" property="testNm"/>
+		<result column="QSTN_TP" property="qstnTp"/>
+		<result column="DIFF_TYPE" property="diffType"/>
+		<result column="TEST_TMPL_SEQ" property="testTmplSeq"/>
+		<result column="TEST_TMPL_NM" property="testTmplNm"/>
+		<result column="TIME_LIMIT" property="timeLimit"/>
+		<result column="ANSWERED_YN" property="answeredYn"/>
+		<result column="FILL_BLANK" property="fillBlank"/>
+		<result column="PASS_MARKS" property="passMarks"/>
+		<result column="START_DE" property="startDe"/>
+		<result column="END_DE" property="endDe"/>
+		<result column="MARK_TP" property="markTp"/>
+		<result column="ANS_DESC" property="ansDesc"/>
+		<result column="USER_NM" property="userNm"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="LOGIN_ID" property="loginId"/>
+		<result column="ORD_TP" property="ordTp"/>
+		<result column="CHOICE_TP" property="choiceTp"/>
+		<result column="MARKS_GET" property="marksGet"/>
+		<result column="QSTN_FN_RNM" property="qstnFnRnm"/>
+		<result column="CHECK_DE" property="checkDe"/>
+		
+		<result column="CH_STR" property="chStr"/>
+		<result column="CH_SEQ" property="chSeq"/>
+		<result column="CH_ANS_YN" property="chAnsYn"/>
+		<result column="CH_CNT" property="chCnt"/>
+		<result column="CH_ORD" property="chOrd"/>
+		<result column="CH_FN_RNM" property="chFnRnm"/>
+		
+		<result column="TQ_SEQ" property="tqSeq"/>
+		<result column="REG_DE" property="regDe"/>
+		<result column="REG_ID" property="regId"/>
+		
+		<result column="QSTN_CNT" property="qstnCnt"/>
+		<result column="TEST_RESULT_CNT" property="testResultCnt"/>
+		<result column="REG_NM" property="regNm"/>
+		<result column="FILL_BLANK_CO" property="fillBlankCo"/>
+		<result column="TOT_MARKS_GET" property="totMarksGet"/>
+		<result column="TEST_RESULT_STATE" property="testResultState"/>
+		<result column="TEST_RESULT_START_DE" property="testResultStartDe"/>
+		<result column="TEST_RESULT_END_DE" property="testResultEndDe"/>
+		<result column="CTG1_NM" property="ctg1Nm"/>
+		<result column="CTG2_NM" property="ctg2Nm"/>
+		<result column="CTG3_NM" property="ctg3Nm"/>
+		<result column="SUB_SEQ" property="subSeq"/>
+		<result column="SUB_NM" property="subNm"/>
+		<result column="TOT_MARKS" property="totMarks"/>
+		<result column="TEST_STDNT_CNT" property="testStdntCnt"/>
+		<result column="TRY_NO" property="tryNo"/>
+		<result column="PASS_YN" property="passYn"/>
+		<result column="CHECK_NM" property="checkNm"/>
+		
+	</resultMap>
+	
+	<sql id="inc_selectQuizTestPage">
+		<if test="status > 0"> and a.status = #{status} </if>
+		<if test="srchWrd != null and srchWrd != ''"> and a.test_tmpl_nm like concat('%',#{srchWrd},'%') </if>
+		<if test="srchCtg1Seq > 0"> and a.ctg1_seq = #{srchCtg1Seq} </if>
+		<if test="srchCtg2Seq > 0"> and a.ctg2_seq = #{srchCtg2Seq} </if>
+		<if test="srchCtg3Seq > 0"> and a.ctg3_seq = #{srchCtg3Seq} </if>
+	</sql>
+	<select id="selectQuizTestPageList" resultMap="map">
+		/** 시험지 게시판 리스트 */
+		SELECT a.*
+		,(select count(*) from t_test_question where test_tmpl_seq = a.test_tmpl_seq) qstn_cnt
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg1_seq) ctg1_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg2_seq) ctg2_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = a.ctg3_seq) ctg3_nm
+		FROM t_test_tmpl a
+		where 1=1
+		<include refid="inc_selectQuizTestPage"/>
+		ORDER BY REG_DE DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectQuizTestPageCnt" resultType="int">
+		/** 시험지 게시판 카운트 */
+		SELECT COUNT(a.TEST_TMPL_SEQ)
+		FROM t_test_tmpl a
+		where 1=1
+		<include refid="inc_selectQuizTestPage"/>
+	</select>
+	<select id="selectTestQstnByTestTmpl" resultMap="map">
+		/** 시험지에 저장된 문제 가져오기 */
+		select a.test_tmpl_seq
+		,b.tq_seq,b.marks
+		,c.qstn_nm,c.qstn_tp,c.diff_type,c.reg_de
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = c.ctg1_seq) ctg1_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = c.ctg2_seq) ctg2_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = c.ctg3_seq) ctg3_nm
+		,(select user_nm from t_user_info where user_id = c.reg_id) reg_nm
+		,(select count(*) from t_question_choice where qstn_seq = c.qstn_seq) ch_cnt
+		from t_test_tmpl a
+		inner join t_test_question b on a.test_tmpl_seq = b.test_tmpl_seq
+		inner join t_question c on b.qstn_seq = c.qstn_seq
+		where a.test_tmpl_seq = #{testTmplSeq}
+		order by b.tq_seq
+	</select>
+	<select id="selectTestEduPageList" resultMap="map">
+		/** 교육 > 시험지 리스트 */
+		SELECT a.*
+		,b.test_tmpl_nm
+		,c.state test_result_state,c.pass_yn
+		,(select count(*) from t_test_question where test_tmpl_seq = b.test_tmpl_seq) qstn_cnt
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		,(select count(*) from t_test_result where test_seq = a.test_seq and state in (2,3) ) test_result_cnt
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = b.ctg1_seq) ctg1_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = b.ctg2_seq) ctg2_nm
+		,(select ctg_nm from t_qstn_category where qstn_ctg_seq = b.ctg3_seq) ctg3_nm
+		,(select sum(marks) from t_test_question where test_tmpl_seq = b.test_tmpl_seq) tot_marks
+		,(select count(*) from t_lecture_stdnt where edu_seq = a.edu_seq and state = 2 ) test_stdnt_cnt
+		,(select sub_nm from t_lecture_subject where sub_seq = a.sub_seq) sub_nm
+		FROM t_test a
+		left join t_test_tmpl b on a.test_tmpl_seq = b.test_tmpl_seq
+		left join (select * from t_test_result where user_id = #{userId}) c on a.test_seq = c.test_seq
+		where 1=1
+		and a.edu_seq = #{eduSeq}
+		<choose>
+		<when test="status == 1">
+		and a.status in (1,3)
+		</when>
+		<when test="status > 0">
+		and a.status = #{status}
+		</when>
+		</choose>
+		
+		ORDER BY a.REG_DE
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectTestEduPageCnt" resultType="int">
+		/** 교육 > 시험지 갯수 */
+		SELECT count(a.test_seq)
+		FROM t_test a
+		left join t_test_tmpl b on a.test_tmpl_seq = b.test_tmpl_seq
+		where 1=1
+		and a.edu_seq = #{eduSeq}
+		<choose>
+		<when test="status == 1">
+		and a.status in (1,3)
+		</when>
+		<when test="status > 0">
+		and a.status = #{status}
+		</when>
+		</choose>
+	</select>
+	<select id="selectTestEdu" resultMap="map">
+		/** 교육 > 시험지 정보 */
+		SELECT a.*
+		,b.test_tmpl_nm,b.ord_tp,choice_tp
+		,c.pass_yn,c.marks tot_marks_get,c.state test_result_state,c.start_de test_result_start_de ,c.end_de test_result_end_de
+		,c.check_de
+		,(select count(*) from t_test_question where test_tmpl_seq = b.test_tmpl_seq) qstn_cnt
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		,(select user_nm from t_user_info where user_id = c.user_id) user_nm
+		,(select sum(marks) from t_test_question where test_tmpl_seq = b.test_tmpl_seq) tot_marks
+		,(select user_nm from t_user_info where user_id = c.check_id) check_nm
+		FROM t_test a
+		left join t_test_tmpl b on a.test_tmpl_seq = b.test_tmpl_seq
+		left join (select * from t_test_result where user_id = #{userId} and test_seq = #{testSeq}) c on a.test_seq = c.test_seq
+		where 1=1
+		and a.test_seq = #{testSeq}
+	</select>
+	<select id="selectTestUserQtList" resultMap="map">
+		/** 학생의 시험문제(답변지) 목록 */
+		select d.qstn_seq,d.qstn_nm,d.qstn_tp,d.diff_type,d.qstn_fn_rnm,d.qstn_desc,d.qstn_str,d.ans_desc
+		,d.fill_blank as 'fill_blank_co'
+		,b.tq_seq,b.marks
+		,c.answered_yn,c.optn,c.fill_blank,c.answer,c.ord,c.ch_ord,c.marks_get
+		from t_test a
+		inner join t_test_question b on a.test_tmpl_seq = b.test_tmpl_seq
+		inner join t_question d on b.qstn_seq = d.qstn_seq
+		left join t_test_answer c on a.test_seq = c.test_seq and b.tq_seq = c.tq_seq
+		where a.test_seq = #{testSeq}
+		and c.user_id = #{userId}
+		<if test="tqSeq > 0">
+			and c.tq_seq = #{tqSeq}
+		</if>
+		order by c.ord
+	</select>
+	<select id="selectTestUserChList" resultMap="map">
+		/** 학생의 시험문제 보기목록 */
+		select b.*
+		,a.tq_seq,a.test_tmpl_seq
+		from t_test_question a 
+		inner join t_question_choice b on a.qstn_seq = b.qstn_seq
+		where a.test_tmpl_seq = #{testTmplSeq}
+		<if test="chAnsYn != null">
+		and b.ch_ans_yn = #{chAnsYn}
+		</if>
+		<if test="tqSeq > 0">
+			and a.tq_seq = #{tqSeq}
+		</if>
+	</select>
+	<select id="selectTestResultStdntList" resultMap="map">
+		/** 시험결과 학생 목록 */
+		select 
+		b.user_id,b.user_nm
+		,a.test_seq
+		,c.start_de,c.end_de,c.tot_marks,c.marks,c.pass_yn,c.achv_lvl,c.state test_result_state
+		,(select login_id from t_user_info where user_id = b.user_id) login_id
+		from t_test a
+		inner join t_lecture_stdnt b on a.edu_seq = b.edu_seq 
+		left join t_test_result c on a.test_seq = c.test_seq and b.user_id = c.user_id
+		where a.edu_seq = #{eduSeq} and a.test_seq = #{testSeq}
+		and b.state = 2
+		order by b.user_nm
+	</select>
+	<select id="selectTestResultStdnt" resultMap="map">
+		/** 시험결과 학생조회 */
+		select 
+		a.sub_seq
+		,b.user_id,b.user_nm
+		,c.start_de,c.end_de,c.tot_marks,c.marks,c.pass_yn,c.achv_lvl,c.state test_result_state
+		,(select login_id from t_user_info where user_id = b.user_id) login_id
+		,(select user_nm from t_user_info where user_id = c.check_id) check_nm
+		from t_test a
+		inner join t_lecture_stdnt b on a.edu_seq = b.edu_seq 
+		left join t_test_result c on a.test_seq = c.test_seq and b.user_id = c.user_id
+		where a.edu_seq = #{eduSeq} 
+		<if test="testSeq > 0">
+		and a.test_seq = #{testSeq}
+		</if>
+		and b.state = 2
+		and b.user_id = #{userId}
+	</select>
+	<select id="selectTestByUsed" resultType="int">
+		select count(*) from t_test where test_tmpl_seq = #{testTmplSeq}
+	</select>
+</mapper>

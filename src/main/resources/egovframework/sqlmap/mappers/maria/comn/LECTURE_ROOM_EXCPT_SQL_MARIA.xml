@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureRoomExcptMapper">
+
+	<resultMap id="map" type="com.educare.edu.comn.vo.LectureRoomExcptVO">
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="startDt" column="START_DT"/>
+		<result property="endDt" column="END_DT"/>
+		<result property="memo" column="MEMO"/>
+		
+		<result property="roomNm" column="room_nm"/>
+	</resultMap>
+
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRoomExcptMapper.selectByParam */
+		select * from t_lecture_room_excpt where room_seq = #{roomSeq}
+	</select>
+	<insert id="insertByPk" keyProperty="roomSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureRoomExcptMapper.insertByPk */
+		insert into t_lecture_room_excpt
+		(room_seq, start_dt, end_dt, memo)
+		values 
+		(#{roomSeq},#{startDt},#{endDt},#{memo})
+	</insert>
+	<update id="deleteByParam">
+		/* com.educare.edu.comn.mapper.LectureRoomExcptMapper.deleteByParam */
+		delete from t_lecture_room_excpt where room_seq = #{roomSeq}
+	</update>
+	<select id="getExcptCnt" resultType="int">
+		/* com.educare.edu.comn.mapper.LectureRoomExcptMapper.getExcptCnt */
+		select count(a.room_seq) from t_lecture_room_excpt a
+		where room_seq in (0,#{roomSeq})
+		and #{srchEduDt} between a.start_dt and a.end_dt
+	</select>
+	<select id="selectByDt" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRoomExcptMapper.selectByDt */
+		select a.* 
+		,(select room_nm from t_lecture_room where room_seq = a.room_seq) room_nm
+		from t_lecture_room_excpt a
+		where 1=1
+		and (
+			a.start_dt between #{startDt} and #{endDt}
+			or a.end_dt between #{startDt} and #{endDt}
+		)
+	</select>
+</mapper>

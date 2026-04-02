@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.feedback.mapper.FeedbackMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.vo.FeedbackVO" >
+		<result property="idx" column="IDX"/>
+		<result property="regNm" column="REG_NM"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="regTime" column="REG_TIME"/>
+		<result property="fbIdx" column="FB_IDX"/>
+		<result property="qtIdx" column="QT_IDX"/>
+		<result property="qtType" column="QT_TYPE"/>
+		<result property="qtDiv" column="QT_DIV"/>
+		<result property="essntlYn" column="ESSNTL_YN"/>
+		<result property="question" column="QUESTION"/>
+		<result property="chIdx" column="CH_IDX"/>
+		<result property="choice" column="CHOICE"/>
+		<result property="point" column="POINT"/>
+		
+		<result property="qtType0Cnt" column="QT_TYPE0_CNT"/>
+		<result property="qtType1Cnt" column="QT_TYPE1_CNT"/>
+		<result property="asCnt" column="AS_CNT"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="startDe" column="START_DE"/>
+		<result property="endDe" column="END_DE"/>
+		<result property="feSeq" column="FE_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="feResultState" column="FE_RESULT_STATE"/>
+		<result property="feResultRegDe" column="FE_RESULT_REG_DE"/>
+		<result property="fbNm" column="FB_NM"/>
+		
+		
+	</resultMap>
+	
+	<select id="getFeedbackList" resultMap="map">
+		/** 피드백 리스트 */
+		SELECT a.*
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE=0) QT_TYPE0_CNT
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE in (1,2,3)) QT_TYPE1_CNT
+		FROM t_feedback a
+		WHERE 1=1
+		<if test="orgCd!=null and orgCd!='' and orgCd!=1">
+		AND ORG_CD=#{orgCd} 
+		</if>
+		<if test="regId!=null and regId!='' and regId!=1">
+		AND reg_id=#{regId}  
+		</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		AND title like concat('%',#{srchWrd},'%')
+		</if>
+		ORDER BY REG_TIME DESC	
+	</select>
+	<select id="getFeedbackMap" resultMap="map">
+		SELECT a.*
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE=0) QT_TYPE0_CNT
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE!=0) QT_TYPE1_CNT
+		FROM t_feedback a
+		WHERE IDX=#{idx}
+		
+	</select>
+	<select id="selectFeedbackQuestionByFbIdx" resultMap="map">
+		SELECT a.*
+		FROM t_feedback_question a 
+		WHERE a.FB_IDX=#{fbIdx}
+		ORDER BY a.QT_IDX
+	</select>
+	<select id="selectFeedbackChoiceByFbIdxQtIdx" resultMap="map">
+		SELECT a.*
+		FROM t_feedback_choice a 
+		WHERE a.FB_IDX=#{fbIdx} AND a.QT_IDX=#{qtIdx}
+		ORDER BY a.CH_IDX
+	</select>
+	<select id="selectFeedbackAnswerByFbIdx" resultMap="map">
+		SELECT a.FB_IDX,a.QT_IDX,a.CH_IDX 
+		,COUNT(*) AS_CNT 
+		FROM t_feedback_answer a
+		where a.EDU_SEQ=#{eduSeq} and a.FB_IDX=#{fbIdx}
+		group by a.FB_IDX,a.QT_IDX,a.CH_IDX
+		ORDER BY a.FB_IDX,a.QT_IDX,a.CH_IDX
+	</select>
+	<select id="selectFeedbackAnswerByChIdxCnt" resultMap="map">
+		SELECT a.FB_IDX,a.QT_IDX,a.CHOICE 
+		,COUNT(*) AS_CNT 
+		FROM t_feedback_answer a
+		WHERE a.EDU_SEQ=#{eduSeq} and a.FB_IDX=#{fbIdx} AND QT_IDX=#{qtIdx} AND CHOICE=#{chIdx} AND FE_SEQ = #{feSeq}
+		GROUP by a.FB_IDX,a.QT_IDX,a.CHOICE
+		ORDER BY a.FB_IDX,a.QT_IDX,a.CHOICE
+	</select>
+	<select id="selectFeedbackAnswerByChIdxCntAll" resultMap="map">
+		SELECT a.FB_IDX,a.QT_IDX,a.CHOICE 
+		,COUNT(*) AS_CNT 
+		FROM t_feedback_answer a
+		WHERE a.FB_IDX=#{fbIdx} AND QT_IDX=#{qtIdx} AND CHOICE=#{chIdx}
+		<if test="eduSeqArr.size > 0">
+			and a.edu_seq in 
+			<foreach collection="eduSeqArr" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>	
+		</if>
+		GROUP by a.FB_IDX,a.QT_IDX,a.CHOICE
+		ORDER BY a.FB_IDX,a.QT_IDX,a.CHOICE
+	</select>
+	<insert id="insertFeedback" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO t_feedback 
+		(ORG_CD,TITLE,STATUS,REG_TIME,REG_ID,REG_NM,MOD_TIME,MOD_ID,CONTENT)
+		VALUES
+		(#{orgCd},#{title},#{status},#{regTime},#{regId},#{regNm},#{modTime},#{modId},#{content})
+	</insert>
+	<update id="updateFeedback">
+		UPDATE t_feedback
+		SET TITLE=#{title} ,MOD_TIME=#{modTime},MOD_ID=#{modId},CONTENT=#{content}
+		WHERE IDX=#{idx}
+	</update>
+	<delete id="deleteFeedback">
+		DELETE FROM t_feedback
+		WHERE IDX=#{idx}
+	</delete>
+	<insert id="insertFeedbackQuestion">
+		INSERT INTO t_feedback_question
+		(FB_IDX,QT_IDX,QT_TYPE,QUESTION,QT_DIV,ESSNTL_YN)
+		VALUES
+		(#{fbIdx},#{qtIdx},#{qtType},#{question},#{qtDiv},#{essntlYn})
+	</insert>
+	<delete id="deleteFeedbackQuestionByFbIdx">
+		delete from t_feedback_question
+		where fb_idx=#{fbIdx}
+	</delete>
+	<insert id="insertFeedbackChoice">
+		INSERT INTO t_feedback_choice
+		(FB_IDX,QT_IDX,CH_IDX,CHOICE,POINT)
+		VALUES
+		(#{fbIdx},#{qtIdx},#{chIdx},#{choice},#{point})
+	</insert>
+	<delete id="deleteFeedbackChoiceByFbIdx">
+		DELETE FROM t_feedback_choice
+		WHERE FB_IDX=#{fbIdx}
+	</delete>
+	<select id="selectFeedbackAnswerByFbIdxQtIdx" resultMap="map">
+		select * from t_feedback_answer 
+		where EDU_SEQ=#{eduSeq} and fb_idx=#{fbIdx} and qt_idx=#{qtIdx} and fe_seq = #{feSeq}
+		and ((choice=0 and answer is not null and replace(answer,' ','') != '') or (choice!=0))
+		order by reg_time 
+	</select>
+	<select id="selectFeedbackAnswerByFbIdxQtIdxAll" resultMap="map">
+		/** 주관식 답변 조회 */
+		select * from t_feedback_answer 
+		where fb_idx=#{fbIdx} and qt_idx=#{qtIdx}
+		and ((choice=0 and answer is not null and replace(answer,' ','') != '') or (choice!=0))
+		
+		<if test="eduSeqArr.size > 0">
+			and edu_seq in 
+			<foreach collection="eduSeqArr" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>	
+		</if>
+		
+		order by reg_time 
+	</select>
+	<select id ="selectOneFeedbackByFbIdx" resultMap="map">
+		SELECT *
+		FROM t_feedback
+		WHERE IDX=#{i}
+	</select>
+	
+	<select id="getFeedbackAnswerCheck" resultType="int">
+		select count(*) from (
+		select a.fb_idx ,a.qt_idx 
+		,b.choice 
+		from t_feedback_question a 
+		left join (select * from t_feedback_answer where edu_seq=#{eduSeq} and fb_idx=#{fbIdx} and user_id=#{userId}) b on a.fb_idx =b.fb_idx and a.qt_idx =b.qt_idx 
+		where a.fb_idx = #{fbIdx}
+		and a.qt_type in (1,3)
+		) a
+		where a.choice is null or a.choice = 0
+	</select>
+	
+<!-- 	<select id="selectFeedback" resultMap="map"> -->
+<!-- 		SELECT * -->
+<!-- 		  FROM t_feedback -->
+<!-- 		 WHERE idx = (SELECT fb_idx FROM t_lecture WHERE edu_seq = #{eduSeq}) -->
+<!-- 	</select> -->
+	
+	<select id="selectFeedbackEduPageList" resultMap="map">
+		/** 관리자 > 설문 > 연결설문 리스트 */
+		SELECT a.*
+		,b.title
+		,c.reg_de fe_result_reg_de,c.state fe_result_state
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		FROM t_feedback_edu a
+		inner join t_feedback b on a.fb_idx = b.idx
+		left join (select * from t_feedback_edu_result where edu_seq = #{eduSeq} and user_id = #{userId}) c on a.fe_seq = c.fe_seq
+		where 1=1
+		and a.edu_seq = #{eduSeq}
+		ORDER BY a.start_de
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	
+	<sql id="inc_selectFeedbackPage">
+		<if test="srchWrd != null and srchWrd != ''"> and a.title like concat('%',#{srchWrd},'%') </if>
+		<if test="regId!=null and regId!='' and regId!=1">
+		AND a.reg_id=#{regId}  
+		</if>
+	</sql>
+	<select id="selectFeedbackPageList" resultMap="map">
+		/** 만족도조사 게시판 리스트 */
+		SELECT a.*
+		,(select user_nm from t_user_info where user_id = a.reg_id) reg_nm
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE=0) QT_TYPE0_CNT
+		,(SELECT COUNT(*) FROM t_feedback_question WHERE FB_IDX=a.IDX AND QT_TYPE in (1,2,3)) QT_TYPE1_CNT
+		FROM t_feedback a
+		where 1=1
+		<include refid="inc_selectFeedbackPage"/>
+		ORDER BY REG_TIME DESC
+		<if test="rowCnt > 0">
+		LIMIT #{firstIndex},#{rowCnt}
+		</if>
+	</select>
+	<select id="selectFeedbackPageCnt" resultType="int">
+		/** 만족도조사 게시판 카운트 */
+		SELECT COUNT(a.idx)
+		FROM t_feedback a
+		where 1=1
+		<include refid="inc_selectFeedbackPage"/>
+	</select>
+</mapper>

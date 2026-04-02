@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.FeedbackEduMapper">
+	<resultMap type="com.educare.edu.comn.model.FeedbackEdu" id="map">
+		<result column="FE_SEQ" 		property="feSeq"/>
+		<result column="FB_IDX" 		property="fbIdx"/>
+		<result column="FB_NM" 			property="fbNm"/>
+		<result column="EDU_SEQ" 		property="eduSeq"/>
+		<result column="START_DE" 		property="startDe"/>
+		<result column="END_DE" 		property="endDe"/>
+		
+		<result column="REG_ID" 		property="regId"/>
+		<result column="REG_DE" 		property="regDe"/>
+		<result column="upd_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.FeedbackEduMapper.selectByPk */
+	select * from t_feedback_edu where fe_seq = #{feSeq}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="feSeq">
+	/* com.educare.edu.comn.mapper.FeedbackEduMapper.insertByPk */
+		insert t_feedback_edu (
+			fb_idx			,edu_seq 	,fb_nm
+			,start_de		,end_de		,state
+			,reg_id			,reg_de		,upd_id		,upd_de
+		)
+		values (
+			#{fbIdx}		,#{eduSeq}	,#{fbNm}
+			,#{startDe}		,#{endDe}	,#{state}
+			,#{regId}		,#{regDe}	,#{updId}	,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.FeedbackEduMapper.updateByPk */
+		update t_feedback_edu
+		set upd_de = #{updDe} ,upd_id = #{updId}
+		<if test="fbNm != null">					,fb_nm 	= #{fbNm} </if>
+		<if test="startDe != null">					,start_de 	= #{startDe} </if>
+		<if test="endDe != null">					,end_de 	= #{endDe} </if>
+		<if test="state > 0">						,state 		= #{state} </if>
+		where fe_seq = #{feSeq}
+	</update>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.FeedbackEduMapper.deleteByPk */
+		delete from t_feedback_edu
+		where fe_seq = #{feSeq}
+	</delete>
+</mapper>

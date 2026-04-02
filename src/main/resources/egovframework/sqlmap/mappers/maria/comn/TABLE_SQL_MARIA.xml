@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TableMapper">
+	
+	<resultMap id="org" type="com.educare.edu.comn.vo.OrgVO" >
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="orgNm" column="ORG_NM"/>
+		<result property="orgEn" column="ORG_EN"/>
+		<result property="useCheck" column="USE_CHECK"/>
+		<result property="useGooroomee" column="USE_GOOROOMEE"/>
+		<result property="useMov" column="USE_MOV"/>
+		<result property="jiginFileNm" column="JIGIN_FILE_NM"/>
+		<result property="jiginFileRenm" column="JIGIN_FILE_RENM"/>
+		<result property="jiginFileData" column="JIGIN_FILE_DATA"/>
+		<result property="bsnFileNm" column="BSN_FILE_NM"/>
+		<result property="bsnFileRenm" column="BSN_FILE_RENM"/>
+		<result property="bankFileNm" column="BANK_FILE_NM"/>
+		<result property="bankFileRenm" column="BANK_FILE_RENM"/>
+		<result property="headNm" column="HEAD_NM"/>
+		<result property="sidoCd" column="SIDO_CD"/>
+		<result property="bsnNo" column="BSN_NO"/>
+		<result property="bankNm" column="BANK_NM"/>
+		<result property="bankNo" column="BANK_NO"/>
+		<result property="bankUserNm" column="BANK_USER_NM"/>
+	</resultMap>
+	
+	<select id="selectOrgList" resultMap="org">
+		select * from t_org 
+	</select>
+	<select id="selectOrgByPk" resultMap="org">
+		select * from t_org where org_cd=#{orgCd}
+	</select>
+	<update id="updateOrgByPk">
+		update t_org
+		set org_nm=#{orgNm}
+		,org_en=#{orgEn}
+		,head_nm=#{headNm}
+		,sido_cd=#{sidoCd}
+		,bsn_no=#{bsnNo}
+		,bank_nm=#{bankNm}
+		,bank_no=#{bankNo}
+		,bank_user_nm=#{bankUserNm}
+		
+		where org_cd=#{orgCd}
+	</update>
+	<insert id="insertOrgByPk" useGeneratedKeys="true" keyProperty="orgCd">
+		/** 기관정보 등록 */
+		INSERT INTO t_org
+		(ORG_NM,ORG_EN,USE_CHECK,USE_GOOROOMEE,USE_MOV,JIGIN_FILE_NM,head_nm,sido_cd ,bsn_no ,bank_nm ,bank_no ,bank_user_nm)
+		VALUES
+		(#{orgNm},#{orgEn},#{useCheck},#{useGooroomee},#{useMov},#{jiginFileNm},#{headNm},#{sidoCd},#{bsnNo},#{bankNm},#{bankNo},#{bankUserNm})
+	</insert>
+	<update id="updateOrgByFileInfo">
+		update t_org
+		set use_check=#{useCheck},use_gooroomee=#{useGooroomee}, use_mov=#{useMov}
+		<if test="delJigin or (jiginFileNm != null and jiginFileNm != '')">
+		,jigin_file_nm=#{jiginFileNm},jigin_file_renm=#{jiginFileRenm}
+		,jigin_file_data=#{jiginFileData}
+		</if>
+		<if test="delBsnFile or (bsnFileNm != null and bsnFileNm != '')">
+		,bsn_file_nm=#{bsnFileNm},bsn_file_renm=#{bsnFileRenm}
+		</if>
+		<if test="delBankFile or (bankFileNm != null and bankFileNm != '')">
+		,bank_file_nm=#{bankFileNm},bank_file_renm=#{bankFileRenm}
+		</if>
+		where org_cd=#{orgCd}
+	</update>
+	
+	<resultMap id="lectureTime" type="com.educare.edu.comn.model.LectureTime" >
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="startTm" column="START_TM"/>
+		<result property="endTm" column="END_TM"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="instrNm" column="INSTR_NM"/>
+		<result property="checkId" column="CHECK_ID"/>
+		<result property="checkNm" column="CHECK_NM"/>
+		<result property="status" column="STATUS"/>
+		<result property="gooroomeeId" column="GOOROOMEE_ID"/>
+		<result property="classHow" column="CLASS_HOW"/>
+		<result property="url" column="URL"/>
+		<result property="urlPw" column="URL_PW"/>
+		<result property="freeView" column="FREE_VIEW"/>
+		<!-- 20210916, ADD, ZOOM관련 추가, dhchoi -->
+		<result property="zoomStartUrl" column="ZOOM_START_URL"/>
+		<result property="zoomJoinUrl" column="ZOOM_JOIN_URL"/>
+		<result property="zoomId" column="ZOOM_ID"/>
+		<result property="mvIdx" column="MV_IDX"/>
+		
+	</resultMap>
+	<select id="selectLectureTimeList" resultMap="lectureTime">
+		select * from t_lecture_time where edu_seq = #{eduSeq}
+		order by time_seq
+	</select>
+	<select id="selectLectureTimeByPk" resultMap="org">
+		select * from t_lecture_time where edu_seq=#{eduSeq} and time_seq = #{timeSeq}
+	</select>
+	<delete id="deleteLectureTimeByEduSeq">
+		delete from t_lecture_time where edu_seq=#{eduSeq}
+	</delete>
+	<insert id="insertLectureTime">
+		insert into t_lecture_time 
+		(edu_seq,sub_seq,time_seq,edu_dt,start_tm,end_tm,description,instr_nm,check_id,check_nm,status,class_how,url,free_view,mv_idx,url_pw)
+		values
+		(#{eduSeq},#{subSeq},#{timeSeq},#{eduDt},#{startTm},#{endTm},#{description},#{instrNm},#{checkId},#{checkNm},1,#{classHow},#{url},#{freeView},#{mvIdx},#{urlPw})
+	</insert>
+	<update id="updateLectureTimeForGooroomeeId">
+		update t_lecture_time
+		set gooroomee_id=#{gooroomeeId}
+		where edu_seq=#{eduSeq} and time_seq = #{timeSeq}
+	</update>
+	
+	<!-- 20210916, Add, dhchoi, Zoom Url 업데이트 -->
+	<update id="updateLectureTimeForZoomUrl">
+		update t_lecture_time
+		set 
+			zoom_start_url=#{zoomStartUrl}
+			, zoom_join_url = #{zoomJoinUrl}
+			, zoom_id = #{zoomId}
+		where edu_seq=#{eduSeq} and time_seq = #{timeSeq}
+	</update>
+	
+	<select id="selectLectureTimeMap" resultMap="lectureTime">
+		select * from t_lecture_time where edu_seq=#{eduSeq} and time_seq = #{timeSeq}
+	</select>
+	<update id="updateLectureTimeForUrl">
+		update t_lecture_time
+		set 
+			url=#{url}
+			<if test="urlPw!=null">
+			,url_pw=#{urlPw}
+			</if>
+		where edu_seq=#{eduSeq} and time_seq = #{timeSeq}
+	</update>
+	<!-- t_lecture -->
+	<update id="updateLectureForCheckYn">
+		update t_lecture 
+		set check_yn=#{checkYn}
+		where edu_seq=#{eduSeq}
+	</update>
+	
+	
+	<resultMap id="timeTableVo" type="com.educare.edu.comn.vo.TimeTableVO" >
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="startTm" column="START_TM"/>
+		<result property="endTm" column="END_TM"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="instrNm" column="INSTR_NM"/>
+		<result property="checkId" column="CHECK_ID"/>
+		<result property="checkNm" column="CHECK_NM"/>
+		<result property="status" column="STATUS"/>
+		<result property="classHow" column="CLASS_HOW"/>
+		<result property="url" column="URL"/>
+		<result property="urlPw" column="URL_PW"/>
+		<result property="freeView" column="FREE_VIEW"/>
+		<result property="historyCnt" column="HISTORY_CNT"/>
+		<result property="movTime" column="MOV_TIME"/>
+		<result property="movAllTime" column="MOV_ALL_TIME"/>
+		<result property="attCd" column="ATT_CD"/>
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="roomNm" column="ROOM_NM"/>
+		<result property="ncsNm" column="NCS_NM"/>
+		<result property="mvIdx" column="MV_IDX"/>
+		<result property="mvNm" column="MV_NM"/>
+		<result property="subNm" column="SUB_NM"/>
+	</resultMap>
+	<select id="selectTimeTableList" resultMap="timeTableVo">
+		SELECT a.*
+		,(SELECT COUNT(*) FROM t_online_history B WHERE B.EDU_SEQ=a.EDU_SEQ AND B.TIME_SEQ=a.TIME_SEQ AND B.USER_ID=#{userId}) HISTORY_CNT
+		,(SELECT MOV_TIME FROM t_lecture_time_stdnt B WHERE B.EDU_SEQ=a.EDU_SEQ AND B.TIME_SEQ=a.TIME_SEQ AND B.USER_ID=#{userId}) MOV_TIME
+		,(SELECT MOV_ALL_TIME FROM t_lecture_time_stdnt B WHERE B.EDU_SEQ=a.EDU_SEQ AND B.TIME_SEQ=a.TIME_SEQ AND B.USER_ID=#{userId}) MOV_ALL_TIME
+		,(SELECT ATT_CD FROM t_attend_stdnt B WHERE B.EDU_SEQ=a.EDU_SEQ AND B.TIME_SEQ=a.TIME_SEQ AND B.USER_ID=#{userId}) ATT_CD
+		,(select room_nm from t_lecture_room where room_seq = a.room_seq) room_nm
+		,(select title from t_lecture_mov where idx = a.mv_idx) mv_nm
+		,(select sub_nm from t_lecture_subject where sub_seq = a.sub_seq) sub_nm
+		FROM t_lecture_time a
+		WHERE a.EDU_SEQ = #{eduSeq}
+		ORDER BY TIME_SEQ
+	</select>
+	
+	<!-- 결제관련 -->
+	<resultMap id="payVo" type="com.educare.edu.comn.vo.PayVO" >
+		<result property="payNo" column="PAY_NO"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="email" column="EMAIL"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="state" column="STATE"/>
+		<result property="amount" column="AMOUNT"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="tel" column="TEL"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="pgPayNo" column="PG_PAY_NO"/>
+		<result property="pgNm" column="PG_NM"/>
+		<result property="goodNm" column="GOOD_NM"/>
+		<result property="vtBank" column="VT_BANK"/>
+		<result property="vtNm" column="VT_NM"/>
+		<result property="vtNo" column="VT_NO"/>
+		<result property="vtCloseDtime" column="VT_CLOSE_DTIME"/>
+		<result property="updDt" column="UPD_DT"/>
+	</resultMap>
+	<select id="selectPayByPk" resultMap="payVo">
+		select * from t_pay where pay_no=#{payNo}
+	</select>
+	<update id="updatePayByPk">
+		/** tableMapper.updatePayByPk */
+		update t_pay
+		set state=#{state}
+		,upd_dt=#{updDt}
+		where pay_no=#{payNo}
+	</update>
+	<select id="selectPayByUserId" resultMap="payVo">
+		select * from t_pay where user_id =#{userId}
+		order by reg_dt desc
+	</select>
+	
+	<!-- SMS관련 -->
+	<resultMap id="smsVo" type="com.educare.edu.comn.vo.SmsVO" >
+		<result property="idx" column="IDX"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="title" column="TITLE"/>
+		<result property="message" column="MESSAGE"/>
+		<result property="fromNum" column="FROM_NUM"/>
+		<result property="toNum" column="TO_NUM"/>
+		<result property="resultCd" column="RESULT_CD"/>
+		<result property="resultMsg" column="RESULT_MSG"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="tplCd" column="TPL_CD"/>
+	</resultMap>
+	<insert id="insertMgov" keyProperty="idx" useGeneratedKeys="true">
+	 /*com.educare.edu.comn.mapper.TableMapper.insertMgov */
+	INSERT INTO NURI2_NRMSG_DATA (
+          MSG_KEY            -- 숫자 11자리, 메시지 일련번호, 반드시 고유값, 중복시 발송실패, 시퀀스(시리얼번호사용)
+        , MSG_STATE          -- 1:전송대기,  3:전송수집중(QUE 수집), 5:전송완료(결과대기), 6:결과처리 완료(결과회신)
+        , INPUT_DATE         -- DB 입력시간(DB서버 시간 기준)
+        , RES_DATE           -- 발송요청시간, 예약전송:미래시간, 즉시전송:SYSDATE
+        , ALT_COUNTRY_CODE   -- 국가코드 : 기본 값 82, 해외 카톡 발송시 해당국가코드 입력
+        , PHONE              -- 수신번호(숫자형태의 문자, 11~12자리),     [*][중요]반드시 휴대폰 번호 형식으로만 입력, 01X0000XXXX
+        , CALLBACK           -- 발신번호(숫자형태의 문자, 지역번호 필수), [*][중요]휴대폰번호 사용시에는 발신도용 해제 여부 필요, 스미싱 악용 방지용 '번호도용 차단서비스' 가입자는 해제 후 설정가능 합니다.
+        -- 첫번째 컨텐츠(1차): 카카오
+        , MSG_TYPE_1         -- [대분류] :SMS:단문 메시지, MMS:멀티메시지(장문, 첨부), ALT:카카오 알림톡 메시지, RCS:이통사 차세대 메시지
+        , CONTENTS_TYPE_1    -- [소분류] :SMS:단문 메시지, LMS:장문, MMS:멀티메시지(장문+첨부, 첨부), ALT:카카오 알림톡 메시지, RCS:이통사 차세대 메시지
+        , ALT_SENDER_KEY     -- 발송키(발신 프로필키), 발송키는 채널을 의미합니다. 채널이 다르면 다른 발송키를 설정
+        , ALT_TEMPLATE_CODE  -- 템플릿코드
+        , ALT_JSON           -- 발송할 내용을 JSON 형태(한줄로입력)로 직접 입력, '{"text":"모바일메시지서비스 운영 및 발송 가이드 안내\n\n카카오톡\n모바일메시지 테스트입니다\n\n042-250-5537\n감사합니다."}'
+                             -- 전체 1000자리(Length), 줄바꿈 치환 필수 '\r\n' ▶ '\n'(1 Length로 계산), 실제로 1줄로 입력처리 일부db에서 '\n'만 입력하게되면 줄바꿈처리로 에러, 실제 줄바꿈 기호를 메시지를 db에 입력시 '\n' 처리해서 입력(db 마다 다를수 있음)
+        -- 두번째 컨텐츠(2차): 문자
+        , MSG_TYPE_2         -- [대분류] :SMS:단문 메시지, MMS:멀티메시지(장문, 첨부), ALT:카카오 알림톡 메시지, RCS:이통사 차세대 메시지
+        , CONTENTS_TYPE_2    -- [소분류] :SMS:단문 메시지, LMS:장문, MMS:멀티메시지(장문+첨부, 첨부), ALT:카카오 알림톡 메시지, RCS:이통사 차세대 메시지
+        , XMS_SUBJECT        -- 생략가능, LMS에서만 사용 최대 30Byte 이하 한글(2Byte)로 계산, 줄바꿈은 '\n' 처리 1Byte 처리, 1Byte로 계산
+        , XMS_TEXT           -- SMS: 90byte 까지 입력(줄바꿈은 '\n' 처리 1Byte 처리, 1Byte로 계산), LMS:2000 Byte 이하
+        , USER_ID --etc
+) VALUES(
+          MSG_KEY_SERIAL.NEXT_VALUE
+        , 1
+        , now()
+        , now()
+        , '82'
+        , #{toNum}    -- 수신번호(숫자형태의 문자, 11~12자리)
+        , #{fromNum}    -- 발신번호(숫자형태의 문자, 지역번호 필수)
+        -- 첫번째 컨텐츠
+        , 'ALT'
+        , 'ALT'
+        , '9a6428fdd48684a83f663245a3541d26b1814f78' -- 발송키(발신 프로필키), 발송키는 채널을 의미합니다. 채널이 다르면 다른 발송키를 설정
+        , 'KR002'  -- KR001~3 템플릿은 사전등록(예약) 기관만 사용 가능합니다, 센터에 문의 필요.
+        --, '{"text":"메시지내용"}' , '{"text":"'|| '메시지내용을 입력' ||'"}'
+        , #{message2}
+        -- 두번째 컨텐츠
+        , CASE WHEN #{messageLength} > 90 THEN 'MMS' ELSE 'SMS' END -- SMS(1~90byte), LMS(91~2000byte)로 처리 해야함
+        , CASE WHEN #{messageLength} > 90 THEN 'LMS' ELSE 'SMS' END -- SMS(1~90byte), LMS(91~2000byte)로 처리 해야함
+        , '' -- 제목30바이트 이하: 생략 가능
+        , #{message}
+        , #{userId}
+);
+	</insert>
+	<insert id="insertSms" keyProperty="idx" useGeneratedKeys="true">
+	insert into t_sms
+	(send_type,title,message,from_num,result_cd,result_msg,reg_dt,send_dt,edu_seq,user_id,tpl_cd)
+	values
+	(#{sendType},#{title},#{message},#{fromNum},#{resultCd},#{resultMsg},#{regDt},#{sendDt},#{eduSeq},#{userId},#{tplCd})
+	</insert>
+	<update id="updateSms">
+		update t_sms
+		set result_cd=#{resultCd}
+		,result_msg=#{resultMsg}
+		where idx=#{idx}
+	</update>
+	<insert id="insertSmsLog">
+		insert into t_sms_log
+		select * from t_sms where idx=#{idx}
+	</insert>
+	<update id="updateSmsLog">
+		update t_sms_log
+		set result_cd=#{resultCd}
+		,result_msg=#{resultMsg}
+		where idx=#{idx}
+	</update>
+	<select id="selectSms" resultMap="smsVo">
+		select * from t_sms where send_dt <![CDATA[<]]> #{sendDt} and result_cd=0
+	</select>
+	<delete id="deleteSms">
+		delete from t_sms where idx=#{idx}
+	</delete>
+	<delete id="deleteSmsByCancelRcept">
+		delete from t_sms where edu_seq=#{eduSeq} and user_id=#{userId}
+	</delete>
+	<delete id="deleteSmsLogByCancelRcept">
+		delete from t_sms_log where edu_seq=#{eduSeq} and user_id=#{userId}
+	</delete>
+	<update id="updateSmsLogByCancelRcept">
+		update t_sms_log
+		set result_cd=#{resultCd}
+		,result_msg=#{resultMsg}
+		where edu_seq=#{eduSeq} and user_id=#{userId} and result_cd=0
+	</update>
+	
+	<resultMap id="certNumVo" type="com.educare.edu.comn.vo.CertNumVO" >
+		<result property="ctgrySeq" column="CTGRY_SEQ"/>
+		<result property="subSeq" column="SUB_SEQ"/>
+		<result property="certNum" column="CERT_NUM"/>
+		<result property="year" column="YEAR"/>
+		<result property="certMode" column="CERT_MODE"/>
+	</resultMap>
+	<select id="selectCertNumByPk" resultMap="certNumVo">
+		select * from t_cert_num 
+		where ctgry_seq = #{ctgrySeq} and "year" = #{year} and sub_seq = #{subSeq} and cert_mode = #{certMode}
+	</select>
+	<insert id="insertCertNum">
+		insert into t_cert_num
+		(ctgry_seq,sub_seq,cert_num,"year",cert_mode)
+		values
+		(#{ctgrySeq},#{subSeq},#{certNum},#{year},#{certMode})
+	</insert>
+	<update id="updateCertNum">
+		update t_cert_num
+		set cert_num=#{certNum}
+		where ctgry_seq = #{ctgrySeq} and "year" = #{year} and sub_seq = #{subSeq} and cert_mode = #{certMode}
+	</update>
+	
+	<resultMap id="rceptVo" type="com.educare.edu.education.service.model.LectureRcept" >
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="state" column="STATE"/>
+		<result property="recptDe" column="RECPT_DE"/>
+		<result property="userId" column="USER_ID"/>
+	</resultMap>
+	<select id="selectLectureRceptByWait" resultMap="rceptVo">
+		select * from t_lecture_rcept where edu_seq=#{eduSeq} and state='W'
+	</select>
+	
+	<!-- Email관련 -->
+	<resultMap id="emailVo" type="com.educare.edu.comn.vo.EmailVO" >
+		<result property="idx" column="IDX"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="title" column="TITLE"/>
+		<result property="text" column="TEXT"/>
+		<result property="fromAddr" column="FROM_ADDR"/>
+		<result property="toAddr" column="TO_ADDR"/>
+		<result property="resultCd" column="RESULT_CD"/>
+		<result property="resultMsg" column="RESULT_MSG"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="tplCd" column="TPL_CD"/>
+	</resultMap>
+	<insert id="insertMgov2" keyProperty="idx" useGeneratedKeys="true">
+	INSERT INTO T_EMAIL_DATA (
+           EMAIL_KEY            -- 숫자 11자리, 메시지 일련번호, 반드시 고유값, 중복시 발송실패, 시퀀스(시리얼번호사용)
+         , SENT_DATE
+         
+         , EMAIL_STATE          -- 1:전송대기,  3:전송수집중(QUE 수집), 5:전송완료(결과대기), 6:결과처리 완료(결과회신)
+         , RSLT_CODE
+         
+         , EMAIL              	-- 수신번호(숫자형태의 문자, 11~12자리),     [*][중요]반드시 휴대폰 번호 형식으로만 입력, 01X0000XXXX
+         , CALLBACK           	-- 발신번호(숫자형태의 문자, 지역번호 필수), [*][중요]휴대폰번호 사용시에는 발신도용 해제 여부 필요, 스미싱 악용 방지용 '번호도용 차단서비스' 가입자는 해제 후 설정가능 합니다.
+         , EMAIL_TEXT           -- SMS: 90byte 까지 입력(줄바꿈은 '\n' 처리 1Byte 처리, 1Byte로 계산), LMS:2000 Byte 이하
+         , USER_ID 			 	-- etc
+         , EMAIL_SUBJECT        -- 생략가능, LMS에서만 사용 최대 30Byte 이하 한글(2Byte)로 계산, 줄바꿈은 '\n' 처리 1Byte 처리, 1Byte로 계산
+	) VALUES (
+           EMAIL_KEY_SERIAL.NEXT_VALUE
+         , #{sendDt}
+         
+         , 5
+         , #{resultCd}
+         
+         , #{toAddr}    		-- 수신번호(숫자형태의 문자, 11~12자리)
+         , #{fromAddr}    		-- 발신번호(숫자형태의 문자, 지역번호 필수)
+         , #{text}
+         , #{userId}
+         , '이메일발송'
+	)
+	</insert>
+	
+	<!-- 기타 -->
+	
+</mapper>

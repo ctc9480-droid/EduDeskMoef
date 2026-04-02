@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.SmsMapper">
+	
+	<resultMap id="smsVo" type="com.educare.edu.comn.vo.SmsVO" >
+		<result property="idx" column="IDX"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="title" column="TITLE"/>
+		<result property="message" column="MESSAGE"/>
+		<result property="fromNum" column="FROM_NUM"/>
+		<result property="toNum" column="TO_NUM"/>
+		<result property="resultCd" column="RESULT_CD"/>
+		<result property="resultMsg" column="RESULT_MSG"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="sendDt" column="SEND_DT"/>
+	</resultMap>
+	
+	<sql id="inc_where_1">
+	 	<if test="srchBeginDt != null and srchBeginDt != ''">
+	  	and  RES_DATE between #{srchBeginDt}||'000000' and #{srchBeginDt}||'235959'
+	  	</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		and (
+			phone like concat('%',#{srchWrd},'%')
+			or xms_text like concat('%',#{srchWrd},'%')
+		)
+		</if>
+	</sql>
+	
+	<select id="selectSmsLogPageCnt" resultType="int" parameterType="com.educare.edu.comn.vo.SmsVO">
+	 /*com.educare.edu.comn.mapper.SmsMapper.selectSmsLogPageCnt */
+		select count(*) FROM (
+		   SELECT * FROM nuri2_nrmsg_data
+		  where 1=1
+		   <include refid="inc_where_1"/>
+		  UNION ALL
+		  SELECT * FROM nuri2_nrmsg_log_${tableMonth}
+		  where 1=1
+		  <include refid="inc_where_1"/>
+		) MT
+		
+	</select>
+	<select id="selectSmsLogPageList" resultType="hashmap" parameterType="com.educare.edu.comn.vo.SmsVO">
+	/* com.educare.edu.comn.mapper.SmsMapper.selectSmsLogPageList */
+		SELECT
+		  'MT'  AS MSG
+		, MSG_KEY             
+		, SUB_ID              
+		, USER_KEY            
+		, USER_GROUP          
+		, USER_ID             
+		, USER_JOBID          
+		, MSG_PRIORITY        
+		, MSG_STATE           
+		, INPUT_DATE          
+		, RES_DATE            
+		, QUE_DATE            
+		, SENT_DATE           
+		, RSLT_DATE           
+		, REPORT_DATE         
+		, RSLT_CODE           
+		, case when MSG_STATE='6' AND (RSLT_CODE='0' OR RSLT_CODE='1000') then '성공' else (SELECT RSLT_EXPLA FROM nuri2_nrmsg_rslt r where r.RSLT_CODE=MT.RSLT_CODE ) end AS RSLT_CODE_NM
+		, RSLT_NET            
+		, RSLT_TYPE           
+		, SENT_COUNT          
+		, HISTORY_MSG_TYPE    
+		, HISTORY_RSLT_CODE  
+		, PHONE               
+		, CALLBACK            
+		, MSG_TYPE_1          
+		, CONTENTS_TYPE_1     
+		, QUE_DATE_1          
+		, SENT_DATE_1         
+		, MSG_TYPE_2          
+		, CONTENTS_TYPE_2     
+		, QUE_DATE_2          
+		, SENT_DATE_2         
+		, MSG_TYPE_3          
+		, CONTENTS_TYPE_3     
+		, QUE_DATE_3          
+		, SENT_DATE_3         
+		, XMS_RSLT_CODE       
+		, XMS_RSLT_NET        
+		, XMS_RSLT_DATE       
+		, XMS_REPORT_DATE     
+		, ALT_RSLT_CODE       
+		, ALT_RSLT_NET        
+		, ALT_RSLT_DATE       
+		, ALT_REPORT_DATE     
+		
+		, RCS_RSLT_CODE       
+		, RCS_RSLT_NET        
+		, RCS_RSLT_DATE       
+		, RCS_REPORT_DATE     
+		
+		, XMS_SUBJECT         
+		, XMS_TEXT            
+		, XMS_FILE_NAME_1     
+		, XMS_FILE_NAME_2     
+		, XMS_FILE_NAME_3     
+		
+		, ALT_COUNTRY_CODE    
+		, ALT_SENDER_KEY      
+		, ALT_TEMPLATE_CODE   
+		, ALT_JSON            
+		
+		, RCS_BRAND_KEY       
+		, RCS_MESSAGE_BASE_ID 
+		, RCS_JSON            
+		
+		FROM (
+		  	SELECT * FROM nuri2_nrmsg_data
+		  	where 1=1
+		  	<include refid="inc_where_1"/>
+		  	UNION ALL
+		  	SELECT * FROM nuri2_nrmsg_log_${tableMonth}
+		  	where 1=1
+		 	<include refid="inc_where_1"/>
+		) MT
+		order by msg_key desc
+		limit #{firstIndex} , #{row}
+	</select>
+	
+	
+	
+</mapper>

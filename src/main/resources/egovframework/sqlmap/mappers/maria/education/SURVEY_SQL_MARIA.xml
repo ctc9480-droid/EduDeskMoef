@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.education.service.impl.SurveyMapper">
+
+	<resultMap id="lectureSurveyMap" type="LectureSurvey">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="rgsde" column="RGSDE"/>
+		<result property="item01" column="ITEM01"/>
+		<result property="item02" column="ITEM02"/>
+		<result property="item03" column="ITEM03"/>
+		<result property="item04" column="ITEM04"/>
+		<result property="item05" column="ITEM05"/>
+		<result property="item06" column="ITEM06"/>
+		<result property="item07" column="ITEM07"/>
+		<result property="item08" column="ITEM08"/>
+		<result property="item09" column="ITEM09"/>
+		<result property="item10" column="ITEM10"/>
+		<result property="item11" column="ITEM11"/>
+		<result property="item12" column="ITEM12"/>
+		<result property="item13" column="ITEM13"/>
+		<result property="item14" column="ITEM14"/>
+		<result property="item15" column="ITEM15"/>
+		<result property="item16" column="ITEM16"/>
+	</resultMap>
+
+	<insert id="insertSurvey" parameterType="LectureSurvey">
+		INSERT INTO 
+			T_LECTURE_SURVEY(
+				EDU_SEQ, USER_ID, RGSDE, ITEM01, ITEM02, ITEM03, 
+				ITEM04, ITEM05, ITEM06, ITEM07, ITEM08, ITEM09, ITEM10, 
+				ITEM11, ITEM12, ITEM13, ITEM14, ITEM15, ITEM16  
+			)VALUES(
+				#{eduSeq}, #{userId}, #{rgsde}, #{item01}, #{item02}, #{item03}, 
+				#{item04}, #{item05}, #{item06}, #{item07}, #{item08}, #{item09}, #{item10},  
+				#{item11}, #{item12}, #{item13}, #{item14}, #{item15}, #{item16}
+			)
+	</insert>
+	
+	<select id="selectSurvey" parameterType="EduVO" resultMap="lectureSurveyMap">
+		SELECT * FROM T_LECTURE_SURVEY WHERE EDU_SEQ = #{eduSeq} AND USER_ID = #{userId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.exam.mapper.ExamMapper">
+	
+	<resultMap id="map" type="com.educare.edu.exam.vo.ExamVO" >
+		<result property="ebqIdx" column="EBQ_IDX"/>
+		<result property="question" column="QUESTION"/>
+		<result property="answerText" column="ANSWER_TEXT"/>
+		<result property="questionType" column="QUESTION_TYPE"/>
+		<result property="correctType" column="CORRECT_TYPE"/>
+		<result property="status" column="STATUS"/>
+		<result property="regTime" column="REG_TIME"/>
+		<result property="updTime" column="UPD_TIME"/>
+		<result property="rNum" column="R_NUM"/>
+		
+	</resultMap>
+	
+	<select id="getBoardBankList" resultMap="map">
+		SELECT A.* FROM (
+		
+		SELECT A.*,@rnum:=@rnum+1 AS R_NUM 
+		FROM T_EXAM_BANK_QUESTION A,(SELECT @rnum:=0) B
+		
+		) A
+		LIMIT #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="getBoardBankCnt" resultType="int">
+		SELECT count(A.EBQ_IDX)
+		FROM T_EXAM_BANK_QUESTION A
+	</select>
+	<select id="getExamBankQuestionInfo" resultMap="map">
+		select * from t_exam_bank_question where ebq_idx=#{ebqIdx}
+	</select>
+	<select id="getExamBankChoiceList" resultMap="map">
+		select * from t_exam_bank_choice where ebq_idx=#{ebqIdx}
+	</select>
+</mapper>

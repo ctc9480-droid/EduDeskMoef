@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.CategoryAuthMapper">
+	<resultMap id="map" type="com.educare.edu.comn.vo.CategoryAuthVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="ctgrySeq" column="CTGRY_SEQ"/>
+		<result property="parentSeq" column="parent_seq"/>
+		<result property="ctgryDepth" column="ctgry_depth"/>
+		
+	</resultMap>
+	
+	<select id="selectCategoryAuthList" resultMap="map">
+	/* com.educare.edu.comn.mapper.CategoryAuthMapper.selectCategoryAuthList */
+		select a.* 
+		,b.parent_seq,b.ctgry_depth
+		from t_category_auth a 
+		inner join t_category b on a.ctgry_seq = b.ctgry_seq
+		where a.user_id=#{userId}
+	</select>
+	
+	<insert id="insertCategoryAuthList">
+	/* com.educare.edu.comn.mapper.CategoryAuthMapper.insertCategoryAuthList */
+	insert into t_category_auth
+	(user_id,ctgry_seq)
+	values
+	(#{userId},#{ctgrySeq})
+	</insert>
+	<delete id="deleteCategoryAuthList">
+	/* com.educare.edu.comn.mapper.CategoryAuthMapper.deleteCategoryAuthList */
+	delete from t_category_auth where user_id=#{userId}
+	</delete>
+</mapper>

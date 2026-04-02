@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.EmailMapper">
+	
+	<resultMap id="emailVo" type="com.educare.edu.comn.vo.EmailVO" >
+		<result property="idx" column="IDX"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="title" column="TITLE"/>
+		<result property="text" column="TEXT"/>
+		<result property="fromAddr" column="FROM_ADDR"/>
+		<result property="toAddr" column="TO_ADDR"/>
+		<result property="resultCd" column="RESULT_CD"/>
+		<result property="resultMsg" column="RESULT_MSG"/>
+		<result property="regDt" column="REG_DT"/>
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="sendDt" column="SEND_DT"/>
+	</resultMap>
+	
+	<sql id="inc_where_1">
+	 	<if test="srchBeginDt != null and srchBeginDt != ''">
+	  	and  RES_DATE between #{srchBeginDt}||'000000' and #{srchBeginDt}||'235959'
+	  	</if>
+		<if test="srchWrd != null and srchWrd != ''">
+		and (
+			phone like concat('%',#{srchWrd},'%')
+			or xms_text like concat('%',#{srchWrd},'%')
+		)
+		</if>
+	</sql>
+	
+	<select id="selectEmailLogPageCnt" resultType="int" parameterType="com.educare.edu.comn.vo.EmailVO">
+	 /* com.educare.edu.comn.mapper.EmailMapper.selectEmailLogPageCnt */
+		select count(*) FROM (
+		   SELECT * FROM t_email_data
+		  where 1=1
+		   <include refid="inc_where_1"/>
+		  
+		) MT
+		
+	</select>
+	<select id="selectEmailLogPageList" resultType="hashmap" parameterType="com.educare.edu.comn.vo.EmailVO">
+	 /* com.educare.edu.comn.mapper.EmailMapper.selectEmailLogPageList */
+		SELECT EMAIL_KEY             
+			 , SENT_DATE           
+	
+			 , EMAIL_STATE           
+			 , RSLT_CODE           
+			 , (SELECT RSLT_EXPLA FROM T_EMAIL_RSLT R WHERE R.RSLT_CODE = MT.RSLT_CODE) AS RSLT_CODE_NM
+			 , EMAIL               
+			 , CALLBACK            
+			 , EMAIL_TEXT            
+		  FROM (
+			  	SELECT *
+			  	  FROM T_EMAIL_DATA
+			  	 WHERE 1 = 1
+		  	<include refid="inc_where_1"/>
+		  	
+		) MT
+		 ORDER BY EMAIL_KEY DESC
+		 LIMIT #{firstIndex} , #{row}
+	</select>
+	
+</mapper>

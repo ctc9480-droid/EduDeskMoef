@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.CheckMapper">
+	<select id="selectCountLectureStndtByPk" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountLectureStndtByPk */
+		select count(*) from t_lecture_stdnt where edu_seq=#{eduSeq} and user_id=#{userId}
+	</select>
+	<select id="selectCountLectureStndtByPass" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountLectureStndtByPass */
+		select count(*) from t_lecture_stdnt where edu_seq=#{eduSeq} and user_id=#{userId} and pass_yn = 'Y'
+	</select>
+	<select id="selectCountLectureByEduSeqGangsa" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountLectureByEduSeqGangsa */
+		select count(*) from t_lecture where edu_seq=#{eduSeq} and instrctr_id=#{instrctrId}
+	</select>
+	<select id="selectCountLectureByEduSeqOrgCd" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountLectureByEduSeqOrgCd */
+		select count(*) from t_lecture where edu_seq=#{eduSeq} and org_cd=#{orgCd}
+	</select>
+	<select id="useFeedbackCnt" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.useFeedbackCnt */
+		select count(*) from t_lecture where fb_idx = #{fbIdx}
+	</select>
+	<select id="selectCountLectureStndtByPassIdx" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountLectureStndtByPassIdx */
+		select count(tls.edu_seq) from t_lecture_stdnt tls 
+		where 1=1
+		and edu_seq in (select edu_seq from t_lecture tl where tl.pass_idx=#{passIdx})
+		and cert_de <![CDATA[<=]]> (select cert_de from t_lecture_stdnt tls2 where tls2.user_id=#{userId} and edu_seq=#{eduSeq})
+	</select>
+	<select id="selectLctrePassCtgryYearCnt" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectLctrePassCtgryYearCnt */
+		select count(*) from t_lecture_stdnt
+		where user_id = #{userId}
+		and pass_yn = 'Y'
+		and edu_seq in (select edu_seq from t_lecture tl where tl.detail_ctgry_seq = #{detailCtgrySeq} and substr(tl.edu_period_begin,1,4) = #{year}  )
+	</select>
+	<select id="selectCountAssgnLectureRoom" resultType="int">
+	 /* com.educare.edu.comn.mapper.CheckMapper.selectCountAssgnLectureRoom */
+		select count(*) from t_lecture_time a
+		where a.edu_dt = #{eduDt}
+		and (
+			(#{startTm} between a.start_tm and a.end_tm)
+			or (#{endTm} between a.start_tm and a.end_tm)
+		)
+		and a.edu_seq in (select edu_seq from t_lecture where edu_seq = a.edu_seq and room_seq=#{roomSeq})
+	</select>
+	
+</mapper>

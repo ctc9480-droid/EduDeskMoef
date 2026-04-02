@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.result.map">
+	
+	<resultMap id="lectureMap" type="com.educare.edu.education.service.model.Lecture">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="eduNm" column="EDU_NM"/>
+		<result property="ctg1Seq" column="CTG1_SEQ"/>
+		<result property="ctg2Seq" column="CTG2_SEQ"/>
+		<result property="ctg3Seq" column="CTG3_SEQ"/>
+		<result property="ctg1Nm" column="CTG1_NM"/>
+		<result property="ctg2Nm" column="CTG2_NM"/>
+		<result property="ctg3Nm" column="CTG3_NM"/>
+		<result property="openYn" column="OPEN_YN"/>
+		<result property="instrctrId" column="INSTRCTR_ID"/>
+		<result property="instrctrNm" column="INSTRCTR_NM"/>
+		<result property="imgOrg" column="IMG_ORG"/>
+		<result property="imgRename" column="IMG_RENAME"/>
+		<result property="imgUseYn" column="IMG_USE_YN"/>
+		<result property="eduPeriodBegin" column="EDU_PERIOD_BEGIN"/>
+		<result property="eduPeriodEnd" column="EDU_PERIOD_END"/>
+		<result property="rceptPeriodBegin" column="RCEPT_PERIOD_BEGIN"/>
+		<result property="rceptPeriodEnd" column="RCEPT_PERIOD_END"/>
+		<result property="rceptPeriodYn" column="RCEPT_PERIOD_YN"/>
+		<result property="personnel" column="PERSONNEL"/>
+		<result property="minPersonnel" column="MIN_PERSONNEL"/>
+		<result property="extPersonnel" column="EXT_PERSONNEL"/>
+		<result property="closeTp" column="CLOSE_TP"/>
+		<result property="fee" column="FEE"/>
+		<result property="groupFee" column="GROUP_FEE"/>
+		<result property="feeLimit" column="FEE_LIMIT"/>
+		<result property="groupComment" column="GROUP_COMMENT"/>
+		<result property="cn" column="CN"/>
+		<result property="postNo" column="POST_NO"/>
+		<result property="addr" column="ADDR"/>
+		<result property="addrDetail" column="ADDR_DETAIL"/>
+		<result property="addrEtc" column="ADDR_ETC"/>
+		<result property="addrMemo" column="ADDR_MEMO"/>
+		<result property="rceptYn" column="RCEPT_YN"/>
+		<result property="closeYn" column="CLOSE_YN"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+		<result property="rceptCnt" column="RCEPT_CNT"/>
+		<result property="waitCnt" column="WAIT_CNT"/>
+		<result property="onlineYn" column="ONLINE_YN"/>
+		<result property="onlineUrl" column="ONLINE_URL"/>
+		<result property="tel" column="TEL"/>
+		<result property="orgCd" column="ORG_CD"/>
+		<result property="orgNm" column="ORG_NM"/>
+		<result property="checkYn" column="CHECK_YN"/>
+		<result property="wayCome" column="WAY_COME"/>
+		<result property="fbIdx" column="FB_IDX"/>
+		<result property="passIdx" column="PASS_IDX"/>
+		<result property="lctreType" column="LCTRE_TYPE"/>
+		<result property="smsAuto" column="SMS_AUTO"/>
+		<result property="eduEtc" column="EDU_ETC"/>
+		<result property="eduYear" column="EDU_YEAR"/>
+		<result property="eduTerm" column="EDU_TERM"/>
+		<result property="regDe" column="REG_DE"/>
+		<result property="updDe" column="UPD_DE"/>
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+		
+		 
+		<result property="targetTp" column="TARGET_TP"/>
+		<result property="eduTp" column="EDU_TP"/>
+		<result property="passCertYn" column="PASS_CERT_YN"/>
+		<result property="fbYn" column="FB_YN"/>
+		<result property="preEduYn" column="PRE_EDU_YN"/>
+		<result property="preEduSeq" column="PRE_EDU_SEQ"/>
+		<result property="passAttPoint" column="PASS_ATT_POINT"/>
+		<result property="passAsgPoint" column="PASS_ASG_POINT"/>
+		<result property="passTestPoint" column="PASS_TEST_POINT"/>
+		<result property="passPoint" column="PASS_POINT"/>
+		<result property="autoPassYn" column="AUTO_PASS_YN"/>
+		<result property="etcIemYn" column="ETC_IEM_YN"/>
+		<result property="inqNm" column="INQ_NM"/>
+		<result property="etcAgreeYn" column="ETC_AGREE_YN"/>
+		<result property="essntlFileYn" column="ESSNTL_FILE_YN"/>
+		<result property="scrtyYn" column="SCRTY_YN"/>
+		<result property="scrtyPw" column="SCRTY_PW"/>
+		<result property="rceptCntViewYn" column="RCEPT_CNT_VIEW_YN"/>
+		<result property="returnTp" column="RETURN_TP"/>
+		<result property="mealFee" column="meal_fee"/>
+		<result property="mealAccount" column="meal_account"/>
+		<result property="dormiFee" column="dormi_fee"/>
+		<result property="dormiAccount" column="dormi_account"/>
+		<result property="depositLimitDt" column="deposit_limit_dt"/>
+		<result property="compStnd01" column="comp_stnd_01"/>
+		<result property="compStnd02" column="comp_stnd_02"/>
+		<result property="compStnd03" column="comp_stnd_03"/>
+		<result property="compStnd04" column="comp_stnd_04"/>
+		<result property="compStnd05" column="comp_stnd_05"/>
+		<result property="userOrgNm" column="user_org_nm"/>
+		
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="startTm" column="START_TM"/>
+		<result property="endTm" column="END_TM"/>
+		<result property="roomNm" column="ROOM_NM"/>
+		<result property="cancelLimitDt" column="CANCEL_LIMIT_DT"/>
+		<result property="recptDe" column="RECPT_DE"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="mfType" column="MF_TYPE"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="compUserId" column="COMP_USER_ID"/>
+		<result property="rceptState" column="RCEPT_STATE"/>
+		<result property="payState" column="PAY_STATE"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payNo" column="PAY_NO"/>
+		<result property="payDe" column="PAY_DE"/>
+		<result property="pgPayNo" column="PG_PAY_NO"/>
+		<result property="eduRceptSeq" column="EDU_RCEPT_SEQ"/>
+		<result property="eduRceptState" column="EDU_RCEPT_STATE"/>
+		<result property="rfndState" column="RFND_STATE"/>
+		<result property="feeTp" column="FEE_TP"/>
+		<result property="compJson" column="COMP_JSON"/>
+		<result property="userEnNm" column="USER_EN_NM"/>
+		
+		
+		<!-- 이아래로 생성하지 말것 -->
+		<result property="etcData01" column="ETC_DATA_01"/><!-- 기타01 -->
+	</resultMap>
+	
+	<resultMap id="loginLogMap" type="LoginLog">
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="year" column="YEAR"/>
+		<result property="month" column="MONTH"/>
+		<result property="day" column="DAY"/>
+		<result property="hour" column="HOUR"/>
+		<result property="loginDe" column="LOGIN_DE"/>
+		<result property="ip" column="IP"/>
+		<result property="device" column="DEVICE"/>
+		<result property="browser" column="BROWSER"/>
+	</resultMap>
+	
+	<resultMap id="adminIpVO" type="com.educare.edu.comn.model.AdminIp">
+		<result property="regDt" column="REG_DT"/>
+		<result property="updDt" column="UPD_DT"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+	</resultMap>
+	
+	<resultMap id="subjectResultVO" type="com.educare.edu.comn.vo.SubjectResultVO">
+		<result property="eduSeq" 		column="EDU_SEQ"/>
+		<result property="subSeq" 		column="SUB_SEQ"/>
+		<result property="subNm" 		column="SUB_NM"/>
+		<result property="endDeStr" 	column="END_DE_STR"/>
+		<result property="complState" 	column="COMPL_STATE"/>
+		<result property="passState" 	column="PASS_STATE"/>
+		<result property="complCertNum" column="COMPL_CERT_NUM"/>
+		<result property="passCertNum" 	column="PASS_CERT_NUM"/>
+		<result property="complIdx" 	column="COMPL_IDX"/>
+		<result property="passIdx" 		column="PASS_IDX"/>
+		<result property="complCertDe" 	column="COMPL_CERT_DE"/>
+		<result property="passCertDe" 	column="PASS_CERT_DE"/>
+		<result property="userId" 		column="USER_ID"/>
+	</resultMap>
+	
+	<resultMap id="cnhtmlVO" type="com.educare.edu.comn.vo.CnhtmlVO">
+		<result property="cnhtSeq" column="cnht_seq"/>
+		<result property="cnhtType" column="cnht_type"/>
+	
+		<result property="regDe" column="REG_DE"/>
+		<result property="updDe" column="UPD_DE"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="updId" column="UPD_ID"/>
+		
+		<result property="regNm" column="REG_NM"/>
+	</resultMap>
+</mapper>

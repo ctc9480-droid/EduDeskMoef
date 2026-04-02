@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.SmartCheckMapper">
+	<resultMap id="smartCheck" type="com.educare.edu.comn.vo.SmartCheckVO" >
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="attRatio" column="ATT_RATIO"/>
+		<result property="absentCnt" column="ABSENT_CNT"/>
+		<result property="absent2Cnt" column="ABSENT2_CNT"/>
+		<result property="lateCnt" column="LATE_CNT"/>
+		<result property="leaveCnt" column="LEAVE_CNT"/>
+		<result property="timeCnt" column="TIME_CNT"/>
+		<result property="sumTimeCnt" column="SUM_TIME_CNT"/>
+		<result property="checkTimeCnt" column="CHECK_TIME_CNT"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="startTm" column="START_TM"/>
+		<result property="endTm" column="END_TM"/>
+		<result property="eduNm" column="EDU_NM"/>
+		<result property="studNm" column="STUD_NM"/>
+		<result property="email" column="EMAIL"/>
+		<result property="stdntCnt" column="STDNT_CNT"/>
+		<result property="attCd" column="ATT_CD"/>
+		<result property="rNum" column="R_NUM"/>
+		<result property="attend2Cnt" column="ATTEND2_CNT"/>
+		<result property="attendCnt" column="ATTEND_CNT"/>
+		<result property="eduDtCnt" column="EDU_DT_CNT"/>
+		<result property="profNm" column="PROF_NM"/>
+		<result property="eduCtgryNm" column="EDU_CTGRY_NM"/>
+		<result property="eduPeriodBegin" column="EDU_PERIOD_BEGIN"/>
+		<result property="classHow" column="CLASS_HOW"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="checkId" column="CHECK_ID"/>
+		
+		<result property="beginDe" column="BEGIN_DE"/>
+		<result property="endDe" column="END_DE"/>
+		<result property="attTp" column="ATT_TP"/>
+		<result property="at1Cd" column="at1_cd"/>
+		<result property="at2Cd" column="at2_cd"/>
+		<result property="at3Cd" column="at3_cd"/>
+		<result property="at1De" column="at1_de"/>
+		<result property="at2De" column="at2_de"/>
+		<result property="at3De" column="at3_de"/>
+		<result property="qr1BeginDe" column="qr1_begin_de"/>
+		<result property="qr1EndDe" column="qr1_End_de"/>
+		<result property="qr2BeginDe" column="qr2_begin_de"/>
+		<result property="qr2EndDe" column="qr2_End_de"/>
+		<result property="qr3BeginDe" column="qr3_begin_de"/>
+		<result property="qr3EndDe" column="qr3_End_de"/>
+		
+	</resultMap>
+	<select id="selectAttList" resultMap="smartCheck">
+		/** 특정 수업의 출결 현황 */
+		SELECT a.*
+		,TRUNCATE((LATE_CNT+LEAVE_CNT)/3,0) ABSENT2_CNT
+		,b.login_id
+		FROM ( 
+			SELECT tls.EDU_SEQ ,tls.USER_ID
+			,(SELECT USER_NM FROM t_user_info WHERE USER_ID=tls.USER_ID) USER_NM
+			,(SELECT EMAIL FROM t_user_info WHERE USER_ID=tls.USER_ID) EMAIL
+		    ,SUM(CASE WHEN tas.ATT_CD='O' THEN 1 ELSE 0 END) ATTEND_CNT
+		    ,SUM(CASE WHEN tas.ATT_CD='D' THEN 1 ELSE 0 END) LATE_CNT
+			,SUM(CASE WHEN tas.ATT_CD='Z' THEN 1 ELSE 0 END) LEAVE_CNT
+			,SUM(CASE WHEN tas.ATT_CD='X' THEN 1 ELSE 0 END) ABSENT_CNT
+			,COUNT(*) TIME_CNT
+			FROM t_lecture_stdnt tls
+			INNER JOIN t_lecture_time tlt 
+			ON tls.EDU_SEQ=tlt.EDU_SEQ
+			LEFT OUTER JOIN t_attend_stdnt tas 
+			ON tlt.EDU_SEQ=tas.EDU_SEQ AND tlt.TIME_SEQ=tas.TIME_SEQ AND tls.USER_ID=tas.USER_ID
+			WHERE tls.EDU_SEQ=#{eduSeq}
+			<if test="userId!=null and userId!=''">
+			AND tls.USER_ID=#{userId}
+			</if>
+			GROUP BY tls.EDU_SEQ,tls.USER_ID
+		) a
+		left join t_user_info b on a.user_id=b.user_id
+		ORDER BY a.USER_NM
+	</select>
+	<select id="selectLectureTimeByLectCd" resultMap="smartCheck">
+		SELECT * FROM t_lecture_time WHERE edu_seq=#{eduSeq}
+		ORDER BY edu_dt
+	</select>
+	
+	<select id="getStdntAttList" resultMap="smartCheck">
+		/** 학생의 출결 차시별 리스트 */
+		select tls.USER_id ,tls.edu_seq
+		,tlt.time_seq,tlt.edu_dt,tlt.start_tm ,tlt.end_tm ,tlt.class_how,tlt.check_id
+		,COALESCE(tas.ATT_CD,'W',tas.ATT_CD) ATT_CD
+		FROM t_lecture_stdnt tls  
+		INNER JOIN t_lecture_time tlt
+		ON tls.edu_seq=tlt.edu_seq
+		LEFT OUTER JOIN t_attend_stdnt tas  
+		ON tlt.edu_seq=tas.edu_seq AND tlt.time_seq =tas.time_seq AND tls.user_id =tas.user_id 
+		WHERE 1=1 
+		and tls.edu_seq =#{eduSeq} AND tls.USER_id=#{reqStudId}
+		ORDER BY tlt.edu_dt,tlt.time_seq 
+	</select>
+	<select id="getStdntAttDayList" resultMap="smartCheck">
+		/** 학생의 출결 일별 리스트 */
+		select a.*
+		FROM t_attend_day_stdnt a  
+		WHERE 1=1 
+		and a.edu_seq =#{eduSeq}
+	<!-- 	<if test="userId != null"> AND a.USER_ID=#{userId} </if> -->
+		ORDER BY a.edu_dt
+	</select>
+	<select id="getLectDtByLectCd" resultMap="smartCheck">
+		select a.* 
+		,(select qr_begin_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '1') qr1_begin_de
+		,(select qr_end_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '1') qr1_end_de
+		,(select qr_begin_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '2') qr2_begin_de
+		,(select qr_end_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '2') qr2_end_de
+		,(select qr_begin_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '3') qr3_begin_de
+		,(select qr_end_de from t_qr_code where edu_seq = a.edu_seq and qr_dt = a.edu_dt and qr_type = '3') qr3_end_de
+		from (
+		SELECT edu_seq,edu_dt
+		,min(start_tm) start_tm
+		,max(end_tm) end_tm
+		,COUNT(*) EDU_DT_CNT
+		FROM t_lecture_time TLT 
+		WHERE edu_seq=#{eduSeq}
+		GROUP BY edu_seq,edu_dt
+		ORDER BY edu_dt
+		) a
+		
+	</select>
+	<select id="selectAttDay" resultMap="smartCheck">
+		/** 해당일자의 시작시,종료시 조회 */
+		SELECT edu_seq,edu_dt
+		,min(start_tm) start_tm
+		,max(end_tm) end_tm
+		,COUNT(*) EDU_DT_CNT
+		FROM t_lecture_time TLT 
+		WHERE edu_seq=#{eduSeq} and edu_dt= #{eduDt}
+		GROUP BY edu_seq,edu_dt
+	</select>
+	<select id="getLectureStatCnt" resultType="int">
+		select count(*) from (
+		select edu_seq
+		from (
+			select
+			tl.edu_seq ,
+			tls.user_id ,
+			count(*) time_cnt ,
+			sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt ,
+			sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt ,
+			sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt
+			from t_lecture tl
+			inner join t_lecture_time tlt on tl.edu_seq = tlt.edu_seq
+			left join t_lecture_stdnt tls on tl.edu_seq = tls.edu_seq
+			left join t_attend_stdnt tas on tl.edu_seq = tas.edu_seq and tlt.time_seq = tas.time_seq and tls.user_id = tas.user_id
+			where 1=1
+			<if test="reqOrgCd != '' and reqOrgCd != null">
+			and tl.org_cd = #{reqOrgCd}
+			</if>
+			<choose>
+			<when test="reqWrdKey eq 'edu_nm'">
+				<if test="reqWrd != null and reqWrd != ''">
+				and tl.edu_nm like CONCAT('%',#{reqWrd},'%')
+				</if>
+			</when>
+			<otherwise>
+				<if test="reqWrd != null and reqWrd != ''">
+				and tl.instctr_nm like CONCAT('%',#{reqWrd},'%')
+				</if>
+			</otherwise>
+			</choose>
+			<if test="reqCtgry1!=0">
+			and tl.edu_ctgry_seq = #{reqCtgry1}
+			</if>
+			<if test="reqCtgry2!=0">
+			and tl.detail_ctgry_seq = #{reqCtgry2}
+			</if>
+			group by tl.edu_seq ,tls.user_id 
+		) a
+		group by edu_seq 
+		) a
+	</select>
+	<select id="getLectureStatList" resultMap="smartCheck">
+	SELECT a.* FROM (
+	
+	select a.* 
+	,1-((absent2_cnt+absent_cnt)/sum_time_cnt) att_ratio
+	,(select edu_nm from t_lecture where edu_seq=a.edu_seq) edu_nm
+	,(select instrctr_nm from t_lecture where edu_seq=a.edu_seq) prof_nm
+	,(select edu_ctgry_nm from t_lecture where edu_seq=a.edu_seq) edu_ctgry_nm
+	,(select edu_period_begin from t_lecture where edu_seq=a.edu_seq) edu_period_begin
+	,(select count(*) from t_lecture_stdnt where edu_seq=a.edu_seq) stdnt_cnt
+	,@rnum:=@rnum+1 AS R_NUM
+	from (
+		select a.edu_seq 
+		,sum(time_cnt) sum_time_cnt
+		,sum(truncate((late_cnt+leave_cnt)/3,0)) absent2_cnt
+		,sum(absent_cnt) absent_cnt
+		,(select count(*) from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq) time_cnt
+		from (
+			select
+			tl.edu_seq ,
+			tls.user_id ,
+			count(*) time_cnt ,
+			sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt ,
+			sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt ,
+			sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt
+			from t_lecture tl
+			inner join t_lecture_time tlt on tl.edu_seq = tlt.edu_seq
+			left join t_lecture_stdnt tls on tl.edu_seq = tls.edu_seq
+			left join t_attend_stdnt tas on tl.edu_seq = tas.edu_seq and tlt.time_seq = tas.time_seq and tls.user_id = tas.user_id
+			where 1=1
+			<if test="reqOrgCd != '' and reqOrgCd != null">
+			and tl.org_cd = #{reqOrgCd}
+			</if>
+			<choose>
+			<when test="reqWrdKey eq 'edu_nm'">
+				<if test="reqWrd != null and reqWrd != ''">
+				and tl.edu_nm like CONCAT('%',#{reqWrd},'%')
+				</if>
+			</when>
+			<otherwise>
+				<if test="reqWrd != null and reqWrd != ''">
+				and tl.instctr_nm like CONCAT('%',#{reqWrd},'%')
+				</if>
+			</otherwise>
+			</choose>
+			<if test="reqCtgry1!=0">
+			and tl.edu_ctgry_seq = #{reqCtgry1}
+			</if>
+			<if test="reqCtgry2!=0">
+			and tl.detail_ctgry_seq = #{reqCtgry2}
+			</if>
+			group by tl.edu_seq ,tls.user_id 
+		) a
+		group by edu_seq 
+	) a
+	,(SELECT @rnum:=0) B
+	
+	) a
+	LIMIT #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	
+	<select id="getStdntAttInfo" resultMap="smartCheck">
+		/** 학생종합 출결 정보 */
+		select 
+		a.* 
+		,truncate((time_cnt-absent_cnt-truncate((leave_cnt+late_cnt)/3,0))/time_cnt*100,1) att_ratio
+		from (
+			select 
+			tls.edu_seq,tls.user_id
+			,count(*) time_cnt
+			,sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt
+			,sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt
+			,sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt
+			from t_lecture_stdnt tls  
+			inner join t_lecture_time tlt on tls.edu_seq =tlt.edu_seq 
+			left join t_attend_stdnt tas on tls.user_id =tas.user_id and tls.edu_seq =tas.edu_seq and tlt.time_seq =tas.time_seq
+			where tls.edu_seq = #{eduSeq} 
+			and tls.user_id=#{reqStudId}
+			group by tls.edu_seq,tls.user_id
+		) a
+	</select>
+	
+	<select id="getEduTimeListByProf" resultMap="smartCheck">
+	/** 강의 시간 리스트,일별,주별,월별 */
+	select a.* from (
+		select 
+		a.*
+		,(select edu_nm from t_lecture tl2 where tl2.edu_seq=a.edu_seq) edu_nm 
+		,(select COALESCE(check_status,0) from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) check_status
+		,(select edu_dt from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) edu_dt
+		,(select start_tm from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) start_tm
+		,(select end_tm from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) end_tm
+		from (
+			select 
+			tlt.edu_seq ,tlt.time_seq 
+			,count(*) stdnt_cnt
+			,sum(case when tas.att_cd='O' then 1 else 0 end) attend_cnt
+			,sum(case when tas.att_cd='D' then 1 else 0 end) late_cnt
+			,sum(case when tas.att_cd='Z' then 1 else 0 end) leave_cnt
+			,sum(case when tas.att_cd='X' then 1 else 0 end) absent_cnt
+			from t_lecture_time tlt
+			inner join t_lecture tl on tlt.edu_seq = tl.edu_seq 
+			left join t_lecture_stdnt tls on tlt.edu_seq=tls.edu_seq
+			left join t_attend_stdnt tas on tlt.edu_seq =tas.edu_seq and tlt.time_seq =tas.time_seq and tls.user_id=tas.user_id 
+			where 1=1 
+			and tl.org_cd = #{reqOrgCd}
+			<!-- 나중에 출결체크자의 강의만 조건 추가해야함 -->
+			and tl.edu_seq in (select edu_seq from t_lecture_time where check_id=#{reqProfId})
+			and tlt.edu_dt between #{reqStartDt} and #{reqEndDt}
+			group by tlt.edu_seq ,tlt.time_seq
+		) a
+	) a
+	order by a.edu_dt,a.start_tm
+	</select>
+	<select id="getEduTimeListByStud" resultMap="smartCheck">
+	/** 강의 시간 리스트,일별,주별,월별 */
+	select a.* from (
+		select 
+		a.*
+		,(select edu_nm from t_lecture tl2 where tl2.edu_seq=a.edu_seq) edu_nm 
+		,(select COALESCE(check_status,0) from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) check_status
+		,(select edu_dt from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) edu_dt
+		,(select start_tm from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) start_tm
+		,(select end_tm from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) end_tm
+		,(select instr_nm from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq and tlt2.time_seq=a.time_seq) prof_nm
+		,(select att_cd from t_attend_stdnt tas2 where tas2.edu_seq=a.edu_seq and tas2.time_seq=a.time_seq and tas2.user_id=#{reqStudId}) att_cd
+		from (
+			select 
+			tlt.edu_seq ,tlt.time_seq 
+			,count(*) stdnt_cnt
+			,sum(case when tas.att_cd='O' then 1 else 0 end) attend_cnt
+			,sum(case when tas.att_cd='D' then 1 else 0 end) late_cnt
+			,sum(case when tas.att_cd='Z' then 1 else 0 end) leave_cnt
+			,sum(case when tas.att_cd='X' then 1 else 0 end) absent_cnt
+			from t_lecture_time tlt
+			inner join t_lecture tl on tlt.edu_seq = tl.edu_seq 
+			left join t_lecture_stdnt tls on tlt.edu_seq=tls.edu_seq
+			left join t_attend_stdnt tas on tlt.edu_seq =tas.edu_seq and tlt.time_seq =tas.time_seq and tls.user_id=tas.user_id 
+			where 1=1 
+			and tl.edu_seq in (select edu_seq from t_lecture_stdnt where user_id=#{reqStudId})
+			and tlt.edu_dt between #{reqStartDt} and #{reqEndDt}
+			group by tlt.edu_seq ,tlt.time_seq
+		) a
+	) a
+	order by a.edu_dt,a.start_tm
+	</select>
+	
+	
+	<select id="getStudentList" resultMap="smartCheck">
+		/** 학생리스트 */
+		select 
+		a.* 
+		,truncate((time_cnt-absent_cnt-truncate((leave_cnt+late_cnt)/3,0))/time_cnt*100,1) att_ratio
+		,(select user_nm from t_user_info tui where tui.user_id=a.user_id) stud_nm
+		,coalesce((select att_cd from t_attend_stdnt tas2 where tas2.user_id=a.user_id and edu_seq=#{eduSeq} and time_seq=#{timeSeq}),'W') att_cd
+		,#{timeSeq} time_seq
+		from (
+			select 
+			tls.edu_seq,tls.user_id
+			,count(*) time_cnt
+			,sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt
+			,sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt
+			,sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt
+			from t_lecture_stdnt tls  
+			inner join t_lecture_time tlt on tls.edu_seq =tlt.edu_seq 
+			left join t_attend_stdnt tas on tls.user_id =tas.user_id and tls.edu_seq =tas.edu_seq and tlt.time_seq =tas.time_seq
+			where tls.edu_seq = #{eduSeq} 
+			<if test="reqStudId != null and reqStudId != ''">
+			and tls.user_id=#{reqStudId}
+			</if>
+			group by tls.edu_seq,tls.user_id
+		) a
+	</select>
+	<select id="getEduAttInfo" resultMap="smartCheck">
+		select 
+		a.edu_seq
+		,sum(absent2_cnt) absent2_cnt
+		,sum(absent_cnt) absent_cnt
+		,sum(time_cnt) time_cnt
+		from (
+		select 
+		a.* 
+		,truncate((leave_cnt+late_cnt)/3,0) absent2_cnt
+		,(select count(*) from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq) time_cnt
+		from (
+			select 
+			tls.edu_seq,tls.user_id
+			,sum(case when tlt.check_status=1 and tas.att_cd = 'D' then 1 else 0 end) late_cnt
+			,sum(case when tlt.check_status=1 and tas.att_cd = 'Z' then 1 else 0 end) leave_cnt
+			,sum(case when tlt.check_status=1 and (tas.att_cd = 'X' or tas.att_cd is null) then 1 else 0 end) absent_cnt
+			from t_lecture_stdnt tls  
+			inner join t_lecture_time tlt on tls.edu_seq =tlt.edu_seq 
+			left join t_attend_stdnt tas on tls.user_id =tas.user_id and tls.edu_seq =tas.edu_seq and tlt.time_seq =tas.time_seq
+			where tls.edu_seq = #{eduSeq} 
+			group by tls.edu_seq,tls.user_id
+		) a
+		) a
+	</select>
+	
+	<update id="updateToSmartCheckClose">
+		/** 출결체크 완료 저장 */
+		update t_lecture_time
+		set check_status=1
+		where edu_seq=#{eduSeq} and time_seq=#{timeSeq}
+	</update>
+	<update id="updateLectureStdntAuthInit">
+		/** 학생 인증여부 초기화 */
+		update t_lecture_stdnt
+		set auth_status=0
+		where edu_seq=#{eduSeq}
+	</update>
+	
+	<insert id="insertAttendStdntByNoAuth">
+		insert into t_attend_stdnt 
+		select edu_seq,#{timeSeq} time_seq ,user_id,'X' att_cd,#{regDate} reg_date
+		from t_lecture_stdnt tls 
+		where edu_seq=#{eduSeq} and (auth_status = 0 or auth_status is null)
+	</insert>
+	
+	<select id="getEduListByProf" resultMap="smartCheck">
+	select a.* 
+	,truncate(((time_cnt*stdnt_cnt)-(absent_cnt+absent2_cnt))/(time_cnt*stdnt_cnt)*100,1) att_ratio
+	from (
+	select edu_seq 
+	,sum(absent_cnt) absent_cnt
+	,sum(absent2_cnt) absent2_cnt
+	,sum(late_cnt) late_cnt
+	,sum(leave_cnt) leave_cnt
+	,(select edu_nm from t_lecture tl2 where tl2.edu_seq=a.edu_seq) edu_nm
+	,(select count(*) from t_lecture_time tlt3 where tlt3.edu_seq=a.edu_seq) time_cnt
+	,(select count(*) from t_lecture_time tlt3 where tlt3.edu_seq=a.edu_seq and check_status=1) check_time_cnt
+	,(select count(*) from t_lecture_stdnt tls2 where tls2.edu_seq=a.edu_seq) stdnt_cnt
+	from (
+	select
+		a.* ,
+		truncate((leave_cnt + late_cnt)/ 3, 0) absent2_cnt
+	from
+		(
+		select
+			tl.edu_seq ,
+			tls.user_id ,
+			sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt ,
+			sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt ,
+			sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt
+		from
+			t_lecture tl
+		left join t_lecture_stdnt tls on tl.edu_seq = tls.edu_seq
+		inner join t_lecture_time tlt on tls.edu_seq = tlt.edu_seq
+		left join t_attend_stdnt tas on tls.user_id = tas.user_id and tls.edu_seq = tas.edu_seq and tlt.time_seq = tas.time_seq
+		where tl.org_cd = #{reqOrgCd}
+		<!-- 체크자 조건 추가해야함 -->
+		and tl.edu_seq in (select edu_seq from t_lecture_time tlt2 where tlt2.check_id = #{reqProfId})
+		group by tls.edu_seq, tls.user_id
+	) a
+	) a
+	group by edu_seq
+	) a
+	</select>
+	
+	<select id="getEduListByStud" resultMap="smartCheck">
+	/** 현황통계에서 사용, 내(학생)수업 리스트*/
+	select a.*
+	,(select edu_nm from t_lecture tl2 where tl2.edu_seq=a.edu_seq) edu_nm
+	,(select instrctr_nm from t_lecture tl2 where tl2.edu_seq=a.edu_seq) prof_nm
+	,(select count(*) from t_lecture_time tlt3 where tlt3.edu_seq=a.edu_seq) time_cnt
+	,(select count(*) from t_lecture_stdnt tls2 where tls2.edu_seq=a.edu_seq) stdnt_cnt
+	,truncate((time_cnt-(absent_cnt+absent2_cnt))/time_cnt*100,1) att_ratio
+	from (
+	select
+		a.* 
+		,truncate((leave_cnt + late_cnt)/ 3, 0) absent2_cnt
+		,(select count(*) from t_lecture_time tlt2 where tlt2.edu_seq=a.edu_seq) time_cnt
+	from
+		(
+		select
+			tl.edu_seq ,
+			tls.user_id ,
+			sum(case when tas.att_cd = 'O' then 1 else 0 end) attend_cnt ,
+			sum(case when tas.att_cd = 'D' then 1 else 0 end) late_cnt ,
+			sum(case when tas.att_cd = 'Z' then 1 else 0 end) leave_cnt ,
+			sum(case when tas.att_cd = 'X' then 1 else 0 end) absent_cnt
+		from
+			t_lecture tl
+		inner join t_lecture_stdnt tls on tl.edu_seq = tls.edu_seq
+		inner join t_lecture_time tlt on tls.edu_seq = tlt.edu_seq
+		left join t_attend_stdnt tas on tls.user_id = tas.user_id and tls.edu_seq = tas.edu_seq and tlt.time_seq = tas.time_seq
+		where 1=1 
+		and tl.edu_seq in (select edu_seq from t_lecture_stdnt where user_id=#{reqStudId})
+		and tls.user_id=#{reqStudId}
+		group by tls.edu_seq, tls.user_id 
+	) a
+	) a
+	</select>
+	
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureDormiPriceMapper">
+
+	<resultMap id="map" type="com.educare.edu.comn.model.LectureDormiPrice">
+		<result property="seasonGb" column="season_gb"/>
+		<result property="startDt" column="start_dt"/>
+		<result property="endDt" column="end_dt"/>
+	</resultMap>
+
+	<insert id="insertByPk" >
+	/* com.educare.edu.comn.mapper.LectureDormiPriceMapper.insertByPk */
+		insert into t_lecture_dormi_price (
+			season_gb	,start_dt	,end_dt		,fee2		, fee4
+		) values (
+			#{seasonGb}	,#{startDt}	,#{endDt}		,#{fee2}		,#{fee4}
+		)
+	</insert>
+	
+	<delete id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureDormiPriceMapper.updateByPk */
+		update t_lecture_dormi_price 
+		set fee2 = #{fee2}
+			,fee4 = #{fee4}
+			<if test="startDt != null and startDt != ''"> 	,start_dt	= #{startDt} </if>
+			<if test="endDt != null and endDt != ''"> 		,end_dt		= #{endDt} </if>
+		where season_gb = #{seasonGb} 
+	</delete>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiPriceMapper.selectByPk */
+		/** 숙소 pk 조회 */
+		SELECT * FROM t_lecture_dormi_price
+		WHERE  season_gb = #{seasonGb} 
+	</select>
+	<select id="selectByAll" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureDormiPriceMapper.selectByAll */
+		/** 숙소 all 조회 */
+		SELECT * FROM t_lecture_dormi_price a
+		order by case when season_gb = 'off' then 1 else 2 end asc
+	</select>
+	
+</mapper>

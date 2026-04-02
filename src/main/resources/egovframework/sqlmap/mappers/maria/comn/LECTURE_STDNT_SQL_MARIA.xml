@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureStdntMapper">
+	<resultMap id="map" type="LectureStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userNm" column="USER_NM"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="belong" column="BELONG"/>
+		<result property="position" column="POSITION"/>
+		<result property="workshopScore" column="WORKSHOP_SCORE"/>
+		<result property="examScore" column="EXAM_SCORE"/>
+		<result property="passYn" column="PASS_YN"/>
+		<result property="passCertIssue" column="PASS_CERT_ISSUE"/>
+		<result property="passCertNum" column="PASS_CERT_NUM"/>
+		<result property="complCertIssue" column="COMPL_CERT_ISSUE"/>
+		<result property="complCertNum" column="COMPL_CERT_NUM"/>
+		<result property="surveyYn" column="SURVEY_YN"/>
+		<result property="certDe" column="CERT_DE"/>
+		<result property="attCnt" column="ATT_CNT"/>
+		<result property="rceptSeq" column="RCEPT_SEQ"/>
+	</resultMap>
+	
+	<select id="selectPassYCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.selectPassYCnt */
+	select count(*) from t_lecture_stdnt where edu_seq=#{eduSeq} and pass_yn='Y'
+	</select>
+	
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.selectByPk */
+	select * from t_lecture_stdnt where edu_seq=#{eduSeq} and user_id=#{userId}
+	</select>
+	<select id="selectByEduSeq" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.selectByEduSeq */
+	select * from t_lecture_stdnt where edu_seq=#{eduSeq}
+	</select>
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.selectByParam */
+	select * from t_lecture_stdnt where edu_seq=#{eduSeq}
+	<if test="state > 0"> and state = #{state}</if>
+	<if test="userId != null"> and user_id = #{userId}</if>
+	order by user_nm
+	</select>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.updateByPk */
+		update t_lecture_stdnt
+		set upd_de = #{updDe} , upd_id = #{updId}
+		<if test="state > 0"> 		,state 		= #{state} </if>
+		<if test="rceptSeq > 0"> 	,rcept_seq 	= #{rceptSeq} </if>
+		<if test="dormiFee > -1"> 	,dormi_fee 	= #{dormiFee} </if>
+		where edu_seq=#{eduSeq} and user_id=#{userId}
+	</update>
+	<update id="updatePassYn">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.updatePassYn */
+		update t_lecture_stdnt
+		set pass_yn=#{passYn}
+		where edu_seq=#{eduSeq} and user_id=#{userId}
+	</update>
+	<delete id="deleteByPk">
+		/* com.educare.edu.comn.mapper.LectureStdntMapper.deleteByPk */
+		delete from t_lecture_stdnt where edu_seq=#{eduSeq} and user_id=#{userId}
+	</delete>
+	<delete id="deleteByEduSeq">
+		/* com.educare.edu.comn.mapper.LectureStdntMapper.deleteByEduSeq */
+		delete from t_lecture_stdnt where edu_seq=#{eduSeq}
+	</delete>
+	<select id="selectPassUserIdCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureStdntMapper.selectPassUserIdCnt */
+		select count(*) from t_lecture_stdnt where user_id = #{userId}
+		and pass_yn = 'Y'
+	</select>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.EtcGradeCodeMapper">
+	
+	<resultMap type="com.educare.edu.comn.vo.EtcGradeCodeVO" id="map">
+		<result column="grade_cd" property="gradeCd"/>
+		<result column="gong_gb_cd" property="gongGbCd"/>
+		<result column="jikjong_cd" property="jikjongCd"/>
+		<result column="jikgun_cd" property="jikgunCd"/>
+		<result column="jikryul_cd" property="jikryulCd"/>
+		<result column="jikryu_cd" property="jikryuCd"/>
+		<result column="grade_nm" property="gradeNm"/>
+		<result column="close_st" property="closeSt"/>
+		<result column="jikjong_nm" property="jikjongNm"/>
+		<result column="jikryul_nm" property="jikryulNm"/>
+		<result column="jikryu_nm" property="jikryuNm"/>
+	</resultMap>
+	
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.selectByPk */
+	select * from t_etc_grade_code where grade_cd=#{gradeCd}
+	</select>
+	<sql id="include_where1">
+	<if test="srchWrd != null and srchWrd != ''">
+		and a.grade_nm like concat('%',#{srchWrd},'%')
+		</if>
+	</sql>
+	<select id="selectByPageCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.selectByPageCnt */
+		select count(a.grade_cd)
+		from t_etc_grade_code a
+		where 1=1
+		<include refid="include_where1"/>
+	</select>
+	<select id="selectByPage" resultMap="map">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.selectByPage */
+		select a.*
+		from t_etc_grade_code a
+		where 1=1
+		<include refid="include_where1"/>
+		order by a.grade_nm
+		LIMIT #{firstRecordIndex} ,#{recordCountPerPage} 
+	</select>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.insertByPk */
+		INSERT INTO t_etc_grade_code (
+			grade_cd	,gong_gb_cd		,jikjong_cd		,jikgun_cd		,jikryul_cd		,jikryu_cd
+			,grade_nm	,close_st
+		) SELECT 
+			#{gradeCd}	,#{gongGbCd}	,#{jikjongCd}	,#{jikgunCd}	,#{jikryulCd}	,#{jikryuCd}
+			,#{gradeNm}	,#{closeSt}
+	    WHERE NOT EXISTS (
+	        SELECT 1 FROM t_etc_grade_code WHERE grade_cd = #{gradeCd}
+	    )
+	</insert>
+	
+	<select id="selectByAll" resultType="string">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.selectByAll */
+		select grade_cd 
+		from t_etc_grade_code 
+		where 1=1
+	</select>
+	<insert id="insertBatch" parameterType="list">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.insertBatch */
+    INSERT INTO t_etc_grade_code (
+    	grade_cd	,gong_gb_cd		,jikjong_cd		,jikgun_cd		,jikryul_cd		,jikryu_cd
+		,grade_nm	,close_st
+    ) VALUES
+    <foreach collection="list" item="item" separator=",">
+        (
+       	 	#{item.gradeCd}		,#{item.gongGbCd}	,#{item.jikjongCd}	,#{item.jikgunCd}	,#{item.jikryulCd}	,#{item.jikryuCd}
+			,#{item.gradeNm}	,#{item.closeSt}
+        )
+    </foreach>
+</insert>
+<update id="updateByParam">
+	/* com.educare.edu.comn.mapper.EtcGradeCodeMapper.updateByParam */
+	update t_etc_grade_code
+	set 
+	<choose>
+	<when test="jikjongNm != null and jikjongNm != ''">
+		jikjong_nm = #{jikjongNm}
+		where jikjong_cd = #{jikjongCd}
+	</when>
+	<when test="jikryulNm != null and jikryulNm != ''">
+		jikryul_nm = #{jikryulNm}
+		where jikryul_cd = #{jikryulCd}
+	</when>
+	<when test="jikryuNm != null and jikryuNm != ''">
+		jikryu_nm = #{jikryuNm}
+		where jikryu_cd = #{jikryuCd}
+	</when>
+	</choose>
+</update>
+</mapper>

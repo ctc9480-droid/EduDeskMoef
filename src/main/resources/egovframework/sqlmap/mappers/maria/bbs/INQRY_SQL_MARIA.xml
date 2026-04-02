@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.bbs.service.impl.InqryMapper">
+
+	<resultMap id="map" type="Inqry">
+		<result property="idx" column="IDX" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="answer" column="ANSWER" />
+		<result property="status" column="STATUS" />
+		<result property="agreeGb" column="AGREE_GB" />
+		<result property="password" column="PASSWORD" />
+		<result property="contact" column="CONTACT" />
+		<result property="email" column="EMAIL" />
+		<result property="regNk" column="REG_NK" />
+		<result property="regId" column="REG_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regDtime" column="REG_DTIME" />
+		<result property="modId" column="MOD_ID" />
+		<result property="modNm" column="MOD_NM" />
+		<result property="modDtime" column="MOD_DTIME" />
+
+		<result property="rNum" column="R_NUM" />
+	</resultMap>
+
+	<sql id="inc_where">
+		<choose>
+			<when test="admin"> AND STATUS in (1,2) </when>
+			<otherwise> AND STATUS in (1,2) </otherwise>
+		</choose>
+		<if test="searchStatus != null and searchStatus != ''"> AND STATUS
+			= #{searchStatus}
+		</if>
+		<choose>
+			<when test="searchSelect!=null and searchSelect !=''">
+				<if test="searchSelect eq 'title'"> AND TITLE LIKE CONCAT('%',#{searchWord},'%') </if>
+				<if test="searchSelect eq 'content'"> AND CONTENT LIKE CONCAT('%',#{searchWord},'%') </if>
+			</when>
+			<otherwise>
+				AND (
+				TITLE LIKE CONCAT('%',#{searchWord},'%')
+				OR CONTENT
+				LIKE CONCAT('%',#{searchWord},'%')
+				)
+			</otherwise>
+		</choose>
+	</sql>
+	<select id="selectInqryList" resultMap="map">
+		/**온라인 민원 게시판 리스트*/
+		SELECT A.* FROM (
+
+		SELECT A.*
+		FROM t_inqry A
+		WHERE 1 =1
+		<include refid="inc_where" />
+		ORDER BY IDX DESC
+
+		) A
+		limit #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="selectInqryTotalCnt" resultType="int">
+		/** 온라인 민원 게시판 토탈카운트 */
+		SELECT COUNT(*) FROM t_inqry WHERE 1 =1
+		<include refid="inc_where" />
+	</select>
+	<select id="selectInqryMap" resultMap="map">
+		/** 온라인 민원 게시판 상세 조회 */
+		SELECT * FROM t_inqry WHERE IDX=#{idx}
+	</select>
+	<update id="updateInqryMap">
+		/** 온라인 민원 게시판 수정 */
+		UPDATE t_inqry
+		<trim prefix="SET" suffixOverrides=",">
+			<choose>
+				<when test="admin">
+					ANSWER= #{answer},
+					STATUS= #{status},
+				</when>
+				<otherwise>
+					TITLE = #{title},
+					CONTENT= #{content},
+					PASSWORD=#{password},
+					CONTACT=#{contact},
+					EMAIL=#{email},
+					REG_NM=#{regNm},
+					REG_NK=#{regNk},
+				</otherwise>
+			</choose>
+			MOD_DTIME=#{modDtime}
+		</trim>
+		WHERE
+		IDX=#{idx}
+	</update>
+	<insert id="insertInqryMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT
+			COALESCE(MAX(IDX),0)+1 IDX FROM t_inqry
+		</selectKey>
+		/** 온라인 민원 게시판 등록 */
+		INSERT INTO t_inqry
+		(IDX,TITLE,CONTENT,ANSWER,STATUS,AGREE_GB,PASSWORD,CONTACT,EMAIL,REG_NK,REG_ID,REG_NM,REG_DTIME,MOD_ID,MOD_NM,MOD_DTIME)
+		VALUES
+		(#{idx},#{title},#{content},#{answer},#{status},#{agreeGb},#{password},#{contact},#{email},#{regNk},#{regId},#{regNm},#{regDtime},#{modId},#{modNm},#{modDtime})
+	</insert>
+	<delete id="deleteInqryMap">
+		DELETE FROM t_inqry WHERE IDX=#{idx}
+	</delete>
+	<update id="updateInqryMapForStatus">
+		/** 온라인 민원 게시판 상태값 수정 */
+		UPDATE t_inqry
+		SET
+		STATUS=#{status}
+		WHERE IDX=#{idx}
+	</update>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.EtcOrgCodeMapper">
+	
+	<resultMap type="com.educare.edu.comn.vo.EtcOrgCodeVO" id="map">
+		<result column="org_cd" property="orgCd"/>
+		<result column="full_nm" property="fullNm"/>
+		<result column="low_nm" property="lowNm"/>
+	</resultMap>
+	
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.selectByPk */
+	select * from t_etc_org_code where org_cd=#{orgCd}
+	</select>
+	<sql id="include_where1">
+	<if test="srchWrd != null and srchWrd != ''">
+		and a.full_nm like concat('%',#{srchWrd},'%')
+		</if>
+	</sql>
+	<select id="selectByPageCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.selectByPageCnt */
+		select count(a.org_cd)
+		from t_etc_org_code a
+		where 1=1
+		<include refid="include_where1"/>
+	</select>
+	<select id="selectByPage" resultMap="map">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.selectByPage */
+		select a.*
+		from t_etc_org_code a
+		where 1=1
+		<include refid="include_where1"/>
+		order by a.full_nm
+		LIMIT #{firstRecordIndex} ,#{recordCountPerPage} 
+	</select>
+	<insert id="insertByPk">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.insertByPk */
+		INSERT INTO t_etc_org_code (org_cd, full_nm, low_nm)
+	    SELECT #{orgCd}, #{fullNm}, #{lowNm}
+	    WHERE NOT EXISTS (
+	        SELECT 1 FROM t_etc_org_code WHERE org_cd = #{orgCd}
+	    )
+	</insert>
+	
+	<select id="selectByAll" resultType="string">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.selectByAll */
+		select org_cd 
+		from t_etc_org_code 
+		where 1=1
+	</select>
+	<insert id="insertBatch" parameterType="list">
+	/* com.educare.edu.comn.mapper.EtcOrgCodeMapper.insertBatch */
+    INSERT INTO t_etc_org_code (org_cd, full_nm, low_nm)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+        (#{item.orgCd}, #{item.fullNm}, #{item.lowNm})
+    </foreach>
+</insert>
+</mapper>

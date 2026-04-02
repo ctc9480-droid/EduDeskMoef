@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.TestAnswerMapper">
+	<resultMap type="com.educare.edu.comn.model.TestAnswer" id="map">
+		<result column="TQ_SEQ" 		property="tqSeq"/>
+		<result column="TEST_SEQ" 		property="userId"/>
+		<result column="USER_ID" 		property="testSeq"/>
+		<result column="TEST_TMPL_SEQ" 	property="testTmplSeq"/>
+		<result column="ANSWERED_YN" 	property="answeredYn"/>
+		<result column="FILL_BLANK" 	property="fillBlank"/>
+		<result column="MARKS_GET" 		property="marksGet"/>
+		
+		<result column="REG_ID" 		property="regId"/>
+		<result column="REG_DE" 		property="regDe"/>
+		<result column="upd_ID" 		property="updId"/>
+		<result column="UPD_DE" 		property="updDe"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	select * from t_test_answer where test_seq = #{testSeq} and tq_seq = #{tqSeq} and user_id = #{userId}
+	</select>
+	<insert id="insertByPk" useGeneratedKeys="true" keyProperty="testSeq">
+		INSERT t_test_answer (
+			TQ_SEQ			,USER_ID		,TEST_SEQ		,TEST_TMPL_SEQ	
+			,ANSWERED_YN	,OPTN 			,FILL_BLANK		,ANSWER
+			,MARKS			,MARKS_GET		,ORD			,ch_ord
+			,REG_ID			,REG_DE			,UPD_ID			,UPD_DE
+		)
+		VALUES (
+			#{tqSeq}		,#{userId}		,#{testSeq}		,#{testTmplSeq}		
+			,#{answeredYn}	,#{optn}		,#{fillBlank}	,#{answer}	
+			,#{marks}		,#{marksGet}	,#{ord}			,#{chOrd}
+			,#{regId}		,#{regDe}		,#{updId}		,#{updDe}
+		)
+	</insert>
+	<update id="updateByPk">
+		update t_test_answer
+		set upd_de = #{updDe} ,upd_id = #{updId}
+		<if test="answeredYn != null">	,ANSWERED_YN 	= #{answeredYn} </if>
+		<if test="optn != null">		,OPTN 			= #{optn} </if>
+		<if test="fillBlank != null">	,FILL_BLANK 	= #{fillBlank} </if>
+		<if test="answer != null">		,ANSWER 		= #{answer} </if>
+		<if test="marks > -1">			,MARKS 			= #{marks} </if>
+		<if test="marksGet > -1">		,MARKS_GET 		= #{marksGet} </if>
+		<if test="ord > 0">				,ORD 			= #{ord} </if>
+		where test_seq = #{testSeq} and tq_seq = #{tqSeq} and user_id = #{userId}
+	</update>
+	<delete id="deleteByPk">
+		delete from t_test_answer
+		where tq_seq = #{tqSeq} and user_id = #{userId}
+	</delete>
+	
+	<select id="selectCntByUserId" resultType="int">
+		select count(*) from t_test_answer
+		where test_seq = #{testSeq} and user_id = #{userId}
+	</select>
+	<delete id="deleteByUserId">
+		delete from t_test_answer
+		where test_seq = #{testSeq} and user_id = #{userId}
+	</delete>
+</mapper>

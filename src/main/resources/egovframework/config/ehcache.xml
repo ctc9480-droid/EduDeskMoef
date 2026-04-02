@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
+ 
+    <defaultCache
+            eternal="false"
+            maxElementsInMemory="50"
+            overflowToDisk="false"
+            diskPersistent="false"
+            timeToIdleSeconds="100"
+            timeToLiveSeconds="200"
+            memoryStoreEvictionPolicy="LRU" />
+ 
+    <cache
+            name="globalMenuCache" 
+            eternal="false" 
+            maxElementsInMemory="100" 
+            overflowToDisk="false"
+            diskPersistent="false" 
+            timeToIdleSeconds="0" 
+            timeToLiveSeconds="0" 
+            memoryStoreEvictionPolicy="LRU" /> 
+ <!-- 
+ name="globalMenuCache" //캐시의 이름이다. @Cacheable("캐시의 이름") 와 일치시켜줘야한다. 
+ eternal="false" //한번 캐시하면 영원히 유지할 것인지의 여부 
+ maxElementsInMemory="100" //메모리에 보유할 최대 오브젝트 수 
+ overflowToDisk="false" //메모리저장공간이 부족할때 Disk 사용여부( true,false ) 
+ diskPersistent="false" //flush시에 파일로 저장 여부 ( trun , false ) 
+ timeToIdleSeconds="0" //데이터가 지정된 시간(초단위)동안 재호출되지 않으면 휘발됨 
+ timeToLiveSeconds="0" //한번 저장된 데이터의 최대 저장 유지 시간(초단위) 
+ memoryStoreEvictionPolicy="LRU" //FIFO-가장 먼저 적재된 페이지 교체, LFU-가장 적은 참조횟수를 갖는 페이지를 교체, LRU 가장 오랫동안 참조되지 않은 페이지를 교체
+  -->
+</ehcache>

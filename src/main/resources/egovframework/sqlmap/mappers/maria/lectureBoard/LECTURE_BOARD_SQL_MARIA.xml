@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.lectureBoard.mapper.LectureBoardMapper">
+	<resultMap id="EduMyPopup" type="com.educare.edu.lectureBoard.vo.LectureBoardVO" >
+		<result property="idx" column="IDX" />
+		<result property="boardType" column="BOARD_TYPE" />
+		<result property="eduSeq" column="EDU_SEQ" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="hit" column="HIT" />
+		<result property="regId" column="REG_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regDtime" column="REG_DTIME" />
+		<result property="modId" column="MOD_ID" />
+		<result property="modNm" column="MOD_NM" />
+		<result property="modDtime" column="MOD_DTIME" />
+		<result property="thumbFile" column="THUMB_FILE" />
+		<result property="fileTypeGb" column="FILE_TYPE_GB" />
+		<result property="rNum" column="R_NUM" />
+		<result property="scrtyYn" column="SCRTY_YN" />
+		<result property="commentCnt" column="COMMENT_CNT" />
+		<result property="userMemLvl" column="USER_MEM_LVL" />
+	</resultMap>
+	<!-- 게시글 알림마당 리스트 조회 -->
+	<select id="getLectureBoardList" resultMap="EduMyPopup">
+		/**통합 게시판 리스트*/
+		SELECT a.*
+		,(select count(idx) from t_lecture_board_comment where b_idx = a.idx and status = 1) COMMENT_CNT
+		,(SELECT USER_MEM_LVL FROM t_user_info WHERE USER_ID = a.REG_ID) USER_MEM_LVL
+		,@rnum:=@rnum+1 AS R_NUM
+		FROM
+		t_lecture_board a,(SELECT @rnum:=0) b
+		WHERE 1=1 
+		and board_type = #{boardType}
+		and edu_seq =#{eduSeq}  
+		and status ='1'  
+		order by reg_dtime desc
+		LIMIT #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="getLectureBoardTotalCnt" resultType="int">
+		select count(idx) from t_lecture_board where board_type = #{boardType} and edu_seq =#{eduSeq} and status ='1' 
+	</select>
+	<!-- 게시글 커뮤니티 리스트 조회 -->
+	<select id="getLectureCommunityList" resultMap="EduMyPopup">
+		/**통합 게시판 리스트 2 삭제대상*/
+		SELECT a.*,@rnum:=@rnum+1 AS R_NUM
+		FROM
+		t_lecture_board a,(SELECT @rnum:=0) b
+		WHERE 1=1 
+		and board_type ='eduCommunity' 
+		and edu_seq =#{eduSeq}  
+		and status ='1'  
+		order by idx desc
+		LIMIT #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="getLectureCommunityTotalCnt" resultType="int">
+		select count(idx) from t_lecture_board where board_type ='eduCommunity' and edu_seq =#{eduSeq} and status ='1' order by idx desc;
+	</select>
+	<!-- 게시글 알림마당 상세 조회 -->
+	<select id="getLectureBoardByIndex" resultMap="EduMyPopup">
+		/**게시글 상세조회*/	 
+	  	SELECT a.* 
+	  	,(SELECT USER_MEM_LVL FROM t_user_info WHERE USER_ID = a.REG_ID) USER_MEM_LVL
+	  	FROM t_lecture_board a WHERE a.IDX = #{idx}
+	</select>
+	<!-- 게시글 커뮤니티 상세 조회 -->
+	<select id="getLectureCommunityByIndex" resultMap="EduMyPopup">
+	  	/**게시글 상세조회 삭제대상*/	
+	  	SELECT * FROM t_lecture_board WHERE idx = #{idx} 
+	</select>
+
+	
+	<insert id="insertLectureBoard" keyProperty="idx" useGeneratedKeys="true">
+	  INSERT INTO t_lecture_board 
+	  (board_type,edu_seq, title, content ,reg_id ,reg_nm,reg_dtime,scrty_yn) 
+	  VALUES 
+	  ( #{boardType}, #{eduSeq}, #{title}, #{content}, #{regId}, #{regNm} ,#{regDtime},#{scrtyYn}) 
+	</insert>
+	<update id="updateLectureBoard" parameterType="com.educare.edu.lectureBoard.vo.LectureBoardVO">
+	  UPDATE t_lecture_board
+	  SET title = #{title}, content = #{content}, mod_id = #{modId}, mod_nm = #{modNm}, mod_dtime = #{modDtime}
+	  ,scrty_yn = #{scrtyYn}
+	  WHERE idx = #{idx}
+	</update>
+	<update id="deleteCommunityByIndex">
+	  UPDATE t_lecture_board
+	  SET status='0', mod_id = #{1}, mod_nm = #{2}, mod_dtime = DATE_FORMAT(NOW(), '%Y%m%d%H%i')
+	  WHERE idx = #{0}
+	</update>
+	<update id="updateTabBoardHitPlusByIndex">
+	  UPDATE t_lecture_board 
+	  SET hit= hit+1 
+	  WHERE idx = #{0} 
+	</update>
+	<update id="updateLectureBoardStatus">
+		update t_lecture_board
+		set status = #{status}
+		where idx = #{idx}
+	</update>
+</mapper>

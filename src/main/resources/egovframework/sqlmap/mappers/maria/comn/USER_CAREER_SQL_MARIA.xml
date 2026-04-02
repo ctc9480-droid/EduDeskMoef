@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.UserCareerMapper">
+	
+	<resultMap id="map" type="com.educare.edu.comn.model.UserCareer" >
+		<result property="userId" column="USER_ID"/>
+		
+		<result property="careerSeq" column="CAREER_SEQ"/>
+		<result property="beginDt" column="BEGIN_DT"/>
+		<result property="endDt" column="END_DT"/>
+		<result property="compNm" column="COMP_NM"/>
+		<result property="taskNm" column="TASK_NM"/>
+		
+		<result property="updId" column="UPD_ID"/>
+		<result property="updDe" column="UPD_DE"/>
+	</resultMap>
+	<select id="selectByPk" resultMap="map">
+		SELECT * FROM t_user_career 
+		WHERE USER_ID=#{userId} AND CAREER_SEQ = #{careerSeq} 
+	</select>
+	<select id="selectByUserId" resultMap="map">
+		SELECT * FROM t_user_career 
+		WHERE USER_ID=#{userId}
+		order by career_seq
+	</select>
+	<delete id="deleteByUserId">
+		DELETE FROM t_user_career 
+		WHERE USER_ID=#{userId}
+	</delete>
+	<update id="updateByPk">
+		UPDATE t_user_career
+		SET UPD_ID=#{updId} ,UPD_DE=#{updDe}
+		<if test="beginDt != null"> ,BEGIN_DT 	= #{beginDt} </if>
+		<if test="endDt != null"> 	,END_DT 	= #{endDt} </if>
+		<if test="compNm != null">	,COMP_NM 	= #{compNm} </if>
+		<if test="taskNm != null">	,TASK_NM 	= #{taskNm} </if>
+		WHERE USER_ID=#{userId} AND CAREER_SEQ = #{careerSeq} 
+	</update>
+	<insert id="insertByPk">
+		INSERT t_user_career (
+			USER_ID			,CAREER_SEQ		
+			,BEGIN_DT		,END_DT		,COMP_NM	,TASK_NM	
+			,UPD_ID			,UPD_DE
+		) VALUES (
+			#{userId}		,#{careerSeq}		
+			,#{beginDt}		,#{endDt}	,#{compNm}	,#{taskNm}
+			,#{updId}		,#{updDe}
+		)
+	</insert>
+</mapper>

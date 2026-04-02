@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.LectureRoomMapper">
+
+	<resultMap id="map" type="com.educare.edu.comn.vo.LectureRoomVO">
+		<result property="roomSeq" column="ROOM_SEQ"/>
+		<result property="roomNm" column="ROOM_NM"/>
+		<result property="useYn" column="USE_YN"/>
+	</resultMap>
+
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.selectByPk */
+		select * from t_lecture_room where room_seq = #{roomSeq}
+	</select>
+	<insert id="insertByPk" keyProperty="roomSeq" useGeneratedKeys="true">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.insertByPk */
+		insert into t_lecture_room
+		(room_nm, place, memo, use_yn, reg_id, reg_dt, mod_id, mod_dt)
+		values 
+		(#{roomNm},#{place},#{memo},#{useYn},#{regId},#{regDt},#{modId},#{modDt})
+	</insert>
+	<update id="updateByPk">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.updateByPk */
+		update t_lecture_room
+		set 
+		mod_id = #{modId}
+		,mod_dt = #{modDt}
+		<if test="roomNm != null">,room_nm = #{roomNm}</if>
+		<if test="place != null">,place = #{place}</if>
+		<if test="memo != null">,memo = #{memo}</if>
+		<if test="useYn != null">,use_yn = #{useYn}</if>
+		where room_seq = #{roomSeq}
+	</update>
+	<select id="selectByParam" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.selectByParam */
+		SELECT * FROM t_lecture_room
+		WHERE 1=1 
+		<if test="roomSeq != null and roomSeq != ''">
+		and ROOM_SEQ = #{roomSeq} 
+		</if>
+		<if test="useYn != null and useYn != ''">
+		and USE_YN = #{useYn} 
+		</if>
+		order by room_nm
+	</select>
+	
+	<sql id="inc_selectClassRoomPage">
+		and use_yn in ('N','Y')
+		<if test="srchWrd != null and srchWrd != ''">
+		and (room_nm like concat('%',#{srchWrd},'%') or place like concat('%',#{srchWrd},'%') or memo like concat('%',#{srchWrd},'%'))
+		</if>
+	</sql>
+	<select id="selectPageTotalCnt" resultType="int">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.selectPageTotalCnt */
+		SELECT count(*) FROM t_lecture_room
+		WHERE 1=1 
+		<include refid="inc_selectClassRoomPage"/>
+	</select>
+	<select id="selectPageList" resultMap="map">
+	/* com.educare.edu.comn.mapper.LectureRoomMapper.selectPageList */
+		SELECT * FROM t_lecture_room
+		WHERE 1=1 
+		<include refid="inc_selectClassRoomPage"/>
+		order by room_seq asc
+		limit #{firstIndex} , #{rowCnt}
+	</select>
+</mapper>

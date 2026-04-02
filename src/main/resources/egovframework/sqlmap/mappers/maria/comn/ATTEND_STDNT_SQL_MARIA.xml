@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.AttendStdntMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.AttendStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="timeSeq" column="TIME_SEQ"/>
+		<result property="attCd" column="ATT_CD"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+	</resultMap>
+	
+	<insert id="insertByPk" >
+	/* com.educare.edu.comn.mapper.AttendStdntMapper.insertByPk */
+		INSERT INTO t_attend_stdnt
+		(EDU_SEQ,TIME_SEQ,USER_ID,ATT_CD,REG_DATE)
+		VALUES
+		(#{eduSeq},#{timeSeq},#{userId},#{attCd},#{regDate})
+	</insert>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.AttendStdntMapper.selectByPk */
+		SELECT * FROM t_attend_stdnt WHERE edu_seq=#{eduSeq} and time_seq=#{timeSeq} and user_id=#{userId}
+	</select>
+	<update id="updateByPk" >
+	/* com.educare.edu.comn.mapper.AttendStdntMapper.updateByPk */
+		update t_attend_stdnt
+		set 
+			att_cd=#{attCd}
+		where
+			edu_seq=#{eduSeq} and time_seq=#{timeSeq} and user_id=#{userId}
+	</update>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.AttendStdntMapper.deleteByPk */
+		DELETE FROM t_attend_stdnt WHERE edu_seq=#{eduSeq} and time_seq=#{timeSeq} and user_id=#{userId}
+	</delete>
+	<update id="updateAttCdByPk">
+	/* com.educare.edu.comn.mapper.AttendStdntMapper.updateAttCdByPk */
+		UPDATE t_attend_stdnt
+		SET 
+			ATT_CD=#{attCd}
+		WHERE
+			EDU_SEQ=#{eduSeq} AND TIME_SEQ=#{timeSeq} AND USER_ID=#{userId}
+	</update>
+</mapper>

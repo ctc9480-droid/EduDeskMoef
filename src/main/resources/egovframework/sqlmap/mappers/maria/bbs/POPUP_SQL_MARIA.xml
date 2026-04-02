@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.bbs.service.impl.PopupMapper">
+	
+	<resultMap id="map" type="Popup">
+		<result property="idx" column="IDX"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="img" column="IMG"/>
+		<result property="status" column="STATUS"/>
+		<result property="startDtime" column="START_DTIME"/>
+		<result property="endDtime" column="END_DTIME"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="regNm" column="REG_NM"/>
+		<result property="regDtime" column="REG_DTIME"/>
+		<result property="width" column="WIDTH"/>
+		<result property="height" column="HEIGHT"/>
+		<result property="posX" column="POS_X"/>
+		<result property="posY" column="POS_Y"/>
+		
+		<result property="rNum" column="R_NUM"/>
+	</resultMap>
+	
+	<sql id="inc_where">
+		<if test="searchStatus != null and searchStatus != ''" > AND STATUS = #{searchStatus} </if>
+		<if test="searchSelect eq 'title'"> and title like concat('%',#{searchWord},'%') </if>
+		<if test="searchSelect eq 'content'"> and content like concat('%',#{searchWord},'%') </if>
+		<if test="searchNowDtime != null and searchNowDtime != ''"> <![CDATA[and start_dtime < #{searchNowDtime} and end_dtime > #{searchNowDtime}]]> </if>
+	</sql>
+	<select id="selectPopupList" resultMap="map">
+		/**팝업게시판 리스트*/
+		SELECT A.* FROM (
+		
+			SELECT A.*
+			FROM t_popup A
+			WHERE 1 = 1
+			<include refid="inc_where"/>
+		
+		) A
+		ORDER BY IDX desc
+		limit #{firstRecordIndex},#{recordCountPerPage}
+	</select>
+	<select id="selectPopupTotalCnt" resultType="int">
+		/** 팝업게시판 토탈카운트 */
+		SELECT COUNT(*) FROM t_popup WHERE 1=1
+		<include refid="inc_where"/>
+	</select>
+	<select id="selectPopupMap" resultMap="map">
+		/** 통합게시판 상세 조회 */
+		SELECT * FROM t_popup WHERE IDX=#{idx}
+	</select>
+	<update id="updatePopupMap">
+		/** 통합게시판 수정 */
+		UPDATE t_popup 
+		SET
+			TITLE=#{title}
+			,CONTENT=#{content}
+			,START_DTIME=#{startDtime}
+			,END_DTIME=#{endDtime}
+			,HEIGHT=#{height},WIDTH=#{width},POS_X=#{posX},POS_Y=#{posY}
+			<if test="img!=null and img!=''">
+			,IMG=#{img}
+			</if>
+			,STATUS=#{status}
+		WHERE
+			IDX=#{idx}
+	</update>
+	<insert id="insertPopupMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+	    	SELECT COALESCE(MAX(IDX),0)+1 IDX FROM t_popup
+	    </selectKey>
+		/** 팝업 등록 */
+		INSERT INTO t_popup
+		(IDX,TITLE,CONTENT,IMG,STATUS,START_DTIME,END_DTIME,REG_ID,REG_NM,REG_DTIME
+		,HEIGHT,WIDTH,POS_X,POS_Y)
+		VALUES
+		(#{idx},#{title},#{content},#{img},#{status},#{startDtime},#{endDtime},#{regId},#{regNm},#{regDtime}
+		,#{height},#{width},#{posX},#{posY})
+	</insert>
+	<delete id="deletePopupMap">
+		DELETE FROM t_popup WHERE IDX=#{idx}
+	</delete>
+</mapper>

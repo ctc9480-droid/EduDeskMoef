@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.educare.edu.comn.mapper.AttendDayStdntMapper">
+	<resultMap id="map" type="com.educare.edu.comn.model.AttendDayStdnt">
+		<result property="eduSeq" column="EDU_SEQ"/>
+		<result property="eduDt" column="EDU_DT"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="attCd" column="ATT_CD"/>
+		<result property="beginDe" column="BEGIN_DE"/>
+		<result property="endDe" column="END_DE"/>
+		<result property="attTp" column="ATT_TP"/>
+		
+		<result property="regDe" column="REG_DE"/>
+		<result property="regId" column="REG_ID"/>
+		<result property="updDe" column="UPD_DE"/>
+		<result property="updId" column="UPD_ID"/>
+	</resultMap>
+	
+	<insert id="insertByPk" >
+	/* com.educare.edu.comn.mapper.AttendDayStdntMapper.insertByPk */
+		INSERT INTO t_attend_day_stdnt (
+			EDU_SEQ		,EDU_DT		,USER_ID	,ATT_CD		,begin_de	,end_de		,att_tp
+			,at1_cd		,at1_de		,at2_cd		,at2_de		,at3_cd		,at3_de
+			,REG_DE		,reg_id
+		) VALUES (
+			#{eduSeq}	,#{eduDt}	,#{userId}	,#{attCd}	,#{beginDe}	,#{endDe}	,#{attTp}
+			,#{at1Cd}	,#{at1De}	,#{at2Cd}	,#{at2De}	,#{at3Cd}	,#{at3De}
+			,#{regDe}	,#{regId}
+		)
+	</insert>
+	<select id="selectByPk" resultMap="map">
+	/* com.educare.edu.comn.mapper.AttendDayStdntMapper.selectByPk */
+		SELECT * FROM t_attend_day_stdnt WHERE edu_seq=#{eduSeq} and edu_dt=#{eduDt} and user_id=#{userId}
+	</select>
+	<update id="updateByPk" >
+	/* com.educare.edu.comn.mapper.AttendDayStdntMapper.updateByPk */
+		update t_attend_day_stdnt
+		set upd_de = #{updDe} ,upd_id = #{updId} 
+		<if test="attCd != null"> 	,att_cd		= #{attCd} </if>
+		<if test="attTp > 0"> 		,att_tp		= #{attTp} </if>
+		<if test="beginDe != null"> ,begin_de	= #{beginDe} </if>
+		<if test="endDe != null"> 	,end_de		= #{endDe} </if>
+		<if test="at1Cd != null"> 	,at1_cd		= #{at1Cd} </if>
+		<if test="at2Cd != null"> 	,at2_cd		= #{at2Cd} </if>
+		<if test="at3Cd != null"> 	,at3_cd		= #{at3Cd} </if>
+		<if test="at1De != null"> 	,at1_de		= #{at1De} </if>
+		<if test="at2De != null"> 	,at2_de		= #{at2De} </if>
+		<if test="at3De != null"> 	,at3_de		= #{at3De} </if>
+		where edu_seq=#{eduSeq} and edu_dt=#{eduDt} and user_id=#{userId}
+	</update>
+	<delete id="deleteByPk">
+	/* com.educare.edu.comn.mapper.AttendDayStdntMapper.deleteByPk */
+		DELETE FROM t_attend_day_stdnt WHERE edu_seq=#{eduSeq} and edu_dt=#{eduDt} and user_id=#{userId}
+	</delete>
+</mapper>

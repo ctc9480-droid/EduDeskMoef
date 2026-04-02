@@ -1,0 +1,166 @@
+@charset "utf-8";
+/* 
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
+*/
+@import url(nanumgothic.css);
+@import url(nanummyeongjo.css);
+@import url(notosanskr.css); 
+@import url(contents.css);
+@import url(board.css);
+
+/* ==============================================
+   defaults
+   ============================================== */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; vertical-align:baseline;}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block;}
+ol, ul { list-style:none;}
+blockquote, q {	quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none;}
+table { border-collapse:collapse; border-spacing:0;}
+::-moz-selection { background: #b3d4fc; text-shadow: none; }
+::selection { background: #b3d4fc; text-shadow: none; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+img { vertical-align: middle; }
+input, select { margin:0; padding:0; vertical-align:middle;}
+fieldset { border: 0; margin: 0; padding: 0; }
+textarea { resize: vertical; }.chromeframe { margin: 0.2em 0; background: #ccc; color: #000; padding: 0.2em 0; }
+
+.ir { background-color: transparent; border: 0; overflow: hidden; text-indent:-9999px;}
+.ir:before { content: ""; display: block; width: 0; height: 150%; }
+
+.clearfix:before, .clearfix:after { content: " "; /* 1 */ display: table; /* 2 */ }
+.clearfix:after { clear: both; }
+.clearfix {  *zoom: 1;}
+.hidden { display:none;}
+
+.cf:after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+
+.ta_left{
+	text-align: left;
+}
+.ta_center{
+	text-align: center;
+}
+.ta_right{
+	text-align: right;
+}
+
+.fw_normal{
+	font-weight: normal;
+}
+.fw_bold{
+	font-weight: bold;
+}
+
+
+/* IE */
+html{
+	scrollbar-3dLight-Color: #efefef;
+	scrollbar-arrow-color: #dfdfdf;
+	scrollbar-base-color: #efefef;
+	scrollbar-Face-Color: #dfdfdf;
+	scrollbar-Track-Color: #efefef;
+	scrollbar-DarkShadow-Color: #efefef;
+	scrollbar-Highlight-Color: #efefef;
+	scrollbar-Shadow-Color: #efefef;
+}
+
+/* Chrome,Safari */
+::-webkit-scrollbar{
+	width: 8px;
+	height: 8px;
+	border: 3px solid #fff;
+}
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment{
+	display: block;
+	height: 10px;
+}
+::-webkit-scrollbar-track {
+	background: #efefef;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.2)
+}
+::-webkit-scrollbar-thumb {
+	height: 50px;
+	width: 50px;
+	background: rgba(0,0,0,.2);
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.1);
+}
+
+
+
+/* ==============================================
+   layout
+   ============================================== */
+
+html { overflow:auto; overflow-y:scroll;}
+html { font-size: 14px;}
+input,
+select,
+textarea,
+body { color:#2f2f2f; font-size: 0.93rem; font-family:"Noto Sans KR","Malgun Gothic","Nanum Gothic", arial !important; }
+/* body {background: url(../images/common/body_bg.jpg) center top repeat-y} */
+@media screen and (max-width:1000px) {
+body { background:#fff;}
+}
+#wrapper { padding-bottom: 60px; max-width:1000px; margin:0 auto; background:#fff;}
+
+.content {
+	height: 100% !important;
+}
+
+
+/* ==============================================
+   loading
+   ============================================== */
+.loading { margin: auto; }
+
+.loading span {
+    line-height: 32px;
+    margin-left: 12px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.loading img { vertical-align: middle; }
+
+.loading_wrp {
+    background-color: #FFF;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1020;
+}
+
+.loading_wrp .x16 span {
+    line-height: 16px;
+    font-size: 12px;
+    margin-left: 6px;
+}
+
+.loading_wrp .x32 img {
+    width: 32px;
+    height: 32px;
+}

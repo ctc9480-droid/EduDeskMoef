@@ -647,7 +647,7 @@
 											<div class="EduDate02 EduDateList">
 												<h4>교육 기간</h4>
 												<p>${utcp.convDateToStr(utcp.convStrToDate(o.eduPeriodBegin,'yyyy-MM-dd'),'yyyy.MM.dd') } ~
-												채${utcp.convDateToStr(utcp.convStrToDate(o.eduPeriodEnd,'yyyy-MM-dd'),'yyyy.MM.dd') }.</p>
+												${utcp.convDateToStr(utcp.convStrToDate(o.eduPeriodEnd,'yyyy-MM-dd'),'yyyy.MM.dd') }.</p>
 											</div>
 										</div>
 										<div class="EduSubBtn">											

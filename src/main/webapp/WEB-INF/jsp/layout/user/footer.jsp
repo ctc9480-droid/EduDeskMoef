@@ -700,17 +700,17 @@ var vm_popupLayer = new Vue({
 								<tr>
 									<td>1</td>
 									<td>개인정보 보호책임자</td>
-									<td></td>
-									<td></td>
+									<td>김후진</td>
+									<td>기획조정실장</td>
 									<td class="tl" rowspan="2">
-										- 전화 : 041-675-5420
+										- 전화 : 044-215-2642
 									</td>
 								</tr>
 								<tr>
 									<td>2</td>
 									<td>개인정보 보호담당자</td>
-									<td></td>
-									<td class="brGray"></td>
+									<td>이철영</td>
+									<td class="brGray">사무관</td>
 								</tr>
 							</tbody>
 						</table>
@@ -729,9 +729,9 @@ var vm_popupLayer = new Vue({
 								<em>①</em>정보주체는 ｢개인정보 보호법｣ 제35조에 따른 개인정보의 열람 청구를 아래의 부서에 할 수 있고, 재정경제부는 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.
 								<ul class="lineList1">
 									<li><em>▶</em>개인정보 열람청구 접수·처리부서</li>
-									<li><em>-</em>부 서 명 : </li>
-									<li><em>-</em>담 당 자 : </li>
-									<li><em>-</em>연 락 처 : ☎041-675-5420</li>
+									<li><em>-</em>부 서 명 : 미래융복합경제교육운영팀</li>
+									<li><em>-</em>담 당 자 : 박찬규 팀장</li>
+									<li><em>-</em>연 락 처 : ☎044-215-2660</li>
 								</ul>
 							</li>
 							<li>

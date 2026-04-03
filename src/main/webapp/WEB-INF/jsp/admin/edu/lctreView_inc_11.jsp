@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/include/includePageTaglib.jsp"%>
 <div id="vm-11">
+	<input type="hidden" id="tab11Page" value="1" />
 	<div class="room-admin">
 		<div class="room-top">
 			<div class="room-total">
@@ -149,7 +150,7 @@
 				<div class="inner cf">
 					<template v-if="page.currentPageNo != 1">
 					<div class="page_prev0">
-						<a href="javascript:;" :onclick="'fn_pageTab2('+(page.currentPageNo - 1)+');'">&lt; 이전</a>
+						<a href="javascript:;" :onclick="'fn_pageTab11('+(page.currentPageNo - 1)+');'">&lt; 이전</a>
 					</div>
 					</template>
 					<template v-for="o in (page.firstPageNoOnPageList , page.lastPageNoOnPageList)"> <template v-if="o == page.currentPageNo">
@@ -158,12 +159,12 @@
 					</div>
 					</template> <template v-else>
 					<div class="page_nomal">
-						<a href="javascript:;" :onclick="'fn_pageTab2('+o+');'">{{o}}</a>
+						<a href="javascript:;" :onclick="'fn_pageTab11('+o+');'">{{o}}</a>
 					</div>
 					</template> </template>
 					<template v-if="page.currentPageNo != page.totalPageCount && page.totalPageCount > 0">
 					<div class="page_next0">
-						<a href="javascript:;" :onclick="'fn_pageTab2('+(page.currentPageNo + 1) + ');'">다음 &gt;</a>
+						<a href="javascript:;" :onclick="'fn_pageTab11('+(page.currentPageNo + 1) + ');'">다음 &gt;</a>
 					</div>
 					</template>
 				</div>
@@ -178,6 +179,7 @@ var vm_11 = new Vue({
 	data : {
 		list: [],
 		page: {},
+		pageNo:1,
 		baseMealFee: 0,
 		isAllChecked: false,
 	},
@@ -193,8 +195,9 @@ var vm_11 = new Vue({
 		getStdntList: function(){
 			var _this = this;
 			var eduSeq = '${param.eduSeq}'*1;
+			var pageNo = $("#tab11Page").val();
 			$.ajax({
-				data: {eduSeq: eduSeq},
+				data: {eduSeq: eduSeq, pageNo:pageNo},
 				url: '${utcp.ctxPath}/user/ajax/lectureDormiStdnt.ajax',
 				success: function(r){
 					_this.list = r.data.stdnt.map(o => ({
@@ -288,6 +291,10 @@ var vm_11 = new Vue({
 				}
 			});
 		},
+		movePage: function(pageNo){
+			this.pageNo = pageNo;
+			this.getStdntList();
+		},
 	},
 	computed: {
 	    assignedCount: function() {
@@ -295,6 +302,11 @@ var vm_11 = new Vue({
 	    }
 	  }
 });
+
+function fn_pageTab11(pageNo) {
+	$("#tab11Page").val(pageNo);
+	fn_htmlWrite("11");
+}
 </script>
 
 <script>

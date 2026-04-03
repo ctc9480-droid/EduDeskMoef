@@ -42,7 +42,7 @@ public interface LectureDormiService {
 	 * @param eduSeq
 	 * @return
 	 */
-	ResultVO getClassDormiStdntByEdu(int eduSeq,int row);
+	ResultVO getClassDormiStdntByEdu(int eduSeq ,int page);
 
 	List<LectureDormiVO> getAssignLectureDormi(int dormiSeq, String srchYear, String srchMonth);
 

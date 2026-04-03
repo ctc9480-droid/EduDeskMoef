@@ -504,7 +504,7 @@ public class LectureDormiServiceImpl implements LectureDormiService {
 	
 
 	@Override
-	public ResultVO getClassDormiStdntByEdu(int eduSeq,int row) {
+	public ResultVO getClassDormiStdntByEdu(int eduSeq, int pageNo) {
 		ResultVO result = new ResultVO();
 		Map<String, Object> rstData = new HashMap<String,Object>();
 		result.setData(rstData);
@@ -523,11 +523,11 @@ public class LectureDormiServiceImpl implements LectureDormiService {
 			param.setEduSeq(eduSeq);
 			
 			int totalCnt = lectureDormiMapper.selectLectureStdntPageCnt(param);
-			param.setRowCnt(row);
+			param.setRowCnt(10);
 			//페이징설정
 			PaginationInfo page = new PaginationInfo();
 			page.setTotalRecordCount(totalCnt);
-			page.setCurrentPageNo(param.getPage());
+			page.setCurrentPageNo(pageNo);
 			page.setRecordCountPerPage(param.getRowCnt());
 			page.setPageSize(10);
 	        param.setFirstIndex(page.getFirstRecordIndex());

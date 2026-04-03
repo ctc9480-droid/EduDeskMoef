@@ -714,9 +714,10 @@ public class UserAjaxController {
 	@RequestMapping("lectureDormiStdnt.ajax")
 	public ResultVO lectureDormiStdntAjax(ModelMap model
 			,int eduSeq
+			,@RequestParam(defaultValue="1") Integer pageNo
 			) {
 		
-		ResultVO result = lectureDormiService.getClassDormiStdntByEdu(eduSeq,10);
+		ResultVO result = lectureDormiService.getClassDormiStdntByEdu(eduSeq, pageNo);
 		return result;
 	}
 	@ResponseBody
